@@ -102,19 +102,11 @@ ASSIGNMENTS=PKG_APACHE=apache2,PYTHON_VERSION_REQD=26
 PKGNAME=ap2-py26-python-3.3.1
 PKGPATH=www/ap2-python
 
-ASSIGNMENTS=PKG_APACHE=apache2,PYTHON_VERSION_REQD=25
-PKGNAME=ap2-py25-python-3.3.1
-PKGPATH=www/ap2-python
-
 PKGNAME=ap22-py27-python-3.3.1
 PKGPATH=www/ap2-python
 
 ASSIGNMENTS=PYTHON_VERSION_REQD=26
 PKGNAME=ap22-py26-python-3.3.1
-PKGPATH=www/ap2-python
-
-ASSIGNMENTS=PYTHON_VERSION_REQD=25
-PKGNAME=ap22-py25-python-3.3.1
 PKGPATH=www/ap2-python
 
 '
@@ -130,10 +122,6 @@ ASSIGNMENTS=PKG_APACHE=apache2,PYTHON_VERSION_REQD=26
 PKGNAME=ap2-py26-python-3.3.1
 PKGPATH=www/ap2-python
 
-ASSIGNMENTS=PKG_APACHE=apache2,PYTHON_VERSION_REQD=25
-PKGNAME=ap2-py25-python-3.3.1
-PKGPATH=www/ap2-python
-
 '
 
 pkg_src_summary -m --fields PKGNAME,PKGPATH www/ap2-python:PKG_APACHE=apache22 |
@@ -146,21 +134,16 @@ ASSIGNMENTS=PYTHON_VERSION_REQD=26
 PKGNAME=ap22-py26-python-3.3.1
 PKGPATH=www/ap2-python
 
-ASSIGNMENTS=PYTHON_VERSION_REQD=25
-PKGNAME=ap22-py25-python-3.3.1
-PKGPATH=www/ap2-python
-
 '
 
-pkg_src_summary -m --fields='PKGNAME PKGPATH' www/ap2-python:PYTHON_VERSION_REQD=25 |
+pkg_src_summary -m --fields='PKGNAME PKGPATH' www/ap2-python:PYTHON_VERSION_REQD=27 |
 grep -v DEPENDS |
 cmp 'pkg_src_summary #4' \
-'ASSIGNMENTS=PYTHON_VERSION_REQD=25,PKG_APACHE=apache2
-PKGNAME=ap2-py25-python-3.3.1
+'ASSIGNMENTS=PKG_APACHE=apache2
+PKGNAME=ap2-py27-python-3.3.1
 PKGPATH=www/ap2-python
 
-ASSIGNMENTS=PYTHON_VERSION_REQD=25
-PKGNAME=ap22-py25-python-3.3.1
+PKGNAME=ap22-py27-python-3.3.1
 PKGPATH=www/ap2-python
 
 '
@@ -179,11 +162,11 @@ PKGPATH=www/ap2-python
 '
 
 pkg_src_summary -m -f'PKGNAME PKGPATH' \
-   www/ap2-python:PYTHON_VERSION_REQD=25,PKG_APACHE=apache22 |
+   www/ap2-python:PYTHON_VERSION_REQD=26,PKG_APACHE=apache22 |
 grep -v DEPENDS |
 cmp 'pkg_src_summary #5' \
-'ASSIGNMENTS=PYTHON_VERSION_REQD=25
-PKGNAME=ap22-py25-python-3.3.1
+'ASSIGNMENTS=PYTHON_VERSION_REQD=26
+PKGNAME=ap22-py26-python-3.3.1
 PKGPATH=www/ap2-python
 
 '
@@ -214,27 +197,27 @@ sub(/^DEPENDS=/, "FAKED_PKGPATH= ") {
 
 if false; then
 pkg_src_summary -Af PKGNAME,PKGPATH \
-   graphics/py-cairo:PYTHON_VERSION_REQD=25 |
+   graphics/py-cairo:PYTHON_VERSION_REQD=26 |
 normalize_python_deps |
 pkg_grep_summary -m PKGPATH 'py-Numeric|py-cairo|python|cairo' |
 normalize_version |
 cmp 'pkg_src_summary #6' \
-'ASSIGNMENTS=PYTHON_VERSION_REQD=25
-PKGNAME=py25-cairo-X
+'ASSIGNMENTS=PYTHON_VERSION_REQD=26
+PKGNAME=py26-cairo-X
 PKGPATH=graphics/py-cairo
-FAKED_PKGPATH= lang/python25 math/py-Numeric:PYTHON_VERSION_REQD=25 lang/python25 math/py-Numeric:PYTHON_VERSION_REQD=25 
+FAKED_PKGPATH= lang/python26 math/py-Numeric:PYTHON_VERSION_REQD=26 lang/python26 math/py-Numeric:PYTHON_VERSION_REQD=26 
 
 PKGNAME=cairo-X
 PKGPATH=graphics/cairo
 FAKED_PKGPATH= 
 
-ASSIGNMENTS=PYTHON_VERSION_REQD=25
-PKGNAME=py25-Numeric-X
+ASSIGNMENTS=PYTHON_VERSION_REQD=26
+PKGNAME=py26-Numeric-X
 PKGPATH=math/py-Numeric
-FAKED_PKGPATH= lang/python25 lang/python25
+FAKED_PKGPATH= lang/python26 lang/python26
 
-PKGNAME=python25-X
-PKGPATH=lang/python25
+PKGNAME=python26-X
+PKGPATH=lang/python26
 FAKED_PKGPATH= 
 
 '
