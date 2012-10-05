@@ -364,7 +364,7 @@ if test "$PSS_SLAVES"; then
 	    -t "$PSS_TRANSPORT" \
 	    -c "env $environ $0 -s $with_xxx -f '$qfields'" '|' \
 	paexec_reorder -m t="$eot_marker" '|' \
-	sed -e '/^success$/ d' -e '/^failure$/ d' > "$partial_summary_fn"
+	grep -vE '^(success|failure)$' > "$partial_summary_fn"
 elif test "$slave"; then
     cd $PKGSRCDIR
     process_one_by_one
