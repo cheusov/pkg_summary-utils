@@ -81,6 +81,8 @@ OPTIONS:
 EOF
 }
 
+eot_marker='>H4J]MGDMX5YEN"5FQ3K(?O/9MMA%D;]P"XP.E!/-'
+
 # list of fields for default pkg_src_summary
 if test -z "$PSS_FIELDS"; then
     PSS_FIELDS='PKGNAME PKGPATH DEPENDS BUILD_DEPENDS CONFLICTS HOMEPAGE COMMENT LICENSE ONLYFOR NOTFOR MAINTAINER CATEGORIES NO_BIN_ON_FTP NO_SRC_ON_FTP NO_BIN_ON_CDROM NO_SRC_ON_CDROM LICENSE DESCRIPTION PLIST' # CVS_CHECKSUM ALLDISTFILES
@@ -328,21 +330,16 @@ packages2stdout (){
 }
 
 process_one_by_one (){
-    if test "$slave"; then
-	prepand="awk '"'{print " " $0}'"'"
-    else
-	prepand=cat
-    fi
-
     while read pkgpaths; do
 	for pkgpath in $pkgpaths; do
 	    generate_summary "$pkgpath" |
-	    $LIBEXECDIR/enrich_summary $with_bootstrap |
-	    eval $prepand
+	    $LIBEXECDIR/enrich_summary $with_bootstrap
 	done
 
 	if test "$slave"; then
-	    printf 'success\n\n' # for paexec
+	    # for paexec
+	    echo 'success'
+	    echo "$eot_marker"
 	fi
     done
 }
@@ -362,10 +359,11 @@ if test "$PSS_SLAVES"; then
     runpipe0 \
 	packages2stdout $pkgpaths '|' \
 	paexec -slez $PSS_PAEXEC_EXTRA_OPTS \
+	    -m t="$eot_marker" \
 	    -n "$PSS_SLAVES" \
 	    -t "$PSS_TRANSPORT" \
 	    -c "env $environ $0 -s $with_xxx -f '$qfields'" '|' \
-	paexec_reorder -S '|' \
+	paexec_reorder -m t="$eot_marker" '|' \
 	sed -e '/^success$/ d' -e '/^failure$/ d' > "$partial_summary_fn"
 elif test "$slave"; then
     cd $PKGSRCDIR
