@@ -1,3 +1,69 @@
+pkg_src_summary -f PKGNAME,PLIST devel/bmake x11/xxkb |
+normalize_version |
+cmp 'pkg_src_summary #20.1' \
+'PKGNAME=bmake-X
+PLIST=bin/bmake
+PLIST=man/man1/bmake.1
+
+PKGNAME=xxkb-X
+PLIST=bin/xxkb
+PLIST=lib/X11/app-defaults/XXkb
+PLIST=share/doc/xxkb/LICENSE
+PLIST=share/doc/xxkb/README
+PLIST=share/doc/xxkb/README.koi8
+PLIST=share/xxkb/bg15.xpm
+PLIST=share/xxkb/bg48.xpm
+PLIST=share/xxkb/by15.xpm
+PLIST=share/xxkb/by48.xpm
+PLIST=share/xxkb/de15.xpm
+PLIST=share/xxkb/de48.xpm
+PLIST=share/xxkb/en15.xpm
+PLIST=share/xxkb/en48.xpm
+PLIST=share/xxkb/il15.xpm
+PLIST=share/xxkb/il48.xpm
+PLIST=share/xxkb/ru15.xpm
+PLIST=share/xxkb/ru48.xpm
+PLIST=share/xxkb/su15.xpm
+PLIST=share/xxkb/su48.xpm
+PLIST=share/xxkb/ua15.xpm
+PLIST=share/xxkb/ua48.xpm
+PLIST=${IMAKE_MAN_DIR}/xxkb.${IMAKE_MAN_SUFFIX}
+
+'
+
+pkg_src_summary -p -f PKGNAME,PLIST devel/bmake x11/xxkb |
+normalize_version |
+cmp 'pkg_src_summary #20.2' \
+'PKGNAME=bmake-X
+PLIST=bin/bmake
+PLIST=man/man1/bmake.1
+
+PKGNAME=xxkb-X
+PLIST=bin/xxkb
+PLIST=lib/X11/app-defaults/XXkb
+PLIST=share/doc/xxkb/LICENSE
+PLIST=share/doc/xxkb/README
+PLIST=share/doc/xxkb/README.koi8
+PLIST=share/xxkb/bg15.xpm
+PLIST=share/xxkb/bg48.xpm
+PLIST=share/xxkb/by15.xpm
+PLIST=share/xxkb/by48.xpm
+PLIST=share/xxkb/de15.xpm
+PLIST=share/xxkb/de48.xpm
+PLIST=share/xxkb/en15.xpm
+PLIST=share/xxkb/en48.xpm
+PLIST=share/xxkb/il15.xpm
+PLIST=share/xxkb/il48.xpm
+PLIST=share/xxkb/ru15.xpm
+PLIST=share/xxkb/ru48.xpm
+PLIST=share/xxkb/su15.xpm
+PLIST=share/xxkb/su48.xpm
+PLIST=share/xxkb/ua15.xpm
+PLIST=share/xxkb/ua48.xpm
+PLIST=man/man1/xxkb.1
+
+'
+
 # pkg_src_summary
 pkgs="`sed -n 's/^PKGPATH=//p' src_summary.txt`"
 pkg_src_summary -f PKGNAME,PKGPATH $pkgs 2>"$tmpfn4" |

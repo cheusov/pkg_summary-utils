@@ -1,7 +1,7 @@
 #!@SH@
 #-*-mode:  sh -*-
 
-# Copyright (c) 2007-2010, Aleksey Cheusov <vle@gmx.net>
+# Copyright (c) 2007-2012, Aleksey Cheusov <vle@gmx.net>
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -178,13 +178,14 @@ if echo "$PSS_FIELDS" | grep CVS_CHECKSUM > /dev/null; then
     field_cvs_checksum=1
 fi
 varnames=`echo $PSS_FIELDS |
-   awk '{gsub(/PLIST/, "")
+   awk -v make_plist="$make_plist" '{
+         gsub(/PLIST/, (make_plist ? "" : "PLIST_SRC"))
          gsub(/CVS_CHECKSUM/, "")
          gsub(/ONLYFOR/, "ONLY_FOR_PLATFORM")
          gsub(/NOTFOR/,  "NOT_FOR_PLATFORM")
          gsub(/DESCRIPTION/, "DESCR_SRC")
          gsub(/ALLDISTFILES/, "DISTINFO_FILE DISTFILES")
-         print}'`
+         print }'`
 
 if test -n "$debug"; then
     echo '===== PSS_FIELDS: =========' 1>&2
@@ -206,10 +207,6 @@ multi_pkgs_fn=$tmp_dir/multi_pkgs.txt
 normal_pkgs_fn=$tmp_dir/normal_pkgs.txt
 
 ############################################################
-prepand_PLIST () {
-    awk '/^[^@]/ {print "PLIST=" $0}' "$@"
-}
-
 pkgpath2multivar_opts (){
     # textproc/dictem:EMACS_TYPE=xemacs215 -> EMACS_TYPE=xemacs215
     # sysutils/mc:PKG_OPTIONS.mc=-x11~-slang -> PKG_OPTIONS.mc='-x11 -slang'
@@ -246,20 +243,12 @@ cd_and_print_summary (){
     fi
 
     # PLIST
-    if test "$field_plist"; then
-	if test -n "$make_plist" && \
-	    rm -f "$real_plistfn" && \
-	    ( cd "$real_pkgpath" && \
-	    eval ${BMAKE} PLIST="$real_plistfn" $var_assigns plist 2>/dev/null 1>&2)
+    if test -n "$field_plist" -a -n "$make_plist"; then
+	rm -f "$real_plistfn"
+	if ( cd "$real_pkgpath" && \
+	    eval ${BMAKE} PLIST="$real_plistfn" $var_assigns plist 2>/dev/null) 1>&2
 	then
-	    prepand_PLIST "$real_plistfn" >> "$summaryfn" || return 1
-	else
-	    plist_fns="$(cd $real_pkgpath && ${BMAKE} show-var VARNAME=PLIST_SRC)"
-	    for plist_fn in $plist_fns; do
-		if test -f $plist_fn; then
-		    prepand_PLIST $plist_fn >>"$summaryfn" || return 1
-		fi
-	    done
+	    awk '/^[^@]/ {print "PLIST=" $0}' "$real_plistfn" >> "$summaryfn"
 	fi
     fi
 }

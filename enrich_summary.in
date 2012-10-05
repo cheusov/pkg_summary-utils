@@ -4,8 +4,8 @@
 #use "power_getopt.awk"
 
 #.begin-str help
-# enrich_summary converts DISTINFO_FILE and DESCR_SRC given on input
-# to ALLDISTFILES and DESCRIPTION and
+# enrich_summary converts PLIST_SRC, DISTINFO_FILE and DESCR_SRC given on input
+# to PLIST, ALLDISTFILES and DESCRIPTION and
 # optionally adds BOOTSTRAP_DEPENDS to BUILD_DEPENDS
 #
 # usage: enrich_summary [options] [files...]
@@ -32,8 +32,8 @@ with_bootstrap && /^BUILD_DEPENDS=/ {
 	next
 }
 
-/^DISTINFO_FILE=/ {
-	distinfo_fn = trim_lrc(substr($0, 15))
+/^PLIST_SRC=/ {
+	plist_fn = trim_lrc(substr($0, 11))
 	next
 }
 
@@ -82,6 +82,20 @@ NF == 0 {
 		close(fn)
 		printf "\n"
 	}
+
+	# PLIST
+	if (plist_fn != ""){
+		while (0 < (ret = (getline < plist_fn))){
+			if ($0 !~ /@comment/)
+				print "PLIST=" $0
+		}
+
+		if (ret < 0)
+			printf "reading from `" fn "` failed\n" > "/dev/stderr"
+
+		close(fn)
+	}
+	plist_fn = ""
 
 	#
 	print ""
