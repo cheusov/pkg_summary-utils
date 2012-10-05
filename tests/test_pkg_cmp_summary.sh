@@ -155,12 +155,12 @@ cmp 'pkg_cmp_summary -P   #9' \
 - www/ap22-vhost-ldap:PKG_APACHE=apache22
 '
 
-if test -f "$objdir"/summary_micro.txt -o -f "$objdir"/summary_full.txt; then
-    pkg_cmp_summary -p "$objdir"/summary_micro.txt "$objdir"/summary_full.txt |
-    grep -v '^=' |
-    cmp 'pkg_cmp_summary -p   #10' \
-''
-fi
+#if test -f "$objdir"/summary_micro.txt -o -f "$objdir"/summary_full.txt; then
+#    pkg_cmp_summary -p "$objdir"/summary_micro.txt "$objdir"/summary_full.txt |
+#    grep -v '^=' |
+#    cmp 'pkg_cmp_summary -p   #10' \
+#''
+#fi
 
 pkg_cmp_summary -d summary1.txt summary2.txt |
 cmp 'pkg_cmp_summary -d   #11' \
