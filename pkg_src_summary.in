@@ -231,27 +231,28 @@ cd_and_print_summary (){
 	extra_mk='-f ../../mk/pbulk/pbulk-index.mk'
     fi
 
+    # PLIST pre
+    if test -n "$make_plist"; then
+	rm -f "$real_plistfn"
+	var_assigns="$var_assigns plist PLIST=$real_plistfn"
+    fi
+
     # INHER_ASSIGNS must be before DEPENDS and BUILD_DEPENDS, see below
     ( cd "$real_pkgpath" && eval ${BMAKE} -f ./Makefile $extra_mk \
 	-f "$PSS_MKSCRIPTSDIR"/pkg_src_summary.mk my-show-vars \
 	VARNAMES="'_INHER_ASSIGNS _INHER_ASSIGNS_REJ _INHER_ASSIGNS_BAD ASSIGNMENTS $varnames'" \
 	$var_assignments $var_assigns ) > "$summaryfn" || return 1
 
+    # PLIST pre
+    if test -n "$make_plist"; then
+	awk '/^[^@]/ {print "PLIST=" $0}' "$real_plistfn" >> "$summaryfn"
+    fi
+
     # CVS_CHECKSUM
     if test "$field_cvs_checksum"; then
 	cvs_checksum "$real_pkgpath" > "$tmpfn" || return 1
 	read cksum < "$tmpfn" || return 1
 	printf "CVS_CHECKSUM=%s\n" "$cksum" >>"$summaryfn" || return 1
-    fi
-
-    # PLIST
-    if test -n "$field_plist" -a -n "$make_plist"; then
-	rm -f "$real_plistfn"
-	if ( cd "$real_pkgpath" && \
-	    eval ${BMAKE} PLIST="$real_plistfn" $var_assigns plist 2>/dev/null) 1>&2
-	then
-	    awk '/^[^@]/ {print "PLIST=" $0}' "$real_plistfn" >> "$summaryfn"
-	fi
     fi
 }
 
