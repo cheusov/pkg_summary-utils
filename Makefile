@@ -6,6 +6,8 @@ EGDIR ?=	${DOCDIR}/examples
 AWKMODDIR ?=	${DATADIR}/runawk
 MKSCRIPTSDIR ?=	${DATADIR}/psu_mk
 DISTDIR ?=	/usr/pkgsrc/distfiles
+PKGSRCDIR ?=	/usr/pkgsrc
+PKG_SUFX ?=	.tgz
 
 SH ?=		/bin/sh
 AWK ?=		/usr/bin/awk
@@ -93,7 +95,7 @@ test : all
 	@echo 'running tests...'; \
 	unset MAKEFLAGS; \
 	set -e; cd ${.CURDIR}/tests; \
-	env PATH="${.OBJDIR}:$$PATH" OBJDIR=${.OBJDIR} \
+	env PATH="${.OBJDIR}:$$PATH" OBJDIR=${.OBJDIR} PREFIX=${PREFIX} \
 		PKGSRCDIR=${PKGSRCDIR} BMAKE=${BMAKE} ./test.sh
 
 ############################################################
