@@ -13,6 +13,7 @@ function pkgver_position (pkgname,            idx){
 
 # strip version from PKGNAME
 function pkgname2pkgbase (pkgname){
+	sub(/^.*;/, "", pkgname)
 	return substr(pkgname, 1, pkgver_position(pkgname)-1)
 }
 
@@ -34,6 +35,8 @@ function pkgpana2pkgpath (pkgpana){
 
 # extract version from PKGNAME, e.g. -1.2.3, -[0-9]*, >=1.0 etc.
 function pkgname2version (pkgname,       pos){
+	sub(/^.*;/, "", pkgname)
+
 	pos = pkgver_position(pkgname)
 
 	if (substr(pkgname, pos, 1) == "-")

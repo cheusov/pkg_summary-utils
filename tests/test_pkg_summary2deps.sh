@@ -1581,3 +1581,12 @@ cmp 'pkg_summary2deps #49' \
 DEPENDS devel/EEE devel/AAA
 devel/DDD
 '
+
+pkg_summary2deps -Apnrsal2 src_summary17.txt | sort |
+cmp 'pkg_summary2deps -Apnrsal2 #50' \
+'BUILD_DEPENDS misc/rubygems:RUBY_VERSION_REQD=18;ruby18-rubygems-1.8.24 www/ruby-rack-protection:RUBY_VERSION_REQD=18;ruby18-rack-protection-1.2.0
+BUILD_DEPENDS misc/rubygems:RUBY_VERSION_REQD=18;ruby18-rubygems-1.8.24 www/ruby-sinatra:RUBY_VERSION_REQD=18;ruby18-sinatra-1.3.3
+DEPENDS misc/rubygems:RUBY_VERSION_REQD=18;ruby18-rubygems-1.8.24 www/ruby-rack-protection:RUBY_VERSION_REQD=18;ruby18-rack-protection-1.2.0
+DEPENDS misc/rubygems:RUBY_VERSION_REQD=18;ruby18-rubygems-1.8.24 www/ruby-sinatra:RUBY_VERSION_REQD=18;ruby18-sinatra-1.3.3
+DEPENDS www/ruby-rack-protection:RUBY_VERSION_REQD=18;ruby18-rack-protection-1.2.0 www/ruby-sinatra:RUBY_VERSION_REQD=18;ruby18-sinatra-1.3.3
+'

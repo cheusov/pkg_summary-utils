@@ -1,4 +1,11 @@
 ----------------------------------------------------------------------
+Version 0.58.5, by Aleksey Cheusov, Fri, 12 Oct 2012 17:16:53 +0300
+
+  pkg_summary2deps:
+    - Fix. Dependencies from packages having non-empty ASSIGNMENTS
+      were not recognized correctly.
+
+----------------------------------------------------------------------
 Version 0.58.4, by Aleksey Cheusov, Fri,  7 Sep 2012 17:49:14 +0300
 
   pkg_summary2deps:
