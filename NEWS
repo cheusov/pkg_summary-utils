@@ -5,6 +5,13 @@ Version 0.58.5, by Aleksey Cheusov, Fri, 12 Oct 2012 17:16:53 +0300
     - Fix. Dependencies from packages having non-empty ASSIGNMENTS
       were not recognized correctly.
 
+  pkg_src_fetch_var:
+    - now uses power_getopt.awk
+    - option -v was removed, use equivalent -f instead!
+
+  pkg_uniq_summary:
+    - minor speed-ups
+
 ----------------------------------------------------------------------
 Version 0.58.4, by Aleksey Cheusov, Fri,  7 Sep 2012 17:49:14 +0300
 
