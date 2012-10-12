@@ -243,7 +243,7 @@ cd_and_print_summary (){
 	VARNAMES="'_INHER_ASSIGNS _INHER_ASSIGNS_REJ _INHER_ASSIGNS_BAD ASSIGNMENTS $varnames'" \
 	$var_assignments $var_assigns ) > "$summaryfn" || return 1
 
-    # PLIST pre
+    # PLIST post
     if test -n "$make_plist"; then
 	awk '/^[^@]/ {print "PLIST=" $0}' "$real_plistfn" >> "$summaryfn"
     fi
