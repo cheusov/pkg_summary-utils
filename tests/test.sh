@@ -92,6 +92,7 @@ pkg_subgraph_deps
 pkg_bin_summary
 pkg_digger_backend
 pkg_micro_src_summary
+summary2multi_variants
 pkg_src_summary
 '
 
