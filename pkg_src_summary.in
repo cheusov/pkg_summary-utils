@@ -445,7 +445,7 @@ while test -n "${with_dep}${with_bdep}"; do
     fi
 
     ##
-    env _PSS_RECURS=1 $0 $with_xxx $make_plist \
+    env _PSS_RECURS=1 $0 -m $with_xxx $make_plist \
 	< "$extra_deps_fn" > "$deps1_all_fn".tmp
     pkg_grep_summary -e _INHER_ASSIGNS_BAD > "$deps1_all_fn" \
 	< "$deps1_all_fn".tmp > "$deps1_all_fn"

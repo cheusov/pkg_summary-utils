@@ -2,6 +2,11 @@ grep_pss_stderr (){
     grep -E 'Bad package| ----------' "$@"
 }
 
+pkg_src_summary -A -f PKGNAME,PKGPATH lang/ruby18 > "$tmpfn1"
+pkg_summary2deps -pnrA2 "$tmpfn1" 2>&1 > /dev/null |
+cmp 'pkg_src_summary #21' \
+''
+
 pkg_src_summary -f PKGNAME,PLIST devel/bmake x11/xxkb |
 normalize_version |
 cmp 'pkg_src_summary #20.1' \
