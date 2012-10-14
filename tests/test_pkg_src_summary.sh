@@ -266,122 +266,50 @@ PKGPATH=www/ap2-python
 
 '
 
-
-normalize_python_deps (){
-    awk '
-sub(/^DEPENDS=/, "FAKED_PKGPATH= ") {
-   for (i=2; i <= NF; ++i){
-      if ($i ~ /py/){
-         sub(/^[^:]*:([.][.]\/[.][.]\/)?/, "", $i)
-         if (i && $i == $(i-1))
-            $i = ""
-      }else{
-         $i = ""
-      }
-   }
-   gsub(/  +/, " ")
-}
-/^BUILD_DEPENDS=/ {
-   next
-}
-{
-   print
-}
-' "$@"
-}
-
-if false; then
 pkg_src_summary -Af PKGNAME,PKGPATH \
    graphics/py-cairo:PYTHON_VERSION_REQD=26 |
-normalize_python_deps |
-pkg_grep_summary -m PKGPATH 'py-Numeric|py-cairo|python|cairo' |
+pkg_grep_summary -s PKGBASE 'python26' |
+awk -F= '$1 !~ /DEPENDS/' |
 normalize_version |
 cmp 'pkg_src_summary #6' \
-'ASSIGNMENTS=PYTHON_VERSION_REQD=26
-PKGNAME=py26-cairo-X
-PKGPATH=graphics/py-cairo
-FAKED_PKGPATH= lang/python26 math/py-Numeric:PYTHON_VERSION_REQD=26 lang/python26 math/py-Numeric:PYTHON_VERSION_REQD=26 
-
-PKGNAME=cairo-X
-PKGPATH=graphics/cairo
-FAKED_PKGPATH= 
-
-ASSIGNMENTS=PYTHON_VERSION_REQD=26
-PKGNAME=py26-Numeric-X
-PKGPATH=math/py-Numeric
-FAKED_PKGPATH= lang/python26 lang/python26
-
-PKGNAME=python26-X
+'PKGNAME=python26-X
 PKGPATH=lang/python26
-FAKED_PKGPATH= 
 
 '
-fi
 
-if false; then
 pkg_src_summary -A -fPKGNAME,PKGPATH \
    graphics/py-cairo:PYTHON_VERSION_REQD=26 |
-normalize_python_deps |
-pkg_grep_summary -m PKGPATH 'py-Numeric|py-cairo|python|cairo' |
+pkg_grep_summary -s PKGBASE 'python26' |
+awk -F= '$1 !~ /DEPENDS/' |
 normalize_version |
 cmp 'pkg_src_summary #7' \
-'PKGNAME=py26-cairo-X
-PKGPATH=graphics/py-cairo
-FAKED_PKGPATH= lang/python26 math/py-Numeric math/py-Numeric 
-
-PKGNAME=py26-Numeric-X
-PKGPATH=math/py-Numeric
-FAKED_PKGPATH= lang/python26
-
-PKGNAME=cairo-X
-PKGPATH=graphics/cairo
-FAKED_PKGPATH= 
-
-PKGNAME=python26-X
+'PKGNAME=python26-X
 PKGPATH=lang/python26
-FAKED_PKGPATH= 
 
 '
-fi
 
-if false; then
 pkg_src_summary -mA -f PKGNAME,PKGPATH graphics/py-cairo |
-normalize_python_deps |
-pkg_grep_summary -m PKGPATH 'py-Numeric|py-cairo|python|cairo' |
+pkg_grep_summary -m PKGPATH '/python|cairo' |
+awk -F= '$1 !~ /DEPENDS/' |
 normalize_version |
 cmp 'pkg_src_summary #8' \
-'PKGNAME=py26-cairo-X
+'PKGNAME=py27-cairo-X
 PKGPATH=graphics/py-cairo
-FAKED_PKGPATH= lang/python26 math/py-Numeric math/py-Numeric 
 
-ASSIGNMENTS=PYTHON_VERSION_REQD=25
-PKGNAME=py25-cairo-X
+ASSIGNMENTS=PYTHON_VERSION_REQD=26
+PKGNAME=py26-cairo-X
 PKGPATH=graphics/py-cairo
-FAKED_PKGPATH= lang/python25 math/py-Numeric:PYTHON_VERSION_REQD=25 lang/python25 math/py-Numeric:PYTHON_VERSION_REQD=25 
 
 PKGNAME=cairo-X
 PKGPATH=graphics/cairo
-FAKED_PKGPATH= 
-
-ASSIGNMENTS=PYTHON_VERSION_REQD=25
-PKGNAME=py25-Numeric-X
-PKGPATH=math/py-Numeric
-FAKED_PKGPATH= lang/python25 lang/python25
-
-PKGNAME=py26-Numeric-X
-PKGPATH=math/py-Numeric
-FAKED_PKGPATH= lang/python26
-
-PKGNAME=python25-X
-PKGPATH=lang/python25
-FAKED_PKGPATH= 
 
 PKGNAME=python26-X
 PKGPATH=lang/python26
-FAKED_PKGPATH= 
+
+PKGNAME=python27-X
+PKGPATH=lang/python27
 
 '
-fi
 
 pkg_src_summary -f PKGNAME --add-fields 'PKGPATH MAINTAINER' x11/xxkb |
 normalize_version |
