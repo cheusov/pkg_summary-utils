@@ -95,18 +95,21 @@ fi
 PSS_PPERS=1 # until I really fix it.
 
 set_fields (){
+    # $@ - fields
     PSS_FIELDS=$(echo $* | tr , ' ')
 }
 
 add_fields (){
+    # $@ - fields to add
     __fields=$(echo $* | tr , ' ')
-    rem_fields $__fields
+    rem_fields $__fields # avoid duplications
     for f in $__fields; do
 	PSS_FIELDS="$PSS_FIELDS $f"
     done
 }
 
 rem_fields (){
+    # $@ - fields to remove
     __fields=$(echo $* | tr , ' ')
     PSS_FIELDS=`awk '
 BEGIN {
@@ -155,7 +158,7 @@ pkgpaths="$*"
 with_xxx="$with_bootstrap $with_libdeps $make_plist"
 
 if test "$multi_var"; then
-    # VARIANTS - artificial field keeping all variable assignments
+    # _VARIANTS - artificial field keeping all variable assignments
     # for multi-variant packages.
     add_fields '_VARIANTS'
 fi
@@ -213,7 +216,7 @@ pkgpath2multivar_opts (){
     # textproc/dictem:EMACS_TYPE=xemacs215 -> EMACS_TYPE=xemacs215
     # sysutils/mc:PKG_OPTIONS.mc=-x11~-slang -> PKG_OPTIONS.mc='-x11 -slang'
     # sysutils/mc:A=a,B=b -> A=a B=b
-    sed -e 's|^[^:]*:||' -e 's|,| |g' -e "s|[^ ][^ ]*|'&'|g" -e 's|~| |g'
+    sed -e 's|^[^:]*:||' -e 's|,| |g' -e "s|[^ ][^ ]*|'&'|g" -e 's|~| |g' "$@"
 }
 
 cd_and_print_summary (){
@@ -365,7 +368,7 @@ if test "$PSS_SLAVES"; then
 	    -t "$PSS_TRANSPORT" \
 	    -c "env $environ $0 -s $with_xxx -f '$qfields'" '|' \
 	paexec_reorder -m t="$eot_marker" '|' \
-	grep -vE '^(success|failure)$' > "$partial_summary_fn"
+	grep -v '^success$' > "$partial_summary_fn"
 elif test "$slave"; then
     cd $PKGSRCDIR
     process_one_by_one
@@ -394,8 +397,8 @@ else
 fi
 
 if test "$multi_var"; then
-    pkg_grep_summary _VARIANTS 'fvalue != ""' \
-	< $partial_summary_fn >$multi_pkgs_fn
+    pkg_grep_summary -f PKGPATH,_VARIANTS,_INHER_ASSIGNS,_INHER_ASSIGNS_REJ \
+	-v -e _VARIANTS < $partial_summary_fn >$multi_pkgs_fn
 
     if test -s $multi_pkgs_fn; then
 	pkg_grep_summary -e _VARIANTS \
@@ -472,6 +475,9 @@ remove_internal_fields (){
 }
 
 if test -z "$_PSS_RECURS"; then
+    if test -n "$debug"; then
+	echo '===== final result: =========' 1>&2
+    fi
     remove_internal_fields "$partial_summary_fn"
 else
     cat "$partial_summary_fn"
