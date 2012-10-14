@@ -2,6 +2,170 @@ grep_pss_stderr (){
     grep -E 'Bad package| ----------' "$@"
 }
 
+pkg_src_summary -m -f PKGNAME,PKGPATH \
+    devel/subversion:PKG_APACHE=apache2,PYTHON_VERSION_REQD=27,RUBY_VERSION_REQD=193 |
+cmp 'pkg_src_summary #23.4' \
+'ASSIGNMENTS=PKG_APACHE=apache2
+PKGNAME=subversion-1.6.17
+PKGPATH=devel/subversion
+
+'
+
+pkg_src_summary -m -f PKGNAME,PKGPATH \
+    devel/subversion:RUBY_VERSION_REQD=193,PKG_APACHE=apache2 |
+cmp 'pkg_src_summary #23.3' \
+'ASSIGNMENTS=PKG_APACHE=apache2
+PKGNAME=subversion-1.6.17
+PKGPATH=devel/subversion
+
+ASSIGNMENTS=PKG_APACHE=apache2,PYTHON_VERSION_REQD=26
+PKGNAME=subversion-1.6.17
+PKGPATH=devel/subversion
+
+'
+
+pkg_src_summary -m -f PKGNAME,PKGPATH devel/subversion:PKG_APACHE=apache2 |
+cmp 'pkg_src_summary #23.2' \
+'ASSIGNMENTS=PKG_APACHE=apache2
+PKGNAME=subversion-1.6.17
+PKGPATH=devel/subversion
+
+ASSIGNMENTS=PKG_APACHE=apache2,RUBY_VERSION_REQD=18
+PKGNAME=subversion-1.6.17
+PKGPATH=devel/subversion
+
+ASSIGNMENTS=PKG_APACHE=apache2,PYTHON_VERSION_REQD=26
+PKGNAME=subversion-1.6.17
+PKGPATH=devel/subversion
+
+ASSIGNMENTS=PKG_APACHE=apache2,PYTHON_VERSION_REQD=26,RUBY_VERSION_REQD=18
+PKGNAME=subversion-1.6.17
+PKGPATH=devel/subversion
+
+'
+
+pkg_src_summary -m -f PKGNAME,PKGPATH devel/subversion |
+cmp 'pkg_src_summary #23.1' \
+'ASSIGNMENTS=PKG_APACHE=apache13
+PKGNAME=subversion-1.6.17
+PKGPATH=devel/subversion
+
+ASSIGNMENTS=PKG_APACHE=apache13,RUBY_VERSION_REQD=18
+PKGNAME=subversion-1.6.17
+PKGPATH=devel/subversion
+
+ASSIGNMENTS=PKG_APACHE=apache13,PYTHON_VERSION_REQD=26
+PKGNAME=subversion-1.6.17
+PKGPATH=devel/subversion
+
+ASSIGNMENTS=PKG_APACHE=apache13,PYTHON_VERSION_REQD=26,RUBY_VERSION_REQD=18
+PKGNAME=subversion-1.6.17
+PKGPATH=devel/subversion
+
+ASSIGNMENTS=PKG_APACHE=apache2
+PKGNAME=subversion-1.6.17
+PKGPATH=devel/subversion
+
+ASSIGNMENTS=PKG_APACHE=apache2,RUBY_VERSION_REQD=18
+PKGNAME=subversion-1.6.17
+PKGPATH=devel/subversion
+
+ASSIGNMENTS=PKG_APACHE=apache2,PYTHON_VERSION_REQD=26
+PKGNAME=subversion-1.6.17
+PKGPATH=devel/subversion
+
+ASSIGNMENTS=PKG_APACHE=apache2,PYTHON_VERSION_REQD=26,RUBY_VERSION_REQD=18
+PKGNAME=subversion-1.6.17
+PKGPATH=devel/subversion
+
+PKGNAME=subversion-1.6.17
+PKGPATH=devel/subversion
+
+ASSIGNMENTS=RUBY_VERSION_REQD=18
+PKGNAME=subversion-1.6.17
+PKGPATH=devel/subversion
+
+ASSIGNMENTS=PYTHON_VERSION_REQD=26
+PKGNAME=subversion-1.6.17
+PKGPATH=devel/subversion
+
+ASSIGNMENTS=PYTHON_VERSION_REQD=26,RUBY_VERSION_REQD=18
+PKGNAME=subversion-1.6.17
+PKGPATH=devel/subversion
+
+ASSIGNMENTS=PKG_APACHE=apache24
+PKGNAME=subversion-1.6.17
+PKGPATH=devel/subversion
+
+ASSIGNMENTS=PKG_APACHE=apache24,RUBY_VERSION_REQD=18
+PKGNAME=subversion-1.6.17
+PKGPATH=devel/subversion
+
+ASSIGNMENTS=PKG_APACHE=apache24,PYTHON_VERSION_REQD=26
+PKGNAME=subversion-1.6.17
+PKGPATH=devel/subversion
+
+ASSIGNMENTS=PKG_APACHE=apache24,PYTHON_VERSION_REQD=26,RUBY_VERSION_REQD=18
+PKGNAME=subversion-1.6.17
+PKGPATH=devel/subversion
+
+'
+
+pkg_src_summary -m -f PKGNAME,PKGPATH www/ap-php:PKG_APACHE=apache2,PHP_VERSION_REQD=53 |
+cmp 'pkg_src_summary #22.3' \
+'ASSIGNMENTS=PKG_APACHE=apache2
+PKGNAME=ap2-php53-5.3.17
+PKGPATH=www/ap-php
+
+'
+
+pkg_src_summary -m -f PKGNAME,PKGPATH www/ap-php:PKG_APACHE=apache2 |
+cmp 'pkg_src_summary #22.2' \
+'ASSIGNMENTS=PKG_APACHE=apache2
+PKGNAME=ap2-php53-5.3.17
+PKGPATH=www/ap-php
+
+ASSIGNMENTS=PKG_APACHE=apache2,PHP_VERSION_REQD=54
+PKGNAME=ap2-php54-5.4.7
+PKGPATH=www/ap-php
+
+'
+
+pkg_src_summary -m -f PKGNAME,PKGPATH www/ap-php |
+cmp 'pkg_src_summary #22.1' \
+'ASSIGNMENTS=PKG_APACHE=apache13
+PKGNAME=ap13-php53-5.3.17
+PKGPATH=www/ap-php
+
+ASSIGNMENTS=PKG_APACHE=apache13,PHP_VERSION_REQD=54
+PKGNAME=ap13-php54-5.4.7
+PKGPATH=www/ap-php
+
+ASSIGNMENTS=PKG_APACHE=apache2
+PKGNAME=ap2-php53-5.3.17
+PKGPATH=www/ap-php
+
+ASSIGNMENTS=PKG_APACHE=apache2,PHP_VERSION_REQD=54
+PKGNAME=ap2-php54-5.4.7
+PKGPATH=www/ap-php
+
+PKGNAME=ap22-php53-5.3.17
+PKGPATH=www/ap-php
+
+ASSIGNMENTS=PHP_VERSION_REQD=54
+PKGNAME=ap22-php54-5.4.7
+PKGPATH=www/ap-php
+
+ASSIGNMENTS=PKG_APACHE=apache24
+PKGNAME=ap24-php53-5.3.17
+PKGPATH=www/ap-php
+
+ASSIGNMENTS=PKG_APACHE=apache24,PHP_VERSION_REQD=54
+PKGNAME=ap24-php54-5.4.7
+PKGPATH=www/ap-php
+
+'
+
 pkg_src_summary -A -f PKGNAME,PKGPATH lang/ruby18 > "$tmpfn1"
 pkg_summary2deps -pnrA2 "$tmpfn1" 2>&1 > /dev/null |
 cmp 'pkg_src_summary #21' \

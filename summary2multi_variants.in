@@ -11,7 +11,15 @@ $1 ~ /_VARIANTS=/ {
 }
 
 match($1, /^_INHER_ASSIGNS(=|_REJ=)/) {
-	assigns = substr($0, RLENGTH+1)
+	addon = substr($0, RLENGTH+1)
+	if (!addon)
+		next
+
+	if (assigns)
+		assigns = assigns "," addon
+	else
+		assigns = addon
+
 	next
 }
 
@@ -52,7 +60,7 @@ NF == 0 {
 			else
 				print pkgpath ":" variant [i]
 	}
-	assigns = pkgpath = variants = ""
 
+	assigns = pkgpath = variants = ""
 	delete variant
 }
