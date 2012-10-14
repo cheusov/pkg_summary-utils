@@ -1,3 +1,7 @@
+grep_pss_stderr (){
+    grep -E 'Bad package| ----------' "$@"
+}
+
 pkg_src_summary -f PKGNAME,PLIST devel/bmake x11/xxkb |
 normalize_version |
 cmp 'pkg_src_summary #20.1' \
@@ -157,10 +161,6 @@ PKGNAME=ap22-vhost-ldap-X
 PKGPATH=www/ap22-vhost-ldap
 
 '
-
-grep_pss_stderr (){
-    grep -E 'Bad package| ----------' "$@"
-}
 
 grep_pss_stderr "$tmpfn4" |
 cmp 'pkg_src_summary #1 stderr' \

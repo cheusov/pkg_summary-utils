@@ -83,16 +83,16 @@ pkg_list_all_pkgs
 pkg_refresh_summary
 pkg_summary4view
 pkg_uniq_summary
-pkg_src_summary
 pkg_assignments2pkgpath
 pkg_src_fetch_var
-pkg_micro_src_summary
 pkg_cmp_summary
 pkg_summary2deps
 pkg_lint_summary
 pkg_subgraph_deps
 pkg_bin_summary
 pkg_digger_backend
+pkg_micro_src_summary
+pkg_src_summary
 '
 
 normalize_version (){

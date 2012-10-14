@@ -1,3 +1,7 @@
+grep_pss_stderr (){
+    grep -E 'Bad package| ----------' "$@"
+}
+
 # pkg_micro_src_summary
 pkgs="`sed -n 's/^PKGPATH=//p' src_summary.txt`"
 pkg_micro_src_summary $pkgs 2>"$tmpfn4" |
