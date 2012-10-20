@@ -29,6 +29,8 @@
 
 set -e
 
+export LC_ALL=C
+
 ############################################################
 # user settable variables
 if test -z "$CKSUM"; then
@@ -73,5 +75,5 @@ if test "$list_only"; then
 	fi
     done
 else
-    $0 -l "$@" | env LC_ALL=C sort | $CKSUM
+    $0 -l "$@" | sort | $CKSUM
 fi
