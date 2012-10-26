@@ -1,0 +1,108 @@
+#!/usr/bin/env runawk
+
+# Copyright (c) 2012, Aleksey Cheusov <vle@gmx.net>
+# All rights reserved.
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions are
+# met:
+#
+#     * Redistributions of source code must retain the above copyright
+#       notice, this list of conditions and the following disclaimer.
+#     * Redistributions in binary form must reproduce the above
+#       copyright notice, this list of conditions and the following
+#       disclaimer in the documentation and/or other materials provided
+#       with the distribution.
+#
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+# "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+# LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+# A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+# HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+# SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+# LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+# DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+# THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+# (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+# OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+###############################################################
+
+#env "LC_ALL=C"
+
+#use "power_getopt.awk"
+#use "xgetline.awk"
+#use "dirname.awk"
+#use "io.awk"
+
+#.begin-str help
+# usage: makefiles2deps [OPTIONS] [files...]
+# makefiles2deps - reads makefile filenames from stdin or files, scans
+#   them for .include "inc.mk" and .sinclude "inc.mk" directives, and
+#   outputs a dependency graph on makefiles.
+# OPTIONS:
+#   -h         display this help
+#.end-str
+
+BEGIN {
+	if (getarg("h")){
+		print_help()
+		exit 0
+	}
+
+	head = tail = 0
+}
+
+{
+	fn = $1
+
+	queue [tail++] = fn
+	seen [fn] = 1
+	print fn
+}
+
+function dir_plus_base (dir, base){
+	if (base ~ /^\//)
+		return base
+
+	sub(/^[.]\//, "", base)
+	while (base ~ /^[.][.]\//){
+		base = substr(base, 4)
+		sub(/^[.]\//, "", base)
+
+		dir = dirname(dir)
+	}
+
+	return dir "/" base
+}
+
+function scan (fn,       q1, rec_fn){
+	while (0 < (getline < fn)){ # IO errors are ignored
+		q1 = match($0, /["]/)
+		if (!q1)
+			continue
+
+		if ($0 !~ /^[.][[:space:]]*s?include[[:space:]]+["][^$]+["][[:space:]]*$/)
+			continue
+
+		rec_fn = substr($0, q1+1)
+		rec_fn = substr(rec_fn, 1, match(rec_fn, /["]/)-1)
+		rec_fn = dir_plus_base(dirname(fn), rec_fn)
+		if (!is_file(rec_fn))
+			continue
+
+		print rec_fn, fn
+		v = seen [rec_fn] = seen [rec_fn] + 1
+		if (v == 1)
+			queue [tail++] = rec_fn
+	}
+
+	close(fn)
+}
+
+END {
+	while (head != tail){
+		fn = queue [head++]
+		scan(fn)
+	}
+}

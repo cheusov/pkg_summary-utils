@@ -1,0 +1,37 @@
+.\"	$NetBSD$
+.\"
+.\" Copyright (c) 2012 by Aleksey Cheusov (vle@gmx.net)
+.\" Absolutely no warranty.
+.\"
+.\" ------------------------------------------------------------------
+.de VB \" Verbatim Begin
+.ft CW
+.nf
+.ne \\$1
+..
+.de VE \" Verbatim End
+.ft R
+.fi
+..
+.\" ------------------------------------------------------------------
+.TH MAKEFILES2DEPS 1 "Oct 27, 2012" "" ""
+.SH NAME
+.B makefiles2deps
+scans BSD make files and outputs a dependency graph
+.SH SYNOPSIS
+.BI makefiles2deps " [OPTIONS] [files...]"
+.SH DESCRIPTION
+.B makefiles2deps
+reads makefile filenames from stdin or
+.IR files ,
+scans them for .include \*q"inc.mk\*q" and .sinclude \*q"inc.mk\*q"
+directives, and outputs a dependency graph on makefiles.
+.SH OPTIONS
+.TP
+.B "-h"
+display help message.
+.SH SEE ALSO
+.BR pkg_summary-utils(7) ,
+.BR bmake(1)
+.SH AUTHOR
+Aleksey Cheusov <vle@gmx.net>

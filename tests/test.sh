@@ -76,6 +76,7 @@ cmp (){
 
 # real tests
 tests='
+makefiles2deps
 pkgsrc-dewey
 pkg_summary2leaves
 pkg_grep_summary
