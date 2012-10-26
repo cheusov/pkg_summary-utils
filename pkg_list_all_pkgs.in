@@ -1,7 +1,7 @@
 #!@SH@
 #-*-mode:  sh -*-
 
-# Copyright (c) 2007-2010, Aleksey Cheusov <vle@gmx.net>
+# Copyright (c) 2007-2012, Aleksey Cheusov <vle@gmx.net>
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -42,13 +42,23 @@ pkg_list_all_pkgs - outputs all packages in pkgsrc tree
 
 usage: pkg_list_all_pkgs [OPTIONS]
 OPTIONS:
-  -h     display this help message
+  -h              display this help message
+  -a <subdirs>    add the specified categories
+  -d <subdirs>    process only the specified categories
 EOF
 }
 
-while getopts h f; do
+while getopts ha:d: f; do
     case "$f" in
-	h)    usage; exit 0;;
+	h)
+	    usage
+	    exit 0;;
+	d)
+	    export SPECIFIC_PKGS=1
+	    export USER_ADDITIONAL_PKGS="$OPTARG";;
+	a)
+	    unset SPECIFIC_PKGS || true
+	    export USER_ADDITIONAL_PKGS="$OPTARG";;
 	?)    printf "Run pkg_list_all_pkgs -h for details\n"; exit 2;;
     esac
 done

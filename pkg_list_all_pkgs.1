@@ -1,6 +1,6 @@
 .\"	$NetBSD$
 .\"
-.\" Copyright (c) 2008-2010 by Aleksey Cheusov (vle@gmx.net)
+.\" Copyright (c) 2008-2012 by Aleksey Cheusov (vle@gmx.net)
 .\" Absolutely no warranty.
 .\"
 .\" ------------------------------------------------------------------
@@ -26,8 +26,16 @@ variable defined there) and outputs all available packages
 in category/directory format. One package per line.
 .SH OPTIONS
 .TP
-.B "-h"
-display help message
+.B -h
+Display help message.
+.TP
+.BI -a " subdirs"
+Add the specified subdirectories to the scan.
+Subdirectories are separated by space character.
+.TP
+.BI -d " subdirs"
+Scan only the specified subdirectories.
+Subdirectories are separated by space character.
 .SH ENVIRONMENT
 .TP
 .B PKGSRCDIR
@@ -37,7 +45,9 @@ pkgsrc root directory
 path to pkgsrc friendly make utility
 .SH EXAMPLES
 .VB
-pkg_list_all_pkgs
+$ pkg_list_all_pkgs
+$ pkg_list_all_pkgs -a wip
+$ pkg_list_all_pkgs -d "wip private"
 .VE
 .SH "SEE ALSO"
 .B pkg_summary-utils(7)
