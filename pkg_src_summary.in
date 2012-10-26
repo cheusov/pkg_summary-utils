@@ -400,6 +400,11 @@ if test "$multi_var"; then
     pkg_grep_summary -f PKGPATH,_VARIANTS,_INHER_ASSIGNS,_INHER_ASSIGNS_REJ \
 	-v -e _VARIANTS < $partial_summary_fn >$multi_pkgs_fn
 
+    if test -n "$debug"; then
+	echo '===== $multi_pkgs_fn: =========' 1>&2
+	cat $multi_pkgs_fn 1>&2
+    fi
+
     if test -s $multi_pkgs_fn; then
 	pkg_grep_summary -e _VARIANTS \
 	    < $partial_summary_fn >$normal_pkgs_fn
