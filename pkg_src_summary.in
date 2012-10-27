@@ -209,6 +209,7 @@ errsfn=$tmp_dir/errors.txt
 summaryfn=$tmp_dir/summary.txt
 real_plistfn=$tmp_dir/real_plist.txt
 multi_pkgs_fn=$tmp_dir/multi_pkgs.txt
+multi_vars_fn=$tmp_dir/multi_vars.txt
 normal_pkgs_fn=$tmp_dir/normal_pkgs.txt
 
 ############################################################
@@ -397,22 +398,36 @@ else
 fi
 
 if test "$multi_var"; then
+    if test -n "$debug"; then
+	echo '===== partial_summary.txt: =========' 1>&2
+	cat $partial_summary_fn 1>&2
+    fi
+
     pkg_grep_summary -f PKGPATH,_VARIANTS,_INHER_ASSIGNS,_INHER_ASSIGNS_REJ \
 	-v -e _VARIANTS < $partial_summary_fn >$multi_pkgs_fn
 
     if test -n "$debug"; then
-	echo '===== $multi_pkgs_fn: =========' 1>&2
+	echo '===== multi_pkgs.txt: =========' 1>&2
 	cat $multi_pkgs_fn 1>&2
     fi
 
     if test -s $multi_pkgs_fn; then
 	pkg_grep_summary -e _VARIANTS \
 	    < $partial_summary_fn >$normal_pkgs_fn
+	if test -n "$debug"; then
+	    echo '===== normal_pkgs.txt: =========' 1>&2
+	    cat $normal_pkgs_fn 1>&2
+	fi
 	mv $normal_pkgs_fn $partial_summary_fn
 
+	$LIBEXECDIR/summary2multi_variants < $multi_pkgs_fn > $multi_vars_fn
+	if test -n "$debug"; then
+	    echo '===== multi_vars.txt: =========' 1>&2
+	    cat $multi_vars_fn 1>&2
+	fi
+
 	runpipe0 \
-	    $LIBEXECDIR/summary2multi_variants < $multi_pkgs_fn '|' \
-	    env _PSS_RECURS=1 $0 $with_xxx $make_plist '|' \
+	    env _PSS_RECURS=1 $0 $with_xxx $make_plist < $multi_vars_fn '|' \
 	    move_ASSIGNMENTS_to_PKGPATH >> "$partial_summary_fn"
     fi
 fi

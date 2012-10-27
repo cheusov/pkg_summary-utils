@@ -2,8 +2,9 @@ grep_pss_stderr (){
     grep -E 'Bad package| ----------' "$@"
 }
 
-# pkg_src_summary -m -f \
-#     PKGNAME,PKGPATH devel/subversion:RUBY_VERSION_REQD=193,PKG_APACHE=apache2 \
+# # FIXME and remove RUBY_VERSION_REQD=193,
+# pkg_src_summary -m -f PKGNAME,PKGPATH \
+#     devel/subversion:RUBY_VERSION_REQD=193,PKG_APACHE=apache2 \
 #     devel/subversion:RUBY_VERSION_REQD=193,PKG_APACHE=apache2,PYTHON_VERSION_REQD=27 |
 # normalize_version |
 # cmp 'pkg_src_summary #24.1' \
@@ -11,13 +12,59 @@ grep_pss_stderr (){
 # PKGNAME=subversion-X
 # PKGPATH=devel/subversion
 
+# ASSIGNMENTS=PKG_APACHE=apache2,PYTHON_VERSION_REQD=26
+# PKGNAME=subversion-X
+# PKGPATH=devel/subversion
+
 # '
+
+pkg_src_summary -m -f PKGNAME,PKGPATH \
+    devel/subversion:PKG_APACHE=apache22,PYTHON_VERSION_REQD=27,RUBY_VERSION_REQD=18 |
+normalize_version |
+cmp 'pkg_src_summary #23.10' \
+'ASSIGNMENTS=RUBY_VERSION_REQD=18
+PKGNAME=subversion-X
+PKGPATH=devel/subversion
+
+'
+
+pkg_src_summary -m -f PKGNAME,PKGPATH \
+    devel/subversion:PKG_APACHE=apache2,PYTHON_VERSION_REQD=26,RUBY_VERSION_REQD=18 |
+normalize_version |
+cmp 'pkg_src_summary #23.9' \
+'ASSIGNMENTS=PKG_APACHE=apache2,PYTHON_VERSION_REQD=26,RUBY_VERSION_REQD=18
+PKGNAME=subversion-X
+PKGPATH=devel/subversion
+
+'
+
+pkg_src_summary -m -f PKGNAME,PKGPATH \
+    devel/subversion:PKG_APACHE=apache22,PYTHON_VERSION_REQD=27,RUBY_VERSION_REQD=193 |
+normalize_version |
+cmp 'pkg_src_summary #23.8' \
+'PKGNAME=subversion-X
+PKGPATH=devel/subversion
+
+'
 
 pkg_src_summary -m -f PKGNAME,PKGPATH \
     devel/subversion:PKG_APACHE=apache2,PYTHON_VERSION_REQD=27,RUBY_VERSION_REQD=193 |
 normalize_version |
-cmp 'pkg_src_summary #23.4' \
+cmp 'pkg_src_summary #23.7' \
 'ASSIGNMENTS=PKG_APACHE=apache2
+PKGNAME=subversion-X
+PKGPATH=devel/subversion
+
+'
+
+pkg_src_summary -m -f PKGNAME,PKGPATH devel/subversion:PKG_APACHE=apache2,PYTHON_VERSION_REQD=27 |
+normalize_version |
+cmp 'pkg_src_summary #23.6' \
+'ASSIGNMENTS=PKG_APACHE=apache2
+PKGNAME=subversion-X
+PKGPATH=devel/subversion
+
+ASSIGNMENTS=PKG_APACHE=apache2,RUBY_VERSION_REQD=18
 PKGNAME=subversion-X
 PKGPATH=devel/subversion
 
@@ -26,12 +73,85 @@ PKGPATH=devel/subversion
 pkg_src_summary -m -f PKGNAME,PKGPATH \
     devel/subversion:RUBY_VERSION_REQD=193,PKG_APACHE=apache2 |
 normalize_version |
-cmp 'pkg_src_summary #23.3' \
+cmp 'pkg_src_summary #23.5' \
 'ASSIGNMENTS=PKG_APACHE=apache2
 PKGNAME=subversion-X
 PKGPATH=devel/subversion
 
 ASSIGNMENTS=PKG_APACHE=apache2,PYTHON_VERSION_REQD=26
+PKGNAME=subversion-X
+PKGPATH=devel/subversion
+
+'
+
+pkg_src_summary -m -f PKGNAME,PKGPATH devel/subversion:PYTHON_VERSION_REQD=26 |
+normalize_version |
+cmp 'pkg_src_summary #23.4' \
+'ASSIGNMENTS=PYTHON_VERSION_REQD=26,PKG_APACHE=apache13
+PKGNAME=subversion-X
+PKGPATH=devel/subversion
+
+ASSIGNMENTS=PYTHON_VERSION_REQD=26,PKG_APACHE=apache13,RUBY_VERSION_REQD=18
+PKGNAME=subversion-X
+PKGPATH=devel/subversion
+
+ASSIGNMENTS=PYTHON_VERSION_REQD=26,PKG_APACHE=apache2
+PKGNAME=subversion-X
+PKGPATH=devel/subversion
+
+ASSIGNMENTS=PYTHON_VERSION_REQD=26,PKG_APACHE=apache2,RUBY_VERSION_REQD=18
+PKGNAME=subversion-X
+PKGPATH=devel/subversion
+
+ASSIGNMENTS=PYTHON_VERSION_REQD=26
+PKGNAME=subversion-X
+PKGPATH=devel/subversion
+
+ASSIGNMENTS=PYTHON_VERSION_REQD=26,RUBY_VERSION_REQD=18
+PKGNAME=subversion-X
+PKGPATH=devel/subversion
+
+ASSIGNMENTS=PYTHON_VERSION_REQD=26,PKG_APACHE=apache24
+PKGNAME=subversion-X
+PKGPATH=devel/subversion
+
+ASSIGNMENTS=PYTHON_VERSION_REQD=26,PKG_APACHE=apache24,RUBY_VERSION_REQD=18
+PKGNAME=subversion-X
+PKGPATH=devel/subversion
+
+'
+
+pkg_src_summary -m -f PKGNAME,PKGPATH devel/subversion:RUBY_VERSION_REQD=193 |
+normalize_version |
+cmp 'pkg_src_summary #23.3' \
+'ASSIGNMENTS=PKG_APACHE=apache13
+PKGNAME=subversion-X
+PKGPATH=devel/subversion
+
+ASSIGNMENTS=PKG_APACHE=apache13,PYTHON_VERSION_REQD=26
+PKGNAME=subversion-X
+PKGPATH=devel/subversion
+
+ASSIGNMENTS=PKG_APACHE=apache2
+PKGNAME=subversion-X
+PKGPATH=devel/subversion
+
+ASSIGNMENTS=PKG_APACHE=apache2,PYTHON_VERSION_REQD=26
+PKGNAME=subversion-X
+PKGPATH=devel/subversion
+
+PKGNAME=subversion-X
+PKGPATH=devel/subversion
+
+ASSIGNMENTS=PYTHON_VERSION_REQD=26
+PKGNAME=subversion-X
+PKGPATH=devel/subversion
+
+ASSIGNMENTS=PKG_APACHE=apache24
+PKGNAME=subversion-X
+PKGPATH=devel/subversion
+
+ASSIGNMENTS=PKG_APACHE=apache24,PYTHON_VERSION_REQD=26
 PKGNAME=subversion-X
 PKGPATH=devel/subversion
 
