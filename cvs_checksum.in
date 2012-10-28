@@ -40,8 +40,8 @@ export LC_ALL=C
 ############################################################
 usage (){
     cat 1>&2 <<EOF
-cvs_checksum - analyses CVS/Entries file and print a checksum of
-               cvs file names and their revisions.
+cvs_checksum - analyses CVS files in the specified directories
+               and outputs file checksums with a help of cksum(1)
 
 usage:
   cvs_checksum [OPTIONS] [cvsdirs ...]
@@ -69,11 +69,8 @@ if test "$list_only"; then
 
 	    subdirs=`awk -F/ -v d="$i" '$1 == "D" && NF > 1 {print d "/" $2}' "$efn" `
 	    $0 -l $subdirs
-	else
-	    echo "$i/CVS/Entries files is not readable" 1>&2
-	    exit 1
 	fi
     done
 else
-    runpipe0 $0 -l "$@" '|' awk '{print $1}' '|' xargs $CKSUM
+    runpipe0 $0 -l "$@" '|' awk '{print $1}' '|' xargs $CKSUM '|' awk '{print $3, $1, $2}'
 fi
