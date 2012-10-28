@@ -31,6 +31,8 @@ set -e
 
 export LC_ALL=C
 
+. pipestatus
+
 ############################################################
 # user settable variables
 : ${CKSUM:=cksum}
@@ -73,5 +75,5 @@ if test "$list_only"; then
 	fi
     done
 else
-    $0 -l "$@" | awk '{print $1}' | xargs $CKSUM
+    runpipe0 $0 -l "$@" '|' awk '{print $1}' '|' xargs $CKSUM
 fi
