@@ -75,5 +75,5 @@ if test "$list_only"; then
 	fi
     done
 else
-    $0 -l "$@" | sort | $CKSUM
+    $0 -l "$@" | awk '{print $1}' | xargs $CKSUM
 fi
