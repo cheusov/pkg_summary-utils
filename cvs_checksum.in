@@ -1,7 +1,7 @@
 #!@SH@
 #-*-mode:  sh -*-
 
-# Copyright (c) 2007-2010, Aleksey Cheusov <vle@gmx.net>
+# Copyright (c) 2007-2012, Aleksey Cheusov <vle@gmx.net>
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -33,9 +33,7 @@ export LC_ALL=C
 
 ############################################################
 # user settable variables
-if test -z "$CKSUM"; then
-    CKSUM=cksum
-fi
+: ${CKSUM:=cksum}
 
 ############################################################
 usage (){
