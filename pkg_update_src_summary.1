@@ -1,6 +1,6 @@
 .\"	$NetBSD$
 .\"
-.\" Copyright (c) 2008-2010 by Aleksey Cheusov (vle@gmx.net)
+.\" Copyright (c) 2008-2012 by Aleksey Cheusov (vle@gmx.net)
 .\" Absolutely no warranty.
 .\"
 .\" ------------------------------------------------------------------
@@ -14,54 +14,59 @@
 .fi
 ..
 .\" ------------------------------------------------------------------
-.TH PKG_UPDATE_SRC_SUMMARY 1 "Jan 29, 2008" "" ""
+.TH PKG_UPDATE_SRC_SUMMARY 1 "Oct 29, 2012" "" ""
 .SH NAME
-pkg_update_src_summary \- incrementally updates source pkg_summary
+pkg_update_src_summary \- incrementally updates pkg_src_summary
 .SH SYNOPSIS
-.BI pkg_update_src_summary " [OPTIONS] pkg_src_summary_filename"
+.BI pkg_update_src_summary " [OPTIONS]"
 .SH DESCRIPTION
 .B pkg_update_src_summary
-incrementally updates source packages summary about all packages in
-pkgsrc source tree.
-Algorithm. 1) pkg_update_src_summary quickly obtains micro summary
-information about all packages
-from pkgsrc source tree, "micro" means PKGNAME and PKGPATH fields only.
-2) compares package versions in summary_filename
-and micro summary collected in step 1
-by PKGNAME field using pkg_cmp_summary(1).
-3) copies summary from summary_filename about unchanged packages.
-4) collects full summary information about all changed and new packages
-using pkg_src_summary(1).
-5) new summary = step3 + step4
+incrementally updates a summary information
+for the specified source packages.
 .SH OPTIONS
 .TP
 .B "-h"
-display help message
+Display help message.
 .TP
 .BI "-f" " filename"
-package names are obtained from a specified file, not from pkgsrc tree
+Filename that contains PKGPATHs, one per line.
+If not specified, summaries for packages returned by
+.B pkg_list_all_pkgs(1)
+are generated.
 .TP
 .BI "-i" " fields"
-list of fields (separated by space character or comma) to be
-generated. By default full summary is generated, see
-pkg_src_summary(1)
+A list of fields (separated by space character or comma) to
+generate. By default full summary is generated, see
+.BR pkg_src_summary(1) .
+.TP
+.BI -d " datadir"
+Directory where important files are stored,
+this option is mandatory.
 .SH ENVIRONMENT
 .TP
 .B PKGSRCDIR
-pkgsrc root directory
+Pkgsrc root directory.
 .TP
 .B BMAKE
-path to pkgsrc friendly make utility
+Path to bmake.
 .TP
 .B PSS_OPTIONS
-passed to pkg_src_summary subprocesses
+Options passed to
+.B pkg_src_summary(1)
+subprocesses.
 .SH EXAMPLES
 .VB
-pkg_update_src_summary /usr/pkgsrc/pkg_src_summary.txt
+$ pkg_update_src_summary -d ~/src_summary
+
+$ env PSS_OPTIONS=-m pkg_update_src_summary -d ~/src_summary
+
+$ pkg_list_all_pkgs -a wip > ~/PKGPATHs
+$ export PSS_OPTIONS=-m
+$ pkg_update_src_summary -f ~/PKGPATHs -d ~/src_summary
 .VE
 .SH SEE ALSO
 .BR pkg_summary-utils(7) ,
-.BR pkg_cmp_summary(1)
-.B pkg_src_summary(1)
+.BR pkg_src_summary(1),
+.B pkg_list_all_pkgs(1)
 .SH AUTHOR
 Aleksey Cheusov <vle@gmx.net>

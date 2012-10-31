@@ -1,7 +1,7 @@
 #!@SH@
 #-*-mode:  sh -*-
 
-# Copyright (c) 2007-2010, Aleksey Cheusov <vle@gmx.net>
+# Copyright (c) 2007-2012, Aleksey Cheusov <vle@gmx.net>
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -31,7 +31,7 @@
 # user settable variables
 : ${PKGSRCDIR:=@PKGSRCDIR@}
 : ${BMAKE:=@BMAKE@}
-: ${LIBEXECDIR:=@libexecdir@}
+: ${GZIP:=gzip}
 
 ############################################################
 export LC_ALL=C
@@ -41,6 +41,8 @@ set -e
 . pipestatus
 
 ############################################################
+: ${LIBEXECDIR:=@libexecdir@}
+
 usage (){
     cat 1>&2 <<EOF
 pkg_update_src_summary - incrementally updates
@@ -65,7 +67,7 @@ while getopts hf:i:d:G f; do
     case "$f" in
 	h)  usage; exit 0;;
 	f)  pkgs_fn="$OPTARG";;
-	i)  fields="$OPTARG";;
+	i)  PSS_OPTIONS="$PSS_OPTIONS -f $OPTARG";;
 	d)  datadir="$OPTARG";;
 	G)  debug=1;;
 	?)  printf "Run pkg_update_src_summary -h for details\n"; exit 2;;
@@ -86,7 +88,6 @@ mkdir -p "$datadir/tmp"
 old_summary="$datadir/pkg_src_summary.txt"
 new_summary="$datadir/tmp/pkg_src_summary.txt"
 
-old_pkgs_fn="$datadir/pkgs"
 new_pkgs_fn="$datadir/tmp/pkgs"
 
 old_cksums_fn="$datadir/cksums"
@@ -97,6 +98,13 @@ new_cksums_fn="$datadir/tmp/cksums"
 on_exit () { rm -rf "$datadir/tmp"; }
 
 finish (){
+    if test -f "$old_cksums_fn"; then
+	$GZIP < "$old_cksums_fn" > "$old_cksums_fn.gz"
+    fi
+    if test -f "$old_summary"; then
+	$GZIP < "$old_summary" > "$old_summary.gz"
+    fi
+
     mv "$new_cksums_fn" "$old_cksums_fn"
     mv "$new_summary" "$old_summary"
 }
@@ -136,7 +144,7 @@ updated_pkgs_fn="$datadir/tmp/pkgs_updated"
 makefiles_useful_changed_fn="$datadir/tmp/makefiles_useful_changed"
 
 run_pkg_src_summary (){
-    pkg_src_summary -m "$@"
+    pkg_src_summary $PSS_OPTIONS "$@"
 }
 
 if ! test -f "$old_summary"; then
@@ -168,6 +176,10 @@ if test -n "$debug"; then
     echo '==== update pkgs: ====' 1>&2
     cat "$updated_pkgs_fn"
 fi
+
+pkg_grep_summary -t strfile PKGPATH "$new_pkgs_fn" \
+    < "$old_summary" > "$old_summary.tmp"
+mv "$old_summary.tmp" "$old_summary"
 
 if test -s "$updated_pkgs_fn"; then
     pkg_grep_summary -v -t strfile PKGPATH "$updated_pkgs_fn" \
