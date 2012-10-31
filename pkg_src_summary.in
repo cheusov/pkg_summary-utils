@@ -39,20 +39,23 @@ export LC_ALL=C
 # user settable variables
 : ${PKGSRCDIR:=@PKGSRCDIR@}
 : ${BMAKE:=@BMAKE@}
-: ${PSS_MKSCRIPTSDIR:=@mkscriptsdir@}
-: ${LIBEXECDIR:=@libexecdir@}
 : ${PKG_INFO_CMD:=@PKG_INFO_CMD@}
 
 ############################################################
+: ${PSS_MKSCRIPTSDIR:=@mkscriptsdir@}
+: ${LIBEXECDIR:=@libexecdir@}
+
 usage (){
     cat 1>&2 <<EOF
 pkg_src_summary - builds summary information
 about source packages
 
 usage:
+  pkg_src_summary -h
   pkg_src_summary [OPTIONS] [pkgpath1 pkgpath2 ...]
   pkg_src_summary -s [OPTIONS]
   pkg_src_summary -i [OPTIONS]
+  pkg_src_summary -F
 OPTIONS:
   -h              display this help message
   -p              generate PLIST using 'bmake plist'
@@ -74,25 +77,14 @@ OPTIONS:
   -d              also generates summary for dependancies (DEPENDS)
   -D              also generates summary for dependancies (BUILD_DEPENDS)
   -A              implies -d and -D
-  -m              generate ASSIGNMENTS field
-                  for multi-variant packages
+  -m              generate ASSIGNMENTS field for multi-variant packages
   -M              implies -m and move/add ASSIGNMENTS to PKGPATH field
+  -F              output fields (one per line) to generate and exit
   -G              for debugging
 EOF
 }
 
 eot_marker='>H4J]MGDMX5YEN"5FQ3K(?O/9MMA%D;]P"XP.E!/-'
-
-# list of fields for default pkg_src_summary
-if test -z "$PSS_FIELDS"; then
-    PSS_FIELDS='PKGNAME PKGPATH DEPENDS BUILD_DEPENDS CONFLICTS HOMEPAGE COMMENT LICENSE ONLYFOR NOTFOR MAINTAINER CATEGORIES NO_BIN_ON_FTP NO_SRC_ON_FTP NO_BIN_ON_CDROM NO_SRC_ON_CDROM LICENSE DESCRIPTION PLIST' # CVS_CHECKSUM ALLDISTFILES
-fi
-
-if test -z "$PSS_PPERS"; then
-    PSS_PPERS=10
-fi
-
-PSS_PPERS=1 # until I really fix it.
 
 set_fields (){
     # $@ - fields
@@ -126,6 +118,19 @@ BEGIN {
 ' $__fields - $PSS_FIELDS`
 }
 
+# list of fields for default pkg_src_summary
+if test -n "$PSS_FIELDS"; then
+    set_fields $PSS_FIELDS
+else
+    PSS_FIELDS='PKGNAME PKGPATH DEPENDS BUILD_DEPENDS CONFLICTS HOMEPAGE COMMENT ONLYFOR NOTFOR MAINTAINER CATEGORIES NO_BIN_ON_FTP NO_SRC_ON_FTP NO_BIN_ON_CDROM NO_SRC_ON_CDROM LICENSE DESCRIPTION PLIST' # CVS_CHECKSUM ALLDISTFILES
+fi
+
+if test -z "$PSS_PPERS"; then
+    PSS_PPERS=10
+fi
+
+PSS_PPERS=1 # until I really fix it.
+
 process_options (){
     alt_opts="$1"
     shift
@@ -144,6 +149,7 @@ process_options (){
 	                 with_dep=-d; with_bdep=-D' \
 	m                multi_var=1   \
 	M                multi_var=2   \
+	F                output_fields=1   \
 	'i installed'    installed_pkgs=1 \
 	G                debug=1 \
 	-- "$@"
@@ -181,6 +187,12 @@ if echo "$PSS_FIELDS" | grep ALLDISTFILES > /dev/null; then
 fi
 if echo "$PSS_FIELDS" | grep CVS_CHECKSUM > /dev/null; then
     field_cvs_checksum=1
+fi
+if test -n "$output_fields"; then
+    for f in $PSS_FIELDS; do
+	echo $f
+    done
+    exit 0
 fi
 varnames=`echo $PSS_FIELDS |
    awk -v make_plist="$make_plist" '{

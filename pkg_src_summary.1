@@ -23,6 +23,7 @@ pkg_src_summary \- build summary information for source packages
 .BI pkg_src_summary " -s [OPTIONS]"
 .br
 .BI pkg_src_summary " -i [OPTIONS]"
+.BI pkg_src_summary " -F"
 .SH DESCRIPTION
 .B pkg_src_summary
 builds summary information about source packages specified in
@@ -83,6 +84,9 @@ implies -m and moves/adds ASSIGNMENTS field to PKGPATH
 .B "-i"
 generate src_summary for the installed packages only,
 do not read list of packages from stdin and from pkgpathN arguments
+.TP
+.B "-F"
+output fields to generate (one per line) and exit
 .SH ENVIRONMENT
 .TP
 .B PKGSRCDIR
