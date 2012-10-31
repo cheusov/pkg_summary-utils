@@ -2,6 +2,36 @@ grep_pss_stderr (){
     grep -E 'Bad package| ----------' "$@"
 }
 
+pkg_src_summary -fPKGNAME,PKGPATH -F |
+sort |
+cmp 'pkg_src_summary #25.2' \
+'PKGNAME
+PKGPATH
+'
+
+pkg_src_summary -F |
+sort |
+cmp 'pkg_src_summary #25.1' \
+'BUILD_DEPENDS
+CATEGORIES
+COMMENT
+CONFLICTS
+DEPENDS
+DESCRIPTION
+HOMEPAGE
+LICENSE
+MAINTAINER
+NOTFOR
+NO_BIN_ON_CDROM
+NO_BIN_ON_FTP
+NO_SRC_ON_CDROM
+NO_SRC_ON_FTP
+ONLYFOR
+PKGNAME
+PKGPATH
+PLIST
+'
+
 # # FIXME and remove RUBY_VERSION_REQD=193,
 # pkg_src_summary -m -f PKGNAME,PKGPATH \
 #     devel/subversion:RUBY_VERSION_REQD=193,PKG_APACHE=apache2 \
