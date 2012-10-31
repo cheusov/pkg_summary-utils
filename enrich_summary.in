@@ -50,14 +50,14 @@ with_bootstrap && /^BUILD_DEPENDS=/ {
 /^DESCR_SRC=/ {
 	$0 = substr($0, 11)
 	for (i=1; i <= NF; ++i){
-	    while (0 < ret = (getline ln < $i)){
+		while (0 < ret = (getline ln < $i)){
 			print "DESCRIPTION=" ln
-	    }
+		}
 
-	    if (ret < 0)
+		if (ret < 0)
 			printf "reading from `" $i "` failed\n" > "/dev/stderr"
 
-	    close($i)
+		close($i)
 	}
 	next
 }
@@ -65,7 +65,7 @@ with_bootstrap && /^BUILD_DEPENDS=/ {
 NF == 0 {
 	# BUILD_DEPENDS
 	if (builddeps != "" || bootstrapdeps != "")
-	    print "BUILD_DEPENDS=" builddeps " " bootstrapdeps
+		print "BUILD_DEPENDS=" builddeps " " bootstrapdeps
 	builddeps = bootstrapdeps = ""
 
 	# ALLDISTFILES
@@ -77,9 +77,9 @@ NF == 0 {
 		}
 
 		if (ret < 0)
-			printf "reading from `" fn "` failed\n" > "/dev/stderr"
+			printf "reading from `" distinfo_fn "` failed\n" > "/dev/stderr"
 
-		close(fn)
+		close(distinfo_fn)
 		printf "\n"
 	}
 
@@ -91,9 +91,9 @@ NF == 0 {
 		}
 
 		if (ret < 0)
-			printf "reading from `" fn "` failed\n" > "/dev/stderr"
+			printf "reading from `" plist_fn "` failed\n" > "/dev/stderr"
 
-		close(fn)
+		close(plist_fn)
 	}
 	plist_fn = ""
 
