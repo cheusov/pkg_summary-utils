@@ -1,0 +1,86 @@
+.\"	$NetBSD$
+.\"
+.\" Copyright (c) 2012 by Aleksey Cheusov (vle@gmx.net)
+.\" Absolutely no warranty.
+.\"
+.\" ------------------------------------------------------------------
+.de VB \" Verbatim Begin
+.ft CW
+.nf
+.ne \\$1
+..
+.de VE \" Verbatim End
+.ft R
+.fi
+..
+.\" ------------------------------------------------------------------
+.TH PKG_DIGGER_SUMMARY 1 "Nov 3, 2012" "" ""
+.SH NAME
+pkg_digger_summary \- pkg_digger backend for search in pkg_summary(5)
+.SH SYNOPSIS
+.BI pkg_digger_summary " -h"
+.br
+.BI pkg_digger_summary " -f"
+.br
+.BI pkg_digger_summary " -s"
+.br
+.BI pkg_digger_summary " [-n limit] fsq1 [fsq2 ...]"
+.br
+.BI pkg_digger_summary " [-1|-3-9|-i] [-r] [-q] pkgpair1 [pkgpair2 ...]"
+.SH DESCRIPTION
+.B pkg_digger_summary
+is a backend for
+.B pkg_digger(1)
+for search in 
+.B pkg_summary(5)
+file specified in PKG_DIGGER_SUMMARY environment variable.
+.I pkgpair
+is PKGNAME and PKGPATH separated by comma. If it is specified,
+summary for the specified package is output.
+.I fsq
+has
+.I field:strategy:query
+format. If it specified found pkgpairs are outputs.
+.SH OPTIONS
+.TP
+.B "-h"
+Display help message.
+.TP
+.B "-s"
+Output supported search strategies, for example,
+.IR exact ", " suffix ", " prefix ", " substring
+and others. Supported search strategies are documented in 
+.BR pkg_grep_summary .
+.TP
+.B "-f"
+Output supported fields to search in, for example,
+.IR PKGPATH ", " PKGBASE ", " COMMENT ", " DESCRIPTION
+and others.
+.TP
+.B "-1"
+Only PKGPATH, PKGNAME (if needed) and COMMENT are output (oneline format).
+.TP
+.B "-3"
+Only basic fields are output, i.e. PKGNAME, PKGPATH, COMMENT, DESCRIPTION
+and some others.
+.TP
+.B "-9"
+All available fields are output.
+.TP
+.B "-r"
+Output raw summary, this option requires either
+.IR -3 " or " -9 .
+.TP
+.B "-q"
+Quiet mode, do not print "No matches found" to stderr
+.SH ENVIRONMENT
+.TP
+.B PKG_DIGGER_SUMMARY
+Summary file to search in.
+.SH SEE ALSO
+.BR pkg_summary-utils(7) ,
+.BR pkg_summary(5) ,
+.BR pkg_grep_summary(1) ,
+.B pkg_digger(1)
+.SH AUTHOR
+Aleksey Cheusov <vle@gmx.net>
