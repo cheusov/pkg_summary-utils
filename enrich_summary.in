@@ -36,6 +36,7 @@ with_bootstrap && /^BUILD_DEPENDS=/ {
 }
 
 /^PKGPATH=/ {
+	print
 	pkgpath = trim_lrc(substr($0, 9))
 	next
 }
