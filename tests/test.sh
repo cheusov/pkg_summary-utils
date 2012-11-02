@@ -91,7 +91,7 @@ pkg_summary2deps
 pkg_lint_summary
 pkg_subgraph_deps
 pkg_bin_summary
-pkg_digger_backend
+pkg_digger_summary
 pkg_micro_src_summary
 summary2multi_variants
 pkg_src_summary

@@ -31,7 +31,7 @@ INSCRIPTS +=	pkg_uniq_summary pkg_summary2bb_pkgs
 INSCRIPTS +=	pkg_cleanup_distdir pkg_summary2build_graph
 INSCRIPTS +=	pkg_summary2deps pkg_lint_summary
 INSCRIPTS +=	pkg_subgraph_deps pkg_bin_summary
-INSCRIPTS +=	pkg_digger_backend pkg_digger pkg_summary2leaves
+INSCRIPTS +=	pkg_digger_summary pkg_digger pkg_summary2leaves
 INSCRIPTS +=	makefiles2deps
 
 INSCRIPTS +=	${LIBEXECSCRIPTS}
@@ -54,7 +54,7 @@ MAN +=		pkg_uniq_summary.1 # pkg_summary2bb_pkgs.1
 MAN +=		pkg_cleanup_distdir.1 pkg_summary2build_graph.1
 MAN +=		pkg_summary2deps.1 pkg_lint_summary.1
 MAN +=		pkg_subgraph_deps.1 pkg_bin_summary.1
-MAN +=		pkg_digger.1 pkg_summary2leaves.1 # pkg_digger_backend.1
+MAN +=		pkg_digger.1 pkg_summary2leaves.1 # pkg_digger_summary.1
 MAN +=		makefiles2deps.1
 
 FILES =		README NEWS TODO
@@ -69,6 +69,8 @@ FILESDIR_pkgsrc-dewey.awk =	${AWKMODDIR}
 FILESDIR_pkg_src_summary.mk =	${MKSCRIPTSDIR}
 FILESDIR_pkg_digger.conf =	${EGDIR}
 FILESDIR_sig_handler.sh =	${LIBEXECDIR}
+
+SYMLINKS  =	pkg_digger_summary ${BINDIR}/pkg_digger_backend
 
 BIRTHDATE =	2008-04-06
 

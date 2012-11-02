@@ -38,13 +38,13 @@ on_exit () { rm -rf $tmp_dir $new_summary; }
 
 usage () {
     cat 1>&2 <<EOF
-pkg_digger_backend is a pkg summary searcher
+pkg_digger_summary is a pkg summary searcher
 (backend for pkg_digger).
-usage: pkg_digger_backend -h
-       pkg_digger_backend -f
-       pkg_digger_backend -s
-       pkg_digger_backend [-n] fsq1 [fsq2 ...]
-       pkg_digger_backend -1|-3|-9|-i [-r] [-q] pkgpair1 [pkgpair2...]
+usage: pkg_digger_summary -h
+       pkg_digger_summary -f
+       pkg_digger_summary -s
+       pkg_digger_summary [-n] fsq1 [fsq2 ...]
+       pkg_digger_summary -1|-3|-9|-i [-r] [-q] pkgpair1 [pkgpair2...]
 where pkgpair is <PKGPATH>,<PKGNAME>
 and fsq is <field>:<strategy>:<query>
 OPTIONS:
@@ -60,10 +60,12 @@ OPTIONS:
 EOF
 }
 
-if test -z "$PKG_DIGGER_SUMMARY"; then
-    echo 'PKG_DIGGER_SUMMARY environment variable must be set' 1>&2
-    exit 1
-fi
+check_summary (){
+    if test -z "$PKG_DIGGER_SUMMARY"; then
+	echo 'PKG_DIGGER_SUMMARY environment variable must be set' 1>&2
+	exit 1
+    fi
+}
 
 if test $# -eq 0; then
     usage
@@ -73,6 +75,7 @@ fi
 limit=1000000000
 
 show_fields (){
+    check_summary
     runawk -F= -f heapsort.awk -e '
 	BEGIN {hash ["PKGBASE"] = hash ["PKGPATHe"] = ""
 	       hash ["PKGPABA"] = hash ["PKGPANA"] = hash ["PKGPAIR"] = ""}
@@ -97,11 +100,12 @@ while getopts hsf139irqn: f; do
 	q)    quiet_mode=1;;
 	n)    limit=$OPTARG;;
 	h)    usage; exit 0;;
-	?)    printf "Run pkg_digger_backend -h for details\n"; exit 2;;
+	?)    printf "Run pkg_digger_summary -h for details\n"; exit 2;;
     esac
 done
-
 shift `expr $OPTIND - 1`
+
+check_summary
 
 gen_summary4view (){
     if test -n "$raw_format"; then
