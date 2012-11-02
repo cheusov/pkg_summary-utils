@@ -20,6 +20,9 @@ BEGIN {
 		exitnow(0)
 	}
 	with_bootstrap = getarg("b")
+
+	pkgsrcdir = ENVIRON ["PKGSRCDIR"]
+	assert(pkgsrcdir, "PKGSRCDIR variable should be set")
 }
 
 with_bootstrap && /^BOOTSTRAP_DEPENDS=/ {	\
@@ -29,6 +32,11 @@ with_bootstrap && /^BOOTSTRAP_DEPENDS=/ {	\
 
 with_bootstrap && /^BUILD_DEPENDS=/ {
 	builddeps = substr($0, 15)
+	next
+}
+
+/^PKGPATH=/ {
+	pkgpath = trim_lrc(substr($0, 9))
 	next
 }
 
@@ -85,17 +93,24 @@ NF == 0 {
 
 	# PLIST
 	if (plist_fn != ""){
-		while (0 < (ret = (getline < plist_fn))){
-			if ($0 !~ /@comment/)
-				print "PLIST=" $0
+		plist_cnt = split(plist_fn, plist_arr_fn)
+		for (i=1; i <= plist_cnt; ++i){
+			plist_fn = plist_arr_fn [i]
+			if (plist_fn !~ /^\//)
+				plist_fn = pkgsrcdir pkgpath "/" plist_fn
+
+			while (0 < (ret = (getline < plist_fn))){
+				if ($0 !~ /@comment/)
+					print "PLIST=" $0
+			}
+
+			if (ret < 0)
+				printf "reading from `" plist_fn "` failed\n" > "/dev/stderr"
+
+			close(plist_fn)
 		}
-
-		if (ret < 0)
-			printf "reading from `" plist_fn "` failed\n" > "/dev/stderr"
-
-		close(plist_fn)
 	}
-	plist_fn = ""
+	pkgpath = plist_fn = ""
 
 	#
 	print ""

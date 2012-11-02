@@ -45,6 +45,8 @@ export LC_ALL=C
 : ${PSS_MKSCRIPTSDIR:=@mkscriptsdir@}
 : ${LIBEXECDIR:=@libexecdir@}
 
+export PKGSRCDIR
+
 usage (){
     cat 1>&2 <<EOF
 pkg_src_summary - builds summary information
