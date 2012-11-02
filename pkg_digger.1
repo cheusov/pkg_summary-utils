@@ -16,7 +16,7 @@
 .\" ------------------------------------------------------------------
 .TH PKG_DIGGER 1 "Nov 22, 2010" "" ""
 .SH NAME
-pkg_digger \- package searcher for PkgSrc
+pkg_digger \- package searcher for pkgsrc
 .SH SYNOPSIS
 .BI pkg_digger " -h"
 .br
@@ -27,8 +27,8 @@ pkg_digger \- package searcher for PkgSrc
 .BI pkg_digger " [-1|-3-9|-i] [-r] [-q] query1 [query2 ...]"
 .SH DESCRIPTION
 .B pkg_digger
-is a package searcher for PkgSrc. Unlike other searchers
-it scans (by default) prebuilt package summary file, but the pkgsrc tree
+is a package searcher for pkgsrc. Unlike other searchers
+it scans (by default) prebuilt package summary file, not the pkgsrc tree
 thus working much faster.
 .I Query
 is either
@@ -38,76 +38,59 @@ or just
 for example,
 .IR PKGNAME:substring:dict " or " dictionary .
 .I Field
-means field to search in listed by 
-.IR -f .
+means a field to search in output by 
+.BR "pkg_digger -f" .
 .I Strategy
-means search strategy listed by 
-.IR -s .
+means a search strategy output by 
+.BR "pkg_digger -s" .
 If neither field nor strategy are specified, those listed
-in PKG_DIGGER_FALLBACK_RULES variable are used.
-PKG_DIGGER_FALLBACK_RULES can be set in environment or in configuration file.
+in PKG_DIGGER_FALLBACK_RULES configuration variable are used.
 Optional leading
 .IR - " (minus) or " ! " (exclamation mark)"
-invert the sense of match, for example,
-.br
-COMMENT:word:dictionary -spell -japanese -chinese -korean
+inverts the sense of match. Supported fields to search in, search
+strategies and capabilities are determined by the backend specified
+in PKG_DIGGER_BACKEND environment variable.
 .SH OPTIONS
 .TP
 .B "-h"
-display help message
+Display help message.
 .TP
 .B "-s"
-display supported search strategies. A list of supported search strategies
-are detetermined by backend search program
-.br
-.RB ( pkg_digger_backend " by default)."
-In addition to full search strategy, short single-letter synonyms may be used,
-they are determined by
-.br
+Output supported search strategies.
+In addition to full search strategy, short single-letter
+synonyms may be used which are determined by
 .I pkg_digger_strat__<synonym>
-variable set in environment or in configuration file.
+configuration variables.
 .TP
 .B "-f"
-display supported fields to search in, for example PKGNAME, PKGPATH, COMMENT,
+Output supported fields to search in, for example PKGNAME, PKGPATH, COMMENT,
 DEPENDS etc.
-A list of supported fields
-are detetermined by backend search program
-.RB ( pkg_digger_backend " by default)."
-In addition to full fields, short single-letter synonyms may be used,
-they are determined by
-.br
+In addition to full field, short single-letter synonyms may be used
+which are determined by
 .I pkg_digger_field__<synonym>
-variable set in environment or in configuration file.
+configuration variables.
 .TP
 .B "-1"
-only PKGPATH, PKGNAME (if needed) and COMMENT are output (oneline format)
+Only PKGPATH, PKGNAME (if needed) and COMMENT are output (oneline format).
 .TP
 .B "-3"
-only basic fields are output, i.e. PKGNAME, PKGPATH, COMMENT, DESCRIPTION
+Only basic fields are output, i.e. PKGNAME, PKGPATH, COMMENT, DESCRIPTION
 and some others.
 .TP
 .B "-9"
-all fields present in input are output
+All available fields are output.
 .TP
 .B "-r"
-output raw summary,
-.I "-r"
-requires either
+Output raw summary, this option requires either
 .IR -3 " or " -9 .
 .TP
 .B "-q"
-quiet mode, do not print "No matches found" to stderr
-.BR pkg_digger .
+Quiet mode, do not print "No matches found" to stderr
 .SH ENVIRONMENT
 .TP
 .B PKG_DIGGER_BACKEND
 backend searcher. Possible values:
-.IR pkg_digger_backend " (the default), " pkg_online_client .
-.TP
-.B PKG_DIGGER_SUMMARY
-Path to package summary file. Actually this is
-.br
-.BR pkg_digger_backend "'s variable"
+.IR pkg_digger_summary " (the default), " pkg_online_client .
 .SH EXAMPLES
 .VB
   export PKG_DIGGER_SUMMARY=/usr/pkgsrc/packages/pkg_summary.txt
@@ -128,7 +111,7 @@ Path to package summary file. Actually this is
   pkg_digger FILE_SIZE:awk:'fvalue+0 > 100000000'
 
   export PKG_DIGGER_BACKEND=pkg_online_client
-  export PKG_ONLINE_SERVER=dictd.xdsl.by
+  export PKG_ONLINE_SERVER=dict.mova.org
   export PKG_ONLINE_PORT=26280
   pkg_digger -s
   pkg_digger -f
@@ -139,13 +122,13 @@ Path to package summary file. Actually this is
 .VE
 .SH FILES
 .TP
-.IR "~/.pkg_digger" ", " SYSCONFDIR/pkg_digger.conf
+.IR "~/.pkg_digger" ", " @SYSCONFDIR@/pkg_digger.conf
 configuration file
 .SH SEE ALSO
 .BR pkg_summary-utils(7) ,
 .BR pkg_summary(5) ,
 .BR pkg_grep_summary(1) ,
 .BR pkg_online_client(1) ,
-.B pkg_digger_backend(1)
+.B pkg_digger_summary(1)
 .SH AUTHOR
 Aleksey Cheusov <vle@gmx.net>
