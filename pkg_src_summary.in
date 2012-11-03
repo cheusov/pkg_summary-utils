@@ -127,12 +127,6 @@ else
     PSS_FIELDS='PKGNAME PKGPATH DEPENDS BUILD_DEPENDS CONFLICTS HOMEPAGE COMMENT ONLYFOR NOTFOR MAINTAINER CATEGORIES NO_BIN_ON_FTP NO_SRC_ON_FTP NO_BIN_ON_CDROM NO_SRC_ON_CDROM LICENSE DESCRIPTION PLIST' # CVS_CHECKSUM ALLDISTFILES
 fi
 
-if test -z "$PSS_PPERS"; then
-    PSS_PPERS=10
-fi
-
-PSS_PPERS=1 # until I really fix it.
-
 process_options (){
     alt_opts="$1"
     shift
@@ -318,7 +312,7 @@ installed_packages2stdout (){
     $PKG_INFO_CMD -Xa | sed -n 's,^PKGPATH=,,p'
 }
 
-packages2stdout__1per_line (){
+packages2stdout (){
     if test -n "$installed_pkgs"; then
 	installed_packages2stdout
     elif test $# -eq 0; then
@@ -330,22 +324,6 @@ packages2stdout__1per_line (){
 	    echo "$pkgpath"
 	done
     fi
-}
-
-packages2stdout (){
-    packages2stdout__1per_line "$@" |
-    awk -v pss_ppers=$PSS_PPERS '
-    {
-        printf " %s", $0
-    }
-    ((NR-1) % pss_ppers) == 0 {
-        printf "\n"
-    }
-    END {
-        if (((NR-1) % pss_ppers) != 0){
-            printf "\n"
-        }
-    }'
 }
 
 process_one_by_one (){
@@ -390,7 +368,6 @@ elif test "$slave"; then
     exit 0
 else
     cd $PKGSRCDIR
-    PSS_PPERS=1 # one package per line for local running
 
     runpipe0 \
 	packages2stdout $pkgpaths '|' \
