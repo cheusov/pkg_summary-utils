@@ -90,7 +90,7 @@ Quiet mode, do not print "No matches found" to stderr
 .TP
 .B PKG_DIGGER_BACKEND
 backend searcher. Possible values:
-.IR pkg_digger_summary " (the default), " pkg_online_client .
+.BR pkg_digger_summary " (the default), " pkg_digger_installed ", " pkg_online_client .
 .SH EXAMPLES
 .VB
   export PKG_DIGGER_SUMMARY=/usr/pkgsrc/packages/pkg_summary.txt
@@ -128,6 +128,7 @@ configuration file
 .BR pkg_summary-utils(7) ,
 .BR pkg_summary(5) ,
 .BR pkg_grep_summary(1) ,
+.BR pkg_grep_installed(1) ,
 .BR pkg_online_client(1) ,
 .B pkg_digger_summary(1)
 .SH AUTHOR

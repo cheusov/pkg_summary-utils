@@ -31,8 +31,8 @@ INSCRIPTS +=	pkg_uniq_summary pkg_summary2bb_pkgs
 INSCRIPTS +=	pkg_cleanup_distdir pkg_summary2build_graph
 INSCRIPTS +=	pkg_summary2deps pkg_lint_summary
 INSCRIPTS +=	pkg_subgraph_deps pkg_bin_summary
-INSCRIPTS +=	pkg_digger_summary pkg_digger pkg_summary2leaves
-INSCRIPTS +=	makefiles2deps
+INSCRIPTS +=	pkg_digger_summary pkg_digger_installed pkg_digger
+INSCRIPTS +=	makefiles2deps pkg_summary2leaves
 
 INSCRIPTS +=	${LIBEXECSCRIPTS}
 
@@ -54,8 +54,8 @@ MAN +=		pkg_uniq_summary.1 # pkg_summary2bb_pkgs.1
 MAN +=		pkg_cleanup_distdir.1 pkg_summary2build_graph.1
 MAN +=		pkg_summary2deps.1 pkg_lint_summary.1
 MAN +=		pkg_subgraph_deps.1 pkg_bin_summary.1
-MAN +=		pkg_digger.1 pkg_summary2leaves.1 pkg_digger_summary.1
-MAN +=		makefiles2deps.1
+MAN +=		pkg_digger_summary.1 pkg_digger_installed.1 pkg_digger.1
+MAN +=		makefiles2deps.1 pkg_summary2leaves.1
 
 FILES =		README NEWS TODO
 FILES +=	pkg_grep_summary.awk pkg_src_summary.mk psu_funcs.awk
