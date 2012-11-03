@@ -30,6 +30,8 @@ set -e
 
 export LC_ALL=C
 
+: ${PKG_DBDIR:=@PKG_DBDIR@}
+
 usage () {
     cat 1>&2 <<EOF
 pkg_digger_installed is a pkg summary searcher
@@ -64,7 +66,7 @@ check_summary (){
 update_summary (){
     check_summary
     if test -s "$PKG_DIGGER_SUMMARY" -a \
-	"$PKG_DIGGER_SUMMARY" -nt /var/db/pkg/pkgdb.byfile.db
+	"$PKG_DIGGER_SUMMARY" -nt "$PKG_DBDIR/pkgdb.byfile.db"
     then
 	return 0
     fi

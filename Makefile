@@ -8,10 +8,11 @@ MKSCRIPTSDIR ?=	${DATADIR}/psu_mk
 DISTDIR ?=	/usr/pkgsrc/distfiles
 PKGSRCDIR ?=	/usr/pkgsrc
 PKG_SUFX ?=	.tgz
+PKG_DBDIR ?=	/var/db/pkg
 
 SH ?=		/bin/sh
 AWK ?=		/usr/bin/awk
-PKG_INFO_CMD ?=	/usr/sbin/pkg_info -K /var/db/pkg
+PKG_INFO_CMD ?=	/usr/sbin/pkg_info -K ${PKG_DBDIR}
 
 # NetBSD make is required for pkgsrc
 BMAKE ?=	/usr/bin/make
@@ -85,6 +86,7 @@ INTEXTS_REPLS +=	DISTDIR      ${DISTDIR}
 INTEXTS_REPLS +=	PKGSRCDIR    ${PKGSRCDIR}
 INTEXTS_REPLS +=	BMAKE        ${BMAKE}
 INTEXTS_REPLS +=	PKG_SUFX     ${PKG_SUFX}
+INTEXTS_REPLS +=	PKG_DBDIR    ${PKG_DBDIR}
 
 INTEXTS_SED += -e 's,@PKG_INFO_CMD@,${PKG_INFO_CMD},'
 
