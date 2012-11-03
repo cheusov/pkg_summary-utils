@@ -1,4 +1,36 @@
 ----------------------------------------------------------------------
+Version 0.59.0, by Aleksey Cheusov, Sat,  3 Nov 2012 20:37:08 +0300
+
+  pkg_update_src_summary has been completely reimplemented and now
+  works dramatically faster if files under mk/ directory were not
+  changed since previous update.
+
+  pkg_src_summary:
+    - PLIST field gathering was significantly speeded-up
+    - Fix. Option -p works correctly with non-empty PSS_SLAVES
+    - Fix. If -A is applied, -m is always enabled for recursive runs.
+    - Minor fix for -m.
+    - New option -F was added
+    - Minor fixes for PLIST and ALLDISTFILES
+    - PSS_PPERS was completely removed
+
+  cvs_checksum:
+    - checksums of CVS files are output by default
+
+  pkg_digger:
+    - pkg_digger_backend has been renamed to pkg_digger_summary,
+      man page was added for pkg_digger_summary
+    - new search backend pkg_digger_installed
+
+  pkg_list_all_pkgs:
+    - new options -a and -d were added
+
+  New utility makefiles2deps was added.
+
+  A lot of new regression tests, updates for man pages, minor code
+  clean-ups
+
+----------------------------------------------------------------------
 Version 0.58.5, by Aleksey Cheusov, Fri, 12 Oct 2012 17:16:53 +0300
 
   pkg_summary2deps:
