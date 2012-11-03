@@ -2,6 +2,15 @@ grep_pss_stderr (){
     grep -E 'Bad package| ----------' "$@"
 }
 
+pkg_src_summary -fPKGNAME,PKGPATH,PLIST lang/erlang |
+cut -f1 -d= | sort -u |
+cmp 'pkg_src_summary #26' \
+'
+PKGNAME
+PKGPATH
+PLIST
+'
+
 pkg_src_summary -fPKGNAME,PKGPATH -F |
 sort |
 cmp 'pkg_src_summary #25.2' \

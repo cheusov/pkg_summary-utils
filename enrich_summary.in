@@ -98,7 +98,7 @@ NF == 0 {
 		for (i=1; i <= plist_cnt; ++i){
 			plist_fn = plist_arr_fn [i]
 			if (plist_fn !~ /^\//)
-				plist_fn = pkgsrcdir pkgpath "/" plist_fn
+				plist_fn = pkgsrcdir "/" pkgpath "/" plist_fn
 
 			while (0 < (ret = (getline < plist_fn))){
 				if ($0 !~ /@comment/)
