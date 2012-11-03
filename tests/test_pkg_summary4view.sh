@@ -2,7 +2,6 @@
 pkg_grep_summary -s PKGPATH 'wip/pkg_summary-utils' \
     < src_summary.txt |
 pkg_summary4view |
-normalize_version |
 cmp 'pkg_summary4view #1' \
 '-----------------------------------------------------------
 PKGNAME:        pkg_summary-utils-0.18.1
