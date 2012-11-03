@@ -189,7 +189,3 @@ if test -s "$updated_pkgs_fn"; then
 
     finish
 fi
-
-if test -z "$debug"; then
-    cat "$old_summary"
-fi

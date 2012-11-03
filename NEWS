@@ -1,5 +1,5 @@
 ----------------------------------------------------------------------
-Version 0.59.0, by Aleksey Cheusov, Sat,  3 Nov 2012 20:37:08 +0300
+Version 0.59.0, by Aleksey Cheusov, Sun,  4 Nov 2012 00:08:15 +0300
 
   pkg_update_src_summary has been completely reimplemented and now
   works dramatically faster if files under mk/ directory were not
