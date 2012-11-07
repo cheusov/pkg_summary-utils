@@ -128,7 +128,6 @@ if test $strats; then
     echo 'synonym | full name  | description'
     echo '--------------------------------------'
     runpipe0 $PKG_DIGGER_BACKEND -s '|' highligh_strat_def
-    exit 0
 fi
 
 ######################################################################
@@ -149,9 +148,15 @@ if test $fields; then
     echo 'synonym | full name'
     echo '--------------------------'
     runpipe0 $PKG_DIGGER_BACKEND -f '|' highligh_field_def
+fi
+
+######################################################################
+# -f|-s
+if test -n "$fields$strats"; then
     exit 0
 fi
 
+######################################################################
 #
 if test $# -eq 0; then
     usage
