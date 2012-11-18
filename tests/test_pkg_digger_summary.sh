@@ -111,14 +111,19 @@ cmp 'pkg_digger_summary fsq #4.2' \
 '5
 '
 
-pkg_digger_summary 'UNKNOWN:exact:badstring' 2>&1 |
+if pkg_digger_summary -q 'UNKNOWN:exact:badstring' 2>&1; then
+    echo bug
+else
+    echo OK
+fi |
 cmp 'pkg_digger_summary fsq #5.1' \
-'No matches found
+'OK
 '
 
-pkg_digger_summary -q 'UNKNOWN:exact:badstring' 2>&1 |
+pkg_digger_summary 'UNKNOWN:exact:badstring' 2>&1 |
 cmp 'pkg_digger_summary fsq #5.2' \
-''
+'No matches found
+'
 
 pkg_digger_summary -f |
 cmp 'pkg_digger_summary -f #6' \
@@ -160,4 +165,14 @@ PKGPAIR
 PKGPANA
 PKGPATH
 PKGPATHe
+'
+
+unset PKG_DIGGER_SUMMARY
+if pkg_digger_summary -f 2>/dev/null; then
+    echo bug
+else
+    echo OK
+fi |
+cmp 'pkg_digger_summary failure #999.1'  \
+'OK
 '
