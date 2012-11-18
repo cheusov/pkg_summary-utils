@@ -24,39 +24,44 @@ pkg_digger_summary \- pkg_digger backend for search in pkg_summary(5)
 .br
 .BI pkg_digger_summary " -s"
 .br
-.BI pkg_digger_summary " [-n limit] fsq1 [fsq2 ...]"
+.BI pkg_digger_summary " [-n limit] f:s:q1 [f:s:q2...]"
 .br
-.BI pkg_digger_summary " [-1|-3-9|-i] [-r] [-q] pkgpair1 [pkgpair2 ...]"
+.BI pkg_digger_summary " -1|-3-9|-i [-r] [-q] pkgpair1 [pkgpair2 ...]"
 .SH DESCRIPTION
 .B pkg_digger_summary
 is a backend for
 .B pkg_digger(1)
-for search in 
+searching in
 .B pkg_summary(5)
 file specified in PKG_DIGGER_SUMMARY environment variable.
 .I pkgpair
 has
-.I PKGPATH,PKGBASE format. If it is specified,
+.I PKGPATH,PKGBASE
+format. If it is specified,
 summary for the specified package is output.
-.I fsq
-has
-.I field:strategy:query
-format. If it is specified found pkgpairs are outputs.
+.I f:s:q
+means
+.I field
+to search in, search
+.I strategy
+and
+.I query
+separated by colon, for example
+.IR PKGBASE:prefix:dict .
+If it is specified, found pkgpairs are outputs, one per line.
 .SH OPTIONS
 .TP
 .B "-h"
 Display help message.
 .TP
 .B "-s"
-Output supported search strategies, for example,
-.IR exact ", " suffix ", " prefix ", " substring
-and others. Supported search strategies are documented in 
+Output supported search strategies.
+Supported search strategies are documented in 
 .BR pkg_grep_summary .
 .TP
 .B "-f"
 Output supported fields to search in, for example,
-.IR PKGPATH ", " PKGBASE ", " COMMENT ", " DESCRIPTION
-and others.
+.IR PKGPATH ", " PKGBASE ", " COMMENT ", " DESCRIPTION .
 .TP
 .B "-1"
 Only PKGPATH, PKGNAME (if needed) and COMMENT are output (oneline format).
@@ -65,8 +70,8 @@ Only PKGPATH, PKGNAME (if needed) and COMMENT are output (oneline format).
 Only basic fields are output, i.e. PKGNAME, PKGPATH, COMMENT, DESCRIPTION
 and some others.
 .TP
-.B "-9"
-All available fields are output.
+.B "-9|-i"
+Full summaries are output.
 .TP
 .B "-r"
 Output raw summary, this option requires either
@@ -74,6 +79,55 @@ Output raw summary, this option requires either
 .TP
 .B "-q"
 Quiet mode, do not print "No matches found" to stderr
+.SH EXAMPLES
+.VB
+$ export PKG_DIGGER_SUMMARY=/usr/pkgsrc/pkg_src_summary.txt
+$ pkg_digger_summary PKGBASE:exact:digest
+pkgtools/digest,digest
+$ pkg_digger_summary -1 pkgtools/digest,digest
+pkgtools/digest           - Message digest wrapper utility
+$ pkg_digger_summary -3r pkgtools/digest,digest
+PKGNAME=digest-20111104
+PKGPATH=pkgtools/digest
+HOMEPAGE=http://www.NetBSD.org/docs/software/packages.html
+COMMENT=Message digest wrapper utility
+MAINTAINER=agc@NetBSD.org
+CATEGORIES=pkgtools
+DESCRIPTION=This utility is a wrapper for the
+DESCRIPTION=
+DESCRIPTION=    + md5(3),
+DESCRIPTION=    + rmd160(3),
+DESCRIPTION=    + sha1(3),
+DESCRIPTION=    + sha256,
+DESCRIPTION=    + sha384
+DESCRIPTION=    + sha512
+DESCRIPTION=    + tiger
+DESCRIPTION=    + whirlpool
+DESCRIPTION=
+DESCRIPTION=message digest routines.
+
+$ pkg_digger_summary COMMENT:word:'dns proxy' COMMENT:word:'dns server'
+net/totd,totd
+wip/dnrd,dnrd
+net/mydns-mysql,mydns-mysql
+net/rootprobe,rootprobe
+net/knot,knot
+net/maradns,maradns
+net/nsd,nsd
+net/mydns-pgsql,mydns-pgsql
+wip/py-oak,py27-oak
+wip/py-oak,py26-oak
+$ pkg_digger_summary -n5 PKGPATH:substring:dict
+textproc/diction,diction
+textproc/dict-mueller7,dict-mueller7
+wip/aspell-dictionaries,aspell-dictionaries
+wip/dict-freedict-eng-ara,dict-freedict-eng-ara
+misc/JMdict,JMdict
+$ pkg_digger_summary PLIST:exact:bin/blockdiag
+graphics/py-blockdiag,py27-blockdiag
+graphics/py-blockdiag,py26-blockdiag
+$
+.VE
 .SH ENVIRONMENT
 .TP
 .B PKG_DIGGER_SUMMARY
