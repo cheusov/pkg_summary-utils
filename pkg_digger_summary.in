@@ -179,7 +179,7 @@ case "$stype" in
 		-t "$strat" "$field" "$query" < "$PKG_DIGGER_SUMMARY" > "$tmp_dir/$cnt" &
 	    cnt=$(($cnt+1))
 	done
-	wait 
+	wait
 	runawk -v quiet_mode="$quiet_mode" -v limit="$limit" \
 	    -e '
 	/^PKGPATH=/ {
@@ -198,10 +198,11 @@ case "$stype" in
 		next
 	    hash [pkgpair] = 1
 	    print pkgpair
-	    found = 1
+	    if (++matches == limit)
+		exit 0
 	}
 	END {
-	    if (!found){
+	    if (!matches){
 		if (!quiet_mode)
 		    print "No matches found" > "/dev/stderr"
 		exit 20
