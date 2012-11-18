@@ -1,6 +1,6 @@
 .\"	$NetBSD$
 .\"
-.\" Copyright (c) 2010 by Aleksey Cheusov (vle@gmx.net)
+.\" Copyright (c) 2010-2012 by Aleksey Cheusov (vle@gmx.net)
 .\" Absolutely no warranty.
 .\"
 .\" ------------------------------------------------------------------
@@ -14,7 +14,7 @@
 .fi
 ..
 .\" ------------------------------------------------------------------
-.TH PKG_DIGGER 1 "Nov 22, 2010" "" ""
+.TH PKG_DIGGER 1 "Nov 18, 2012" "" ""
 .SH NAME
 pkg_digger \- package searcher for pkgsrc
 .SH SYNOPSIS
@@ -27,9 +27,7 @@ pkg_digger \- package searcher for pkgsrc
 .BI pkg_digger " [-1|-3-9|-i] [-r] [-q] query1 [query2 ...]"
 .SH DESCRIPTION
 .B pkg_digger
-is a package searcher for pkgsrc. Unlike other searchers
-it scans (by default) prebuilt package summary file, not the pkgsrc tree
-thus working much faster.
+is a package search frontend for pkgsrc.
 .I Query
 is either
 .IR field ":" strategy ":" "text"
@@ -47,8 +45,8 @@ If neither field nor strategy are specified, those listed
 in PKG_DIGGER_FALLBACK_RULES configuration variable are used.
 Optional leading
 .IR - " (minus) or " ! " (exclamation mark)"
-inverts the sense of match. Supported fields to search in, search
-strategies and capabilities are determined by the backend specified
+inverts the sense of match. Supported fields to search in and search
+strategies are determined by the backend specified
 in PKG_DIGGER_BACKEND environment variable.
 .SH OPTIONS
 .TP
@@ -78,7 +76,7 @@ Only basic fields are output, i.e. PKGNAME, PKGPATH, COMMENT, DESCRIPTION
 and some others.
 .TP
 .B "-9"
-All available fields are output.
+Full summaries are output.
 .TP
 .B "-r"
 Output raw summary, this option requires either
@@ -91,45 +89,227 @@ Quiet mode, do not print "No matches found" to stderr
 .B PKG_DIGGER_BACKEND
 backend searcher. Possible values:
 .BR pkg_digger_summary " (the default), " pkg_digger_installed ", " pkg_online_client .
-.SH EXAMPLES
+.SH "EXAMPLES (search in summary file)"
 .VB
-  export PKG_DIGGER_SUMMARY=/usr/pkgsrc/packages/pkg_summary.txt
-  pkg_digger -h
-  pkg_digger -s
-  pkg_digger -f
-  pkg_digger DEPENDS:substring:libmaa
-  pkg_digger PKGNAME:prefix:dict
-  pkg_digger COMMENT:word:dns PKGPATH:prefix:net
-  pkg_digger c:kw:'dns server'
-  pkg_digger n:p:lua
-  pkg_digger ::emacs
-  pkg_digger -9 lang/mawk
-  pkg_digger oberon
-  pkg_digger dns server
-  pkg_digger -3 dictionary -spell -japanese -chinese -korean
-  pkg_digger -q9r spreadsheet
-  pkg_digger FILE_SIZE:awk:'fvalue+0 > 100000000'
+$ export PKG_DIGGER_SUMMARY=/usr/pkgsrc/packages/pkg_summary.txt
+$ pkg_digger -h
+ ...
+$ pkg_digger -f
+synonym | full name
+--------------------------
+      C   CATEGORIES
+      c   COMMENT
+      d   DESCRIPTION
+      m   MAINTAINER
+  empty   PKGBASE
+      n   PKGNAME
+      p   PKGPATH
+      f   PLIST
+ ...
+$ pkg_digger -s
+synonym | full name  | description
+--------------------------------------
+  empty        exact   Match exactly
+      p       prefix   Match prefixes
+      u       suffix   Match suffixes
+      s    substring   Match substring
+      w         word   Match separate words
+      f        first   Match the first word
+      l         last   Match the last word
+      r           re   POSIX 1003.2 (modern) regular expressions
+ ...
+$ pkg_digger DEPENDS:substring:libmaa
+parallel/paexec           - Distributes tasks over network or CPUs
+textproc/dict-server      - Dictionary Service Protocol server
+textproc/dict-client      - Dictionary Service Protocol client
+$ pkg_digger PKGNAME:prefix:dict
+textproc/diction          - GNU version of diction and style
+textproc/dict-mueller7    - English-Russian dictionary by Mueller for dictd
+ ...
+$ pkg_digger COMMENT:word:dns PKGPATH:prefix:net
+net/ddclient              - Client to update dynamic DNS entries
+net/djbdns                - Collection of secure and reliable DNS tools
+net/mydns-mysql           - MySQL-based DNS server
+net/dnscap                - Network capture utility designed specifically for DNS traffic
+net/rootprobe             - Root DNS server performance analysis
+ ...
+$ pkg_digger C:re:'dns (server|proxy)' p:p:net
+net/mydns-mysql           - MySQL-based DNS server
+net/rootprobe             - Root DNS server performance analysis
+net/knot                  - Knot (auth) DNS server
+net/dhisd                 - DynDNS server
+net/totd                  - DNS proxy that supports IPv6 <==> IPv4 record translation
+net/maradns               - Secure DNS server for *NIX systems
+net/nsd                   - Authoritative-only DNS server
+net/mydns-pgsql           - PostgreSQL-based DNS server
+net/fpdns                 - Fingerprinting DNS servers
+$ pkg_digger ::emacs
+editors/emacs20(emacs)    - GNU editing macros (editor)
+editors/emacs21(emacs)    - GNU editing macros (editor)
+wip/emacs-current(emacs)  - GNU editing macros (editor)
+editors/emacs22(emacs)    - GNU editing macros (editor)
+editors/emacs24(emacs)    - GNU editing macros (editor)
+editors/emacs             - GNU editing macros (editor)
+editors/emacs-snapshot(emacs) - GNU editing macros (development version)
+wip/emacs-rc(emacs)       - GNU editing macros (editor)
+$ pkg_digger -9 lang/mawk
+-----------------------------------------------------------
+PKGNAME:        mawk-1.3.4.20100625
+PKGPATH:        lang/mawk
+BUILD_DEPENDS:  checkperms>=1.1:../../sysutils/checkperms
+ ...
+PLIST:
+    bin/mawk
+    man/man1/mawk.1
 
-  export PKG_DIGGER_BACKEND=pkg_online_client
-  export PKG_ONLINE_SERVER=dict.mova.org
-  export PKG_ONLINE_PORT=26280
-  pkg_digger -s
-  pkg_digger -f
-  pkg_digger -9 mawk -p:p:wip/
-  pkg_digger m:p:joerg
-  pkg_digger bulk build
-  pkg_digger dictionary -spell -japanese -chinese -korean
+$ pkg_digger oberon
+lang/oo2c                 - Optimizing Oberon-2 Compiler
+$ pkg_digger dns server
+net/mydns-mysql           - MySQL-based DNS server
+net/rootprobe             - Root DNS server performance analysis
+net/knot                  - Knot (auth) DNS server
+net/dhisd                 - DynDNS server
+ ...
+$ pkg_digger -1 dictionary -spell -japanese -chinese -korean
+inputmethod/multiskkserv  - Simple skk multi-dictionary server
+inputmethod/skk-jisyo     - Dictionary collection for SKK
+wip/ding                  - Ding is a Dictionary lookup program for the X window system
+textproc/dict-mueller7    - English-Russian dictionary by Mueller for dictd
+ ...
+$
+.VE
+.SH "EXAMPLES (search in pkg_online database)"
+.VB
+$ export PKG_DIGGER_BACKEND=pkg_online_client
+$ export PKG_ONLINE_SERVER=dict.mova.org
+$ export PKG_ONLINE_PORT=26280
+$ pkg_digger -s
+synonym | full name  | description
+--------------------------------------
+  empty        exact   Match headwords exactly
+      p       prefix   Match prefixes
+             nprefix   Match prefixes (skip, count)
+      s    substring   Match substring occurring anywhere in a headword
+      u       suffix   Match suffixes
+      r           re   POSIX 1003.2 (modern) regular expressions
+              regexp   Old (basic) regular expressions
+      x      soundex   Match using SOUNDEX algorithm
+      v          lev   Match headwords within Levenshtein distance one
+      w         word   Match separate words within headwords
+      f        first   Match the first word within headwords
+      l         last   Match the last word within headwords
+$ pkg_digger -f
+synonym | full name
+--------------------------
+      p   PKGPATH
+      n   PKGNAME
+  empty   PKGBASE
+          DEPENDS
+          BUILD_DEPENDS
+          CONFLICTS
+          HOMEPAGE
+      c   COMMENT
+          LICENSE
+          ONLYFOR
+          NOTFOR
+      m   MAINTAINER
+      C   CATEGORIES
+      f   PLIST
+      d   DESCRIPTION
+$ pkg_digger -9 mawk -p:p:wip/
+-----------------------------------------------------------
+PKGNAME:        mawk-1.3.4.20100625
+PKGPATH:        lang/mawk
+BUILD_DEPENDS:  checkperms>=1.1:../../sysutils/checkperms
+                gcc>=2.8.0:../../lang/gcc
+                gcc>=2.95.3nb7:../../lang/gcc
+HOMEPAGE:       http://www.invisible-island.net/mawk/
+COMMENT:        AWK clone by Mike Brennan
+MAINTAINER:     cheusov@NetBSD.org
+CATEGORIES:     lang
+LICENSE:        gnu-gpl-v2
+DESCRIPTION:
+    Mike Brennan's awk clone.
+    It's fast (faster than gawk), and relatively small.
+PLIST:
+    bin/mawk
+    man/man1/mawk.1
+
+$ pkg_digger m:p:joerg
+archivers/bsdtar          -   Fast multi-format tape archiver
+archivers/bzip2           -   Block-sorting file compressor
+archivers/libarchive      -   Library to read/create different archive formats
+archivers/pax             -   POSIX standard archiver with many extensions
+databases/pgadmin3        -   Graphical PostgreSQL client and administration tool
+ ...
+$ pkg_digger bulk build
+pkgtools/distbb           -   DISTributed Bulk Build tool for pkgsrc
+pkgtools/pbulk            -   Modular bulk build framework
+pkgtools/pbulk-base       -   Core components of the modular bulk build framework
+wip/distbb-current(distbb) -   DISTributed Bulk Build tool for pkgsrc
+$ pkg_digger dictionary -spell -japanese -chinese -korean
+audio/festlex-cmu         -   CMU American English pronunciation dictionary for Festival
+audio/festlex-oald        -   Oxford Advanced Learner's pronunciation dictionary for Festival
+audio/festlex-ogi         -   Composite pronunciation dictionary from ogi.edu for festival
+inputmethod/dbskkd-cdb    -   SKK dictionary server based on cdb
+inputmethod/kasumi        -   Dictionary management tool for anthy
+inputmethod/multiskkserv  -   Simple skk multi-dictionary server
+inputmethod/skk-jisyo     -   Dictionary collection for SKK
+inputmethod/skk-jisyo-cdb -   Dictionary collection for SKK
+ ...
+$
+.VE
+.SH "EXAMPLES (search in installed packages)"
+.VB
+# export PKG_DIGGER_SUMMARY=/var/tmp/pkg_installed.txt
+# export PKG_DIGGER_BACKEND=pkg_digger_installed
+# pkg_digger SIZE_PKG:awk:'fvalue+0 > 100000000'
+fonts/intlfonts           - Free X11 fonts (BDF format) for all characters
+                            that Emacs can handle
+www/webkit-gtk            - GTK2 port of the WebKit browser engine
+lang/gcc46                - GNU Compiler Collection 4.6
+lang/gcc44                - GNU Compiler Collection 4.4
+lang/clang                - Low Level Virtual Machine compiler infrastructure
+emulators/suse100_32_locale(suse32_locale) - Linux 32-bit compatibility
+                            package with locale files
+x11/qt4-libs              - C++ X GUI toolkit
+lang/gcc34                - This is the gcc 3.4 compiler
+lang/openjdk7             - Open-source implementation of the Java Platform,
+                            Standard Edition
+print/acroread9           - View, distribute and print PDF documents
+devel/scmgit-base         - GIT Tree History Storage Tool (base package)
+lang/ocaml                - The latest implementation of the Caml dialect of ML
+# pkg_digger -3 www/webkit-gtk
+-----------------------------------------------------------
+PKGNAME:        webkit-gtk-1.8.3nb2
+COMMENT:        GTK2 port of the WebKit browser engine
+CATEGORIES:     www
+HOMEPAGE:       http://www.webkitgtk.org/
+PKGPATH:        www/webkit-gtk
+DESCRIPTION:
+    WebKit is an open source web browser engine. WebKit is also the name of
+    the Mac OS X system framework version of the engine that's used by
+    Safari, Dashboard, Mail, and many other OS X applications. WebKit's HTML
+    and JavaScript code began as a branch of the KHTML and KJS libraries
+    from KDE.
+    This is the GTK2+ port of the engine.
+    Homepage:
+    http://www.webkitgtk.org/
+
+# pkg_digger DEPENDS:s:webkit-gtk
+www/midori                - Lightweight web browser using WebKit
+#
 .VE
 .SH FILES
 .TP
 .IR "~/.pkg_digger" ", " @SYSCONFDIR@/pkg_digger.conf
 configuration file
 .SH SEE ALSO
+.BR pkg_digger_summary(1) ,
+.BR pkg_digger_installed(1) ,
+.BR pkg_online_client(1) ,
 .BR pkg_summary-utils(7) ,
 .BR pkg_summary(5) ,
-.BR pkg_grep_summary(1) ,
-.BR pkg_grep_installed(1) ,
-.BR pkg_online_client(1) ,
-.B pkg_digger_summary(1)
+.B pkg_grep_summary(1)
 .SH AUTHOR
 Aleksey Cheusov <vle@gmx.net>

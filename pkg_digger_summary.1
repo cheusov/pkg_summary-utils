@@ -14,7 +14,7 @@
 .fi
 ..
 .\" ------------------------------------------------------------------
-.TH PKG_DIGGER_SUMMARY 1 "Nov 3, 2012" "" ""
+.TH PKG_DIGGER_SUMMARY 1 "Nov 18, 2012" "" ""
 .SH NAME
 pkg_digger_summary \- pkg_digger backend for search in pkg_summary(5)
 .SH SYNOPSIS
@@ -79,6 +79,9 @@ Output raw summary, this option requires either
 .TP
 .B "-q"
 Quiet mode, do not print "No matches found" to stderr
+.TP
+.BI "-n " limit
+Maximum number of returned matches.
 .SH EXAMPLES
 .VB
 $ export PKG_DIGGER_SUMMARY=/usr/pkgsrc/pkg_src_summary.txt

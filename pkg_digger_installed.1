@@ -14,7 +14,7 @@
 .fi
 ..
 .\" ------------------------------------------------------------------
-.TH PKG_DIGGER_INSTALLED 1 "Nov 3, 2012" "" ""
+.TH PKG_DIGGER_INSTALLED 1 "Nov 18, 2012" "" ""
 .SH NAME
 pkg_digger_installed \- pkg_digger backend for search in installed packages
 .SH SYNOPSIS
@@ -24,14 +24,14 @@ pkg_digger_installed \- pkg_digger backend for search in installed packages
 .br
 .BI pkg_digger_installed " -s"
 .br
-.BI pkg_digger_installed " [-n limit] fsq1 [fsq2 ...]"
+.BI pkg_digger_installed " [-n limit] f:s:q1 [f:s:q2 ...]"
 .br
-.BI pkg_digger_installed " [-1|-3-9|-i] [-r] [-q] pkgpair1 [pkgpair2 ...]"
+.BI pkg_digger_installed " -1|-3-9|-i [-r] [-q] pkgpair1 [pkgpair2 ...]"
 .SH DESCRIPTION
 .B pkg_digger_installed
 is a backend for
 .B pkg_digger(1)
-for search in installed packages. First, summary file specified by
+searchin in installed packages. First, summary file specified by
 PKG_DIGGER_SUMMARY environment variable is created or updated if necessary,
 and then the search is performed.
 .I pkgpair
@@ -39,10 +39,9 @@ has
 .I PKGPATH,PKGBASE
 format. If it is specified,
 summary for the specified package is output.
-.I fsq
-has
-.I field:strategy:query
-format. If it is specified found pkgpairs are outputs.
+.I f:s:q
+is a field to search in, search strategy and query.
+If it is specified, found pkgpairs are outputs.
 .SH OPTIONS
 .TP
 .B "-h"
@@ -66,7 +65,7 @@ Only PKGPATH, PKGNAME (if needed) and COMMENT are output (oneline format).
 Only basic fields are output, i.e. PKGNAME, PKGPATH, COMMENT, DESCRIPTION
 and some others.
 .TP
-.B "-9"
+.B "-9|-i"
 All available fields are output.
 .TP
 .B "-r"
@@ -75,10 +74,50 @@ Output raw summary, this option requires either
 .TP
 .B "-q"
 Quiet mode, do not print "No matches found" to stderr
+.TP
+.BI "-n " limit
+Maximum number of returned matches.
 .SH ENVIRONMENT
 .TP
 .B PKG_DIGGER_SUMMARY
 Summary file to work with.
+.SH EXAMPLES
+.VB
+# export PKG_DIGGER_SUMMARY=/var/tmp/pkg_installed.txt
+# pkg_digger_installed SIZE_PKG:awk:'fvalue+0 > 100000000'
+fonts/intlfonts,intlfonts
+www/webkit-gtk,webkit-gtk
+lang/gcc46,gcc46
+lang/gcc44,gcc44
+lang/clang,clang
+emulators/suse100_32_locale,suse32_locale
+x11/qt4-libs,qt4-libs
+lang/gcc34,gcc34
+lang/openjdk7,openjdk7
+print/acroread9,acroread9
+devel/scmgit-base,scmgit-base
+lang/ocaml,ocaml
+# pkg_digger_installed -3 www/webkit-gtk,webkit-gtk
+-----------------------------------------------------------
+PKGNAME:        webkit-gtk-1.8.3nb2
+COMMENT:        GTK2 port of the WebKit browser engine
+CATEGORIES:     www
+HOMEPAGE:       http://www.webkitgtk.org/
+PKGPATH:        www/webkit-gtk
+DESCRIPTION:
+    WebKit is an open source web browser engine. WebKit is also the name of
+    the Mac OS X system framework version of the engine that's used by
+    Safari, Dashboard, Mail, and many other OS X applications. WebKit's HTML
+    and JavaScript code began as a branch of the KHTML and KJS libraries
+    from KDE.
+    This is the GTK2+ port of the engine.
+    Homepage:
+    http://www.webkitgtk.org/
+
+# pkg_digger_installed DEPENDS:substring:webkit-gtk
+www/midori,midori
+#
+.VE
 .SH SEE ALSO
 .BR pkg_summary-utils(7) ,
 .BR pkg_summary(5) ,
