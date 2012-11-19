@@ -1,5 +1,13 @@
 TODO list and thoughts
 
+pkg_src_summary:
+ - replace -D with "deps" for building|deps for buildiing recursively
+pkg_lint_summary -f:
+ - one conflict file is enough per conflicting pair
+
+pkg_subgraph_deps:
+ - option for -r + BUILD_DEPENDS for top level and then DEPENDS only
+
 pkg_summary2leaves:
   -n -- print PKGNAME
   -r -- print version
