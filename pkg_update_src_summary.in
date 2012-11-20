@@ -88,6 +88,8 @@ if test -z "$datadir"; then
     exit 1
 fi
 
+export PSS_OPTIONS
+
 ############################################################
 cd "$PKGSRCDIR"
 
@@ -159,10 +161,6 @@ cksums_diff_fn="$datadir/tmp/cksum_diff"
 makefiles_updated_fn="$datadir/tmp/makefiles_updated"
 updated_pkgs_fn="$datadir/tmp/pkgs_updated"
 
-run_pkg_src_summary (){
-    pkg_src_summary $PSS_OPTIONS "$@"
-}
-
 if ! test -f "$old_summary"; then
     printf '' > "$old_summary"
     printf '' > "$old_cksums_fn"
@@ -205,7 +203,7 @@ if test -s "$updated_pkgs_fn"; then
 	< "$new_summary" > "$new_summary.tmp"
     mv "$new_summary.tmp" "$new_summary"
 
-    run_pkg_src_summary < "$updated_pkgs_fn" > "$new_summaries_fn"
+    pkg_src_summary < "$updated_pkgs_fn" > "$new_summaries_fn"
     pkg_summary2bb_pkgs "$new_summaries_fn" > "$new_summaries_fn".tmp
     cat "$new_summaries_fn".tmp >> "$new_summary"
 fi
