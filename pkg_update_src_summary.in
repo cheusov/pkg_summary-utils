@@ -181,11 +181,15 @@ pkg_grep_summary -t strfile PKGPATH "$new_pkgs_fn" \
     < "$old_summary" > "$new_summary"
 
 if test -s "$updated_pkgs_fn"; then
+    new_summaries_fn=$datadir/tmp/_new_pkgs
+
     pkg_grep_summary -v -t strfile PKGPATH "$updated_pkgs_fn" \
 	< "$new_summary" > "$new_summary.tmp"
     mv "$new_summary.tmp" "$new_summary"
 
-    run_pkg_src_summary < "$updated_pkgs_fn" >> "$new_summary"
+    run_pkg_src_summary < "$updated_pkgs_fn" > "$new_summaries_fn"
+    pkg_summary2bb_pkgs "$new_summaries_fn" > "$new_summaries_fn".tmp
+    cat "$new_summaries_fn".tmp >> "$new_summary"
 fi
 
 finish
