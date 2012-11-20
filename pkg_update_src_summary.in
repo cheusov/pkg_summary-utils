@@ -43,6 +43,12 @@ set -e
 ############################################################
 : ${LIBEXECDIR:=@libexecdir@}
 
+vecho (){
+    if test -n "$verbose"; then
+	printf "$1" 1>&2
+    fi
+}
+
 usage (){
     cat 1>&2 <<EOF
 pkg_update_src_summary - incrementally updates
@@ -58,18 +64,20 @@ OPTIONS:
   -d <datadir>      directory where important files are stored,
                     this option is mandatory
   -G                for debugging
+  -v                verbose output
 EOF
 }
 
 pkgs_fn=''
 
-while getopts hf:i:d:G f; do
+while getopts hf:i:d:Gv f; do
     case "$f" in
 	h)  usage; exit 0;;
 	f)  pkgs_fn="$OPTARG";;
 	i)  PSS_OPTIONS="$PSS_OPTIONS -f $OPTARG";;
 	d)  datadir="$OPTARG";;
 	G)  debug=1;;
+	v)  verbose=1;;
 	?)  printf "Run pkg_update_src_summary -h for details\n"; exit 2;;
     esac
 done
@@ -110,15 +118,18 @@ finish (){
 }
 
 ############################################################
-# package list
+#### Package list
 if test -n "$pkgs_fn"; then
     awk '{sub(/#.*/, "")} NF > 0 {print $1}' "$pkgs_fn" > "$new_pkgs_fn"
 else
+    vecho 'Gathering list of packages...\n'
     pkg_list_all_pkgs > "$new_pkgs_fn"
 fi
 
 ############################################################
-# Makefile dependencies and checksums
+#### Makefiles
+vecho 'Analysing Makefiles...\n'
+
 makefiles_fn="$datadir/tmp/makefiles"
 makefiles_deps_fn="$datadir/tmp/makefiles_deps"
 makefiles_useful_fn="$datadir/tmp/makefiles_useful"
@@ -131,37 +142,36 @@ makefiles2deps "$makefiles_fn" > "$makefiles_deps_fn"
 awk '{h [$1]=0} NF>1 {h [$2]=0} END {for (m in h) print m}' \
     "$makefiles_deps_fn" > "$makefiles_useful_fn"
 
-runpipe0 \
-    xargs cksum < "$makefiles_useful_fn" '|' \
-    awk '{print $3, $1, $2}' '|' \
-    sort > "$new_cksums_fn" 
-
 ############################################################
-#### updated packages
+#### cksums
+vecho 'Analysing checksums...\n'
+
+if test -s "$makefiles_useful_fn"; then
+    runpipe0 \
+	xargs cksum < "$makefiles_useful_fn" '|' \
+	awk '{print $3, $1, $2}' '|' \
+	sort
+else
+    printf ''
+fi > "$new_cksums_fn"
+
 cksums_diff_fn="$datadir/tmp/cksum_diff"
 makefiles_updated_fn="$datadir/tmp/makefiles_updated"
 updated_pkgs_fn="$datadir/tmp/pkgs_updated"
-makefiles_useful_changed_fn="$datadir/tmp/makefiles_useful_changed"
 
 run_pkg_src_summary (){
     pkg_src_summary $PSS_OPTIONS "$@"
 }
 
 if ! test -f "$old_summary"; then
-    run_pkg_src_summary < "$new_pkgs_fn" > "$new_summary"
-    finish
-    exit 0
+    printf '' > "$old_summary"
+    printf '' > "$old_cksums_fn"
 fi
 
 comm -13 "$old_cksums_fn" "$new_cksums_fn" | \
     awk '{print $1}' > "$cksums_diff_fn"
 
-#fields_re=`pkg_src_summary -F | awk '{re = re "|" $0} END {print "(" substr(re, 2) ")"}'`
-#xargs grep -lE "^[[:space:]]*${fields_re}[[:space:]]*[?!+]=" \
-#    < "$cksums_diff_fn" > "$makefiles_useful_changed_fn" || true
-cp "$cksums_diff_fn" "$makefiles_useful_changed_fn"
-
-pkg_subgraph_deps -f "$makefiles_useful_changed_fn" "$makefiles_deps_fn" \
+pkg_subgraph_deps -f "$cksums_diff_fn" "$makefiles_deps_fn" \
     > "$makefiles_updated_fn"
 
 awk -v dir="$PKGSRCDIR" '
@@ -171,6 +181,14 @@ awk -v dir="$PKGSRCDIR" '
     }
     END { for (p in pkgs) print p }' \
     "$makefiles_updated_fn" > "$updated_pkgs_fn"
+
+############################################################
+#### updated packages
+vecho 'Gathering summaries for '
+if test -n "$verbose"; then
+    wc -l "$updated_pkgs_fn" | awk '{printf "%s", $1}'
+fi
+vecho ' package(s)\n'
 
 if test -n "$debug"; then
     echo '==== update pkgs: ====' 1>&2
