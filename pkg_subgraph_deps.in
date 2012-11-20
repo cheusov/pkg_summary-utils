@@ -129,9 +129,6 @@ NF == 2 {
 }
 
 function rec (pkg,                    i,to){
-	if (pkg in result)
-		return
-
 	if (! (pkg in count))
 		return
 
