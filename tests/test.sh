@@ -96,6 +96,7 @@ pkg_digger_installed
 pkg_digger
 pkg_micro_src_summary
 summary2multi_variants
+pkg_summary2bb_pkgs
 pkg_src_summary
 '
 

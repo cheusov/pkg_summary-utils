@@ -59,6 +59,11 @@ BEGIN {
 		exitnow(0)
 	}
 
+	if (ARGC ==1 && ARGV [1] == "-"){
+		print "At least one file is expected as an argument" > "/dev/stderr"
+		exitnow(1)
+	}
+
 	# find problematic packages
 	for (i=1; i < ARGC; ++i){
 		if (ARGV [i] == "") continue
