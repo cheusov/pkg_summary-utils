@@ -39,9 +39,9 @@ pkg_digger_installed is a pkg summary searcher
 usage: pkg_digger_installed -h
        pkg_digger_installed -f
        pkg_digger_installed -s
-       pkg_digger_installed [-n] fsq1 [fsq2 ...]
-       pkg_digger_installed -1|-3|-9|-i [-r] [-q] pkgpair1 [pkgpair2...]
-where pkgpair is <PKGPATH>,<PKGNAME>
+       pkg_digger_installed [-n limit] fsq1 [fsq2 ...]
+       pkg_digger_installed -1|-3|-9|-i [-q] pkgid1 [pkgid2...]
+where pkgid is <PKGPATH>,<PKGNAME>
 and fsq is <field>:<strategy>:<query>
 OPTIONS:
    -h         display this screen
@@ -50,7 +50,6 @@ OPTIONS:
    -1         display 1-line information about packages
    -3         display short information about packages
    -9|-i      display full information about packages
-   -r         raw output in pkg_summary(5) format
    -q         quiet mode, do not print "No matches found" to stderr
    -n <limit>    maximum number of results
 EOF
@@ -78,11 +77,11 @@ if test $# -eq 0; then
     exit 2
 fi
 
-while getopts hsf139irqn: f; do
+while getopts hsf139iqn: f; do
     case "$f" in
 	h)              usage; exit 0;;
 	s)              pkg_digger_summary -s; exit 0;;
-	f|9|i|3|1|r|q)  opts="$opts -$f";;
+	f|9|i|3|1|q)  opts="$opts -$f";;
 	n)              opts="$opts -$f $OPTARG";;
 	?)              echo "Run pkg_digger_installed -h for details" 1>&2; exit 2;;
     esac

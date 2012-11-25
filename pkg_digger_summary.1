@@ -14,7 +14,7 @@
 .fi
 ..
 .\" ------------------------------------------------------------------
-.TH PKG_DIGGER_SUMMARY 1 "Nov 18, 2012" "" ""
+.TH PKG_DIGGER_SUMMARY 1 "Nov 25, 2012" "" ""
 .SH NAME
 pkg_digger_summary \- pkg_digger backend for search in pkg_summary(5)
 .SH SYNOPSIS
@@ -26,7 +26,7 @@ pkg_digger_summary \- pkg_digger backend for search in pkg_summary(5)
 .br
 .BI pkg_digger_summary " [-n limit] f:s:q1 [f:s:q2...]"
 .br
-.BI pkg_digger_summary " -1|-3-9|-i [-r] [-q] pkgpair1 [pkgpair2 ...]"
+.BI pkg_digger_summary " -1|-3-9|-i [-q] pkgid1 [pkgid2 ...]"
 .SH DESCRIPTION
 .B pkg_digger_summary
 is a backend for
@@ -34,7 +34,7 @@ is a backend for
 searching in
 .B pkg_summary(5)
 file specified in PKG_DIGGER_SUMMARY environment variable.
-.I pkgpair
+.I pkgid
 has
 .I PKGPATH,PKGBASE
 format. If it is specified,
@@ -48,7 +48,7 @@ and
 .I query
 separated by colon, for example
 .IR PKGBASE:prefix:dict .
-If it is specified, found pkgpairs are outputs, one per line.
+If it is specified, found pkgids are outputs, one per line.
 .SH OPTIONS
 .TP
 .B "-h"
@@ -72,9 +72,6 @@ and some others.
 .TP
 .B "-9|-i"
 Full summaries are output.
-.TP
-.B "-r"
-Output raw summary, this option requires either
 .IR -3 " or " -9 .
 .TP
 .B "-q"
@@ -88,8 +85,11 @@ $ export PKG_DIGGER_SUMMARY=/usr/pkgsrc/pkg_src_summary.txt
 $ pkg_digger_summary PKGBASE:exact:digest
 pkgtools/digest,digest
 $ pkg_digger_summary -1 pkgtools/digest,digest
-pkgtools/digest           - Message digest wrapper utility
-$ pkg_digger_summary -3r pkgtools/digest,digest
+PKGNAME=digest-20111104
+PKGPATH=pkgtools/digest
+COMMENT=Message digest wrapper utility
+
+$ pkg_digger_summary -3 pkgtools/digest,digest
 PKGNAME=digest-20111104
 PKGPATH=pkgtools/digest
 HOMEPAGE=http://www.NetBSD.org/docs/software/packages.html

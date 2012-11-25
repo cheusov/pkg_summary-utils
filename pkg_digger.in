@@ -68,13 +68,14 @@ OPTIONS:
 EOF
 }
 
+info_type=-1 # the default
 while getopts sfi931rqh f; do
     case "$f" in
         s)    strats=1;;
         f)    fields=1;;
-        i|9)  info_type="$info_type -9";;
-        3)    info_type="$info_type -3";;
-        1)    info_type="$info_type -1";;
+        i|9)  info_type=-9;;
+        3)    info_type=-3;;
+        1)    info_type=-1;;
         r)    raw_out='-r';;
         q)    quiet_mode='-q';;
         h)    usage; exit 0;;
@@ -82,12 +83,6 @@ while getopts sfi931rqh f; do
     esac
 done
 shift `expr $OPTIND - 1`
-
-if test -n "$info_type"; then
-    info_type="$info_type $raw_out"
-else
-    info_type=-1 # the default is oneline information
-fi
 
 # temp dir
 tmp_dir="/tmp/pkg_digger.$$"
@@ -295,8 +290,29 @@ wrapper (){
 ' "$@"
 }
 
+summary2onelineinfo (){
+    runawk -v quiet_mode="$quiet_mode" -e '
+        /^PKGNAME=/ {pkgbase = substr($0, 9); sub(/-[^-]*$/, "", pkgbase); next}
+        /^PKGPATH=/ {pkgpath = substr($0, 9); next}
+        /^COMMENT=/ {comment = substr($0, 9); next}
+        NF == 0 {
+            pos = index(pkgpath, "/")
+            if (substr(pkgpath, pos+1) == pkgbase)
+                printf "%-25s - %s\n", pkgpath, comment
+            else
+                printf "%-25s - %s\n", pkgpath "(" pkgbase ")", comment
+        }' "$@"
+}
+
 run_pkg_digger_backend (){
-    $PKG_DIGGER_BACKEND $quiet_mode $info_type -- `cat $result_fn`
+    $PKG_DIGGER_BACKEND $quiet_mode $info_type -- `cat $result_fn` |
+    if test -n "$raw_out"; then
+	cat
+    elif test "_$info_type" = _-1; then
+	summary2onelineinfo
+    else
+	pkg_summary4view
+    fi
 }
 
 if test -t 1 -a -n "$COLUMNS"; then
