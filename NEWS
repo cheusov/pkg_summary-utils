@@ -1,4 +1,30 @@
 ----------------------------------------------------------------------
+Version 0.60.0, by Aleksey Cheusov, 
+
+  pkg_update_src_summary:
+     - Fix for the case when there are no updated/new packages, but
+       removals exist.
+     - Resulting summaeries are postprocessed by pkg_summary2bb_pkgs.
+     - Option -v was added
+
+  pkg_subgraph_deps:
+     - Fix for option -1
+
+  pkg_digger:
+     - Minor fix. -sf outputs both fields and strategies.
+     - All pkg_digger(1) backends return plain summaries on -1|-3|-9.
+       Option -r was removed from pkg_digger_{summary,installed}
+
+  pkg_digger_summary:
+     - Implementation for option -n.
+
+  pkg_summary2bb_pkgs:
+     - Additional error checks.
+
+  Man pages for pkg_digger, pkg_digger_summary, pkg_digger_installed
+  were updated.
+
+----------------------------------------------------------------------
 Version 0.59.0, by Aleksey Cheusov, Sun,  4 Nov 2012 00:08:15 +0300
 
   pkg_update_src_summary has been completely reimplemented and now
