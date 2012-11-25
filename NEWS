@@ -1,5 +1,5 @@
 ----------------------------------------------------------------------
-Version 0.60.0, by Aleksey Cheusov, 
+Version 0.60.0, by Aleksey Cheusov, Sun, 25 Nov 2012 23:02:23 +0300
 
   pkg_update_src_summary:
      - Fix for the case when there are no updated/new packages, but
