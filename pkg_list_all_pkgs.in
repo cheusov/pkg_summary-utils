@@ -77,7 +77,7 @@ fi
 ############################################################
 cd $PKGSRCDIR
 
-tmp_dir=`mktemp -d /tmp/pkg_list_all_pkgs.XXXXXX`
+tmp_dir=`mktemp -d ${TMPDIR-/tmp}/pkg_list_all_pkgs.XXXXXX`
 test -n "$tmp_dir" || exit 1
 
 ############################################################

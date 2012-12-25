@@ -38,6 +38,11 @@ Remove unreferenced files and empty subdirectories
 .TP
 .B DISTDIR
 Directory that contains distfiles
+.TP
+.B TMPDIR
+Directory for temporary files, by default
+.I /tmp
+is used.
 .SH EXAMPLES
 .VB
 pkg_cleanup_distdir -r /usr/pkgsrc/pkg_src_summary.txt

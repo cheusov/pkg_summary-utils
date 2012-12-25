@@ -136,7 +136,7 @@ case "$stype" in
 	exit 0;;
     *)
 	# f:s:q
-	tmp_dir=`mktemp -d /tmp/pkg_digger.XXXXXX`
+	tmp_dir=`mktemp -d ${TMPDIR-/tmp}/pkg_digger.XXXXXX`
 	test -n $tmp_dir || exit 1
 
 	cnt=1

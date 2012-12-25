@@ -95,6 +95,12 @@ if PKG_INFO_ARGS is not empty.
   ls -1 | grep '[.]tgz$' | xargs pkg_bin_summary -e -k 'sha1 rmd160'
 
 .VE
+.SH ENVIRONMENT
+.TP
+.B TMPDIR
+Directory for temporary files, by default
+.I /tmp
+is used.
 .SH SEE ALSO
 .BR pkg_summary-utils(7) ,
 .BR pkg_summary(5) ,

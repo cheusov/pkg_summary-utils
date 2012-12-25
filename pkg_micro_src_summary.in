@@ -42,7 +42,7 @@ LIBEXECDIR=${LIBEXECDIR-@libexecdir@}
 . ${LIBEXECDIR}/sig_handler.sh
 on_exit () { rm -rf $tmpdir; }
 
-tmpdir=`mktemp -d /tmp/pkg_micro_src_summary.XXXXXX`
+tmpdir=`mktemp -d ${TMPDIR-/tmp}/pkg_micro_src_summary.XXXXXX`
 test -n $tmpdir || exit 1
 
 errsfn=$tmpdir/errors.txt

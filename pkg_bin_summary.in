@@ -106,7 +106,7 @@ if test -z "$cksums"; then
     cat
 else
     ## Add FILE_CKSUM field to summary
-    tmpdir=`mktemp -d /tmp/bin_summary.XXXXXX`
+    tmpdir=`mktemp -d ${TMPDIR-/tmp}/bin_summary.XXXXXX`
     test -n "$tmpdir" || exit 1
 
     # generate checksums

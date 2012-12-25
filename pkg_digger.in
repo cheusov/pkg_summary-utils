@@ -85,8 +85,7 @@ done
 shift `expr $OPTIND - 1`
 
 # temp dir
-tmp_dir="/tmp/pkg_digger.$$"
-mkdir -m 700 "$tmp_dir"
+tmp_dir=`mktemp -d ${TMPDIR-/tmp}/pkg_digger.XXXXXX`
 
 # highligting defaults
 invert_def_loop (){

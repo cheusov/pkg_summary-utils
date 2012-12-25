@@ -46,6 +46,12 @@ Invert the sense of match.
    pkg_bin_summary -f PKGPATH,automatic >summaries.txt; \\
    pkg_summary2leaves summaries.txt
 .VE
+.SH ENVIRONMENT
+.TP
+.B TMPDIR
+Directory for temporary files, by default
+.I /tmp
+is used.
 .SH SEE ALSO
 .BR pkg_summary-utils(7) ,
 .BR pkg_summary(5) ,
