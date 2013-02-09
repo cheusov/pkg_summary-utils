@@ -1,6 +1,6 @@
 #!/usr/bin/env runawk
 
-# Copyright (c) 2012, Aleksey Cheusov <vle@gmx.net>
+# Copyright (c) 2012-2013, Aleksey Cheusov <vle@gmx.net>
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -33,7 +33,6 @@
 #use "power_getopt.awk"
 #use "xgetline.awk"
 #use "dirname.awk"
-#use "io.awk"
 
 #.begin-str help
 # usage: makefiles2deps [OPTIONS] [files...]
@@ -58,7 +57,6 @@ BEGIN {
 
 	queue [tail++] = fn
 	seen [fn] = 1
-	print fn
 }
 
 function dir_plus_base (dir, base){
@@ -76,8 +74,8 @@ function dir_plus_base (dir, base){
 	return dir "/" base
 }
 
-function scan (fn,       q1, rec_fn){
-	while (0 < (getline < fn)){ # IO errors are ignored
+function scan (fn,       q1,rec_fn,ret){
+	while (0 < (ret = (getline < fn))){
 		q1 = match($0, /["]/)
 		if (!q1)
 			continue
@@ -88,14 +86,18 @@ function scan (fn,       q1, rec_fn){
 		rec_fn = substr($0, q1+1)
 		rec_fn = substr(rec_fn, 1, match(rec_fn, /["]/)-1)
 		rec_fn = dir_plus_base(dirname(fn), rec_fn)
-		if (!is_file(rec_fn))
-			continue
 
-		print rec_fn, fn
+		++pairs_count
+		pairs1 [pairs_count] = rec_fn
+		pairs2 [pairs_count] = fn
+
 		v = seen [rec_fn] = seen [rec_fn] + 1
 		if (v == 1)
 			queue [tail++] = rec_fn
 	}
+
+	if (ret < 0)
+		unreadable [fn] = 1
 
 	close(fn)
 }
@@ -104,5 +106,23 @@ END {
 	while (head != tail){
 		fn = queue [head++]
 		scan(fn)
+	}
+
+	for (i=1; i <= pairs_count; ++i){
+		rec_fn = pairs1 [i]
+		fn     = pairs2 [i]
+		if (! (rec_fn in unreadable)){
+			print rec_fn, fn
+			already_printed [rec_fn] = already_printed [fn] = 1
+		}else{
+			print fn
+			already_printed [fn] = 1
+		}
+	}
+	for (i=0; i < tail; ++i){
+		fn = queue [i]
+		if (! (fn in unreadable) && ! (fn in already_printed)){
+			print fn
+		}
 	}
 }
