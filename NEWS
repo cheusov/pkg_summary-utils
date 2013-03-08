@@ -1,8 +1,8 @@
 ----------------------------------------------------------------------
 Version 0.61.0, by Aleksey Cheusov, Fri,  8 Mar 2013 16:23:05 +0300
 
-  All script use TMPDIR environment for creating temporary files
-  variable if it is set.
+  All script use TMPDIR environment variable for creating temporary
+  files if it is set.
 
   makefiles2deps works dramatically faster!
 
