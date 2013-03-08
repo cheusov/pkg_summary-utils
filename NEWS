@@ -1,10 +1,18 @@
 ----------------------------------------------------------------------
+Version 0.61.0, by Aleksey Cheusov, Fri,  8 Mar 2013 16:23:05 +0300
+
+  All script use TMPDIR environment for creating temporary files
+  variable if it is set.
+
+  makefiles2deps works dramatically faster!
+
+----------------------------------------------------------------------
 Version 0.60.0, by Aleksey Cheusov, Sun, 25 Nov 2012 23:02:23 +0300
 
   pkg_update_src_summary:
      - Fix for the case when there are no updated/new packages, but
        removals exist.
-     - Resulting summaeries are postprocessed by pkg_summary2bb_pkgs.
+     - Resulting summaries are postprocessed by pkg_summary2bb_pkgs.
      - Option -v was added
 
   pkg_subgraph_deps:
