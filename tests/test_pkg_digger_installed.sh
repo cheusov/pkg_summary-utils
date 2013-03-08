@@ -1,5 +1,5 @@
 # pkg_digger
-export PKG_DIGGER_SUMMARY=`mktemp /tmp/digger.XXXXXX`
+export PKG_DIGGER_SUMMARY=`mktemp ${TMPDIR-/tmp}/digger.XXXXXX`
 if test -z "$PKG_DIGGER_SUMMARY"; then
     exit 1
 fi
