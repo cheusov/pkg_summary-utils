@@ -1,0 +1,12 @@
+PKGNAME=perl-5.16.3
+PKGPATH=lang/perl5
+
+PKGNAME=pkg_summary-utils-0.61.0
+PKGPATH=pkgtools/pkg_summary-utils
+
+PKGNAME=pkg_summary-utils-0.61.0
+PKGPATH=pkgtools/pkg_summary-utils
+
+PKGNAME=pkg_summary-utils-0.61.0
+PKGPATH=pkgtools/pkg_summary-utils
+
