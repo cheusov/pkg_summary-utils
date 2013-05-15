@@ -4,14 +4,15 @@
 #use "power_getopt.awk"
 
 #.begin-str help
-# enrich_summary converts PLIST_SRC, DISTINFO_FILE and DESCR_SRC given on input
-# to PLIST, ALLDISTFILES and DESCRIPTION and
-# optionally adds BOOTSTRAP_DEPENDS to BUILD_DEPENDS
+# enrich_summary converts PLIST_SRC, DISTINFO_FILE and DESCR_SRC
+# given on input to PLIST, ALLDISTFILES and DESCRIPTION and
+# optionally adds BOOTSTRAP_DEPENDS and TOOL_DEPENDS to BUILD_DEPENDS
 #
 # usage: enrich_summary [options] [files...]
 # options:
 #   -h         display help message
 #   -b         add BOOTSTRAP_DEPENDS to BUILD_DEPENDS
+#   -t         add TOOLS_DEPENDS to BUILD_DEPENDS
 #.end-str
 
 BEGIN {
@@ -20,17 +21,23 @@ BEGIN {
 		exitnow(0)
 	}
 	with_bootstrap = getarg("b")
+	with_tool_deps = getarg("t")
 
 	pkgsrcdir = ENVIRON ["PKGSRCDIR"]
 	assert(pkgsrcdir, "PKGSRCDIR variable should be set")
 }
 
-with_bootstrap && /^BOOTSTRAP_DEPENDS=/ {	\
+with_bootstrap && /^BOOTSTRAP_DEPENDS=/ {
 	bootstrapdeps = substr($0, 19)
 	next
 }
 
-with_bootstrap && /^BUILD_DEPENDS=/ {
+with_tool_deps && /^TOOL_DEPENDS=/ {
+	tooldeps = substr($0, 14)
+	next
+}
+
+/^BUILD_DEPENDS=/ {
 	builddeps = substr($0, 15)
 	next
 }
@@ -73,9 +80,9 @@ with_bootstrap && /^BUILD_DEPENDS=/ {
 
 NF == 0 {
 	# BUILD_DEPENDS
-	if (builddeps != "" || bootstrapdeps != "")
-		print "BUILD_DEPENDS=" builddeps " " bootstrapdeps
-	builddeps = bootstrapdeps = ""
+	if (builddeps != "" || bootstrapdeps || tooldeps)
+		print "BUILD_DEPENDS=" builddeps " " bootstrapdeps " " tooldeps
+	builddeps = bootstrapdeps = tooldeps = ""
 
 	# ALLDISTFILES
 	if (distfiles != "" && distinfo_fn != ""){

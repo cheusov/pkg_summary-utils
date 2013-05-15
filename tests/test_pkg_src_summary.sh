@@ -2,6 +2,42 @@ grep_pss_stderr (){
     grep -E 'Bad package| ----------' "$@"
 }
 
+hide_distfile_size (){
+    sed 's/:[0-9]*/:NNN/g' "$@"
+}
+
+pkg_src_summary -f PKGNAME,PKGPATH -A databases/sqlite3 |
+hide_distfile_size | normalize_version | grep -vE 'DEPENDS=' |
+cmp 'pkg_src_summary #27.1' \
+'PKGNAME=sqlite3-X
+PKGPATH=databases/sqlite3
+
+'
+
+pkg_src_summary -f PKGNAME,PKGPATH -At databases/sqlite3 |
+hide_distfile_size | normalize_version | grep -vE 'DEPENDS=' |
+cmp 'pkg_src_summary #27.2' \
+'PKGNAME=sqlite3-X
+PKGPATH=databases/sqlite3
+
+PKGNAME=checkperms-X
+PKGPATH=sysutils/checkperms
+
+PKGNAME=gmake-X
+PKGPATH=devel/gmake
+
+PKGNAME=libtool-base-X
+PKGPATH=devel/libtool-base
+
+'
+
+#pkg_src_summary -f PKGNAME,PKGPATH -Atb databases/sqlite3 |
+#hide_distfile_size | normalize_version | grep -E 'checkperms-X|gmake-X' |
+#cmp 'pkg_src_summary #27.3' \
+#'PKGNAME=checkperms-X
+#PKGNAME=gmake-X
+#'
+
 pkg_src_summary -fPKGNAME,PKGPATH,PLIST lang/erlang |
 cut -f1 -d= | sort -u |
 cmp 'pkg_src_summary #26' \
@@ -39,6 +75,7 @@ ONLYFOR
 PKGNAME
 PKGPATH
 PLIST
+TOOL_DEPENDS
 '
 
 # # FIXME and remove RUBY_VERSION_REQD=193,
@@ -728,10 +765,6 @@ COMMENT=XXKB - switches and indicates a current keyboard layout
 
 '
 
-hide_distfile_size (){
-    sed 's/:[0-9]*/:NNN/g' "$@"
-}
-
 pkg_src_summary -f PKGNAME,PKGPATH,ALLDISTFILES x11/xxkb |
 hide_distfile_size | normalize_version |
 cmp 'pkg_src_summary #17' \
@@ -755,4 +788,3 @@ cmp 'pkg_src_summary #19' \
 PKGPATH=devel/bmake
 
 '
-

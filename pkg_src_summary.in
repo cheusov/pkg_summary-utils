@@ -75,6 +75,7 @@ OPTIONS:
   -r <fields>     remove the specified fields from the list
                              of default ones
   -b              add BOOTSTRAP_DEPENDS to BUILD_DEPENDS
+  -t              add TOOL_DEPENDS to BUILD_DEPENDS
   -l              add library dependencies (bl3.mk) to BUILD_DEPENDS
   -d              also generates summary for dependancies (DEPENDS)
   -D              also generates summary for dependancies (BUILD_DEPENDS)
@@ -124,7 +125,7 @@ BEGIN {
 if test -n "$PSS_FIELDS"; then
     set_fields $PSS_FIELDS
 else
-    PSS_FIELDS='PKGNAME PKGPATH DEPENDS BUILD_DEPENDS CONFLICTS HOMEPAGE COMMENT ONLYFOR NOTFOR MAINTAINER CATEGORIES NO_BIN_ON_FTP NO_SRC_ON_FTP NO_BIN_ON_CDROM NO_SRC_ON_CDROM LICENSE DESCRIPTION PLIST' # CVS_CHECKSUM ALLDISTFILES
+    PSS_FIELDS='PKGNAME PKGPATH DEPENDS BUILD_DEPENDS TOOL_DEPENDS CONFLICTS HOMEPAGE COMMENT ONLYFOR NOTFOR MAINTAINER CATEGORIES NO_BIN_ON_FTP NO_SRC_ON_FTP NO_BIN_ON_CDROM NO_SRC_ON_CDROM LICENSE DESCRIPTION PLIST' # CVS_CHECKSUM ALLDISTFILES
 fi
 
 process_options (){
@@ -138,6 +139,7 @@ process_options (){
 	's slave-mode'   slave=1       \
 	'p make-plist'   make_plist='-p' \
 	b        'add_fields BOOTSTRAP_DEPENDS BUILD_DEPENDS; with_bootstrap=-b' \
+	t        'add_fields TOOL_DEPENDS BUILD_DEPENDS; with_tool_depends=-t' \
 	l        'with_libdeps=-l'     \
 	'd with-deps'    with_dep=-d   \
 	'D with-bdeps'   with_bdep=-D  \
@@ -157,7 +159,7 @@ eval "$cmds"
 
 pkgpaths="$*"
 
-with_xxx="$with_bootstrap $with_libdeps $make_plist"
+with_xxx="$with_bootstrap $with_tool_depends $with_libdeps $make_plist"
 
 if test "$multi_var"; then
     # _VARIANTS - artificial field keeping all variable assignments
@@ -330,7 +332,7 @@ process_one_by_one (){
     while read pkgpaths; do
 	for pkgpath in $pkgpaths; do
 	    generate_summary "$pkgpath" |
-	    $LIBEXECDIR/enrich_summary $with_bootstrap
+	    $LIBEXECDIR/enrich_summary $with_bootstrap $with_tool_depends
 	done
 
 	if test "$slave"; then
