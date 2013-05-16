@@ -23,9 +23,6 @@ PKGPATH=devel/gmake
 PKGNAME=libtool-base-X
 PKGPATH=devel/libtool-base
 
-PKGNAME=emacs-X
-PKGPATH=editors/emacs
-
 PKGNAME=pkg_summary-utils-X
 PKGPATH=wip/pkg_summary-utils
 
@@ -61,6 +58,9 @@ PKGPATH=graphics/jpeg
 
 PKGNAME=dictem-X
 PKGPATH=textproc/dictem
+
+PKGNAME=emacs-X
+PKGPATH=editors/emacs
 
 PKGNAME=ap22-vhost-ldap-X
 PKGPATH=www/ap22-vhost-ldap
