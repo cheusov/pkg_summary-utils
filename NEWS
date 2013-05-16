@@ -1,4 +1,19 @@
 ----------------------------------------------------------------------
+Version 0.62.0, by Aleksey Cheusov, Thu, 16 May 2013 03:54:40 +0300
+
+  pkg_src_summary:
+     - Option -t was added. If applied a value of TOOL_DEPENDS
+       is added to BUILD_DEPENDS. This option works just like -b
+       does for BOOTSTRAP_DEPENDS.
+
+  pkg_cmp_summary:
+     - Fixes for -A and -O. Now they output an empty line after each
+       compared package even if it appeares multiple times in
+       pkg_summary1. So, the output is now consistent.
+
+  Last change time was updated for manual pages
+
+----------------------------------------------------------------------
 Version 0.61.0, by Aleksey Cheusov, Fri,  8 Mar 2013 16:23:05 +0300
 
   All scripts use TMPDIR environment variable for creating temporary
