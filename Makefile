@@ -1,7 +1,7 @@
 PROJECTNAME =	pkg_summary-utils
 BIRTHDATE   =	2008-04-06
 
-SUBPRJ      =	scripts:tests
+SUBPRJ      =	scripts:tests doc
 SUBPRJ_DFLT =	scripts
 
 SHRTOUT     =	yes
