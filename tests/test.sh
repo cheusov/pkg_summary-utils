@@ -6,12 +6,8 @@ export LC_ALL
 : ${DIFF_PROG:=diff -U20}
 
 #
-srcdir="`pwd`/.."
-if test "$OBJDIR"; then
-    objdir=${OBJDIR}
-else
-    objdir='.'
-fi
+srcdir="`pwd`/../scripts"
+objdir=${OBJDIR}
 
 #
 if test -z "$BMAKE"; then
