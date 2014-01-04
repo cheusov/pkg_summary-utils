@@ -137,7 +137,7 @@ fi
 
 ############################################################
 #### Makefiles
-vecho 'Analysing Makefiles...\n'
+vecho 'Scanning makefiles...\n'
 
 makefiles_fn="$datadir/tmp/makefiles"
 makefiles_deps_fn="$datadir/tmp/makefiles_deps"
@@ -153,7 +153,7 @@ awk '{h [$1]=0} NF>1 {h [$2]=0} END {for (m in h) print m}' \
 
 ############################################################
 #### cksums
-vecho 'Analysing checksums...\n'
+vecho 'Checksums...\n'
 
 if test -s "$makefiles_useful_fn"; then
     runpipe0 \
@@ -175,6 +175,10 @@ fi
 
 comm -13 "$old_cksums_fn" "$new_cksums_fn" | \
     awk '{print $1}' > "$cksums_diff_fn"
+
+############################################################
+#### updated packages
+vecho 'Dependencies on makefiles...\n'
 
 pkg_subgraph_deps -f "$cksums_diff_fn" "$makefiles_deps_fn" \
     > "$makefiles_updated_fn"
