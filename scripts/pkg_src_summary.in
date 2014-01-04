@@ -347,33 +347,44 @@ process_one_by_one (){
 # direct packages
 partial_summary_fn=$tmp_dir/partial_summary.txt
 
-if test "$PSS_SLAVES"; then
-    qfields="$(echo $PSS_FIELDS | sed 's| |,|g')"
-    environ="PSS_SLAVES= BMAKE=$BMAKE CKSUM=$CKSUM PKGSRCDIR=$PKGSRCDIR"
-    environ="$environ PSS_PRE_PATH=$PSS_PRE_PATH PSS_POST_PATH=$PSS_POST_PATH"
-    if test -n "$MAKECONF"; then
-	environ="$environ MAKECONF=$MAKECONF"
-    fi
-
-    runpipe0 \
-	packages2stdout $pkgpaths '|' \
-	paexec -slez $PSS_PAEXEC_EXTRA_OPTS \
-	    -m t="$eot_marker" \
-	    -n "$PSS_SLAVES" \
-	    -t "$PSS_TRANSPORT" \
-	    -c "env $environ $0 -s $with_xxx -f '$qfields'" '|' \
-	paexec_reorder -m t="$eot_marker" '|' \
-	grep -v '^success$' > "$partial_summary_fn" || true
-elif test "$slave"; then
+if test "$slave"; then
     cd $PKGSRCDIR
     process_one_by_one
     exit 0
-else
-    cd $PKGSRCDIR
+fi
 
-    runpipe0 \
-	packages2stdout $pkgpaths '|' \
-	process_one_by_one > "$partial_summary_fn"
+do_src_summary (){
+    if test "$PSS_SLAVES"; then
+	qfields="$(echo $PSS_FIELDS | sed 's| |,|g')"
+	environ="PSS_SLAVES= BMAKE=$BMAKE CKSUM=$CKSUM PKGSRCDIR=$PKGSRCDIR"
+	environ="$environ PSS_PRE_PATH=$PSS_PRE_PATH PSS_POST_PATH=$PSS_POST_PATH"
+	if test -n "$MAKECONF"; then
+	    environ="$environ MAKECONF=$MAKECONF"
+	fi
+
+	runpipe0 \
+	    packages2stdout $pkgpaths '|' \
+	    paexec -slez $PSS_PAEXEC_EXTRA_OPTS \
+		-m t="$eot_marker" \
+		-n "$PSS_SLAVES" \
+		-t "$PSS_TRANSPORT" \
+		-c "env $environ $0 -s $with_xxx -f '$qfields'" '|' \
+		paexec_reorder -m t="$eot_marker" '|' \
+	    grep -v '^success$' || true
+    else
+	cd $PKGSRCDIR
+
+	runpipe0 \
+	    packages2stdout $pkgpaths '|' \
+	    process_one_by_one
+    fi
+}
+
+if test -z "${with_dep}${with_bdep}${multi_var}"; then
+    runpipe0 do_src_summary '|' pkg_uniq_summary
+    exit $?
+else
+    do_src_summary > "$partial_summary_fn"
 fi
 
 ############################################################
