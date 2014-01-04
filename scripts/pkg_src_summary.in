@@ -87,8 +87,6 @@ OPTIONS:
 EOF
 }
 
-eot_marker='>H4J]MGDMX5YEN"5FQ3K(?O/9MMA%D;]P"XP.E!/-'
-
 set_fields (){
     # $@ - fields
     PSS_FIELDS=$(echo $* | tr , ' ')
@@ -338,7 +336,7 @@ process_one_by_one (){
 	if test "$slave"; then
 	    # for paexec
 	    echo 'success'
-	    echo "$eot_marker"
+	    echo "$PAEXEC_EOT"
 	fi
     done
 }
@@ -364,13 +362,11 @@ do_src_summary (){
 
 	runpipe0 \
 	    packages2stdout $pkgpaths '|' \
-	    paexec -slez $PSS_PAEXEC_EXTRA_OPTS \
-		-m t="$eot_marker" \
+	    paexec -sylez $PSS_PAEXEC_EXTRA_OPTS \
 		-n "$PSS_SLAVES" \
 		-t "$PSS_TRANSPORT" \
 		-c "env $environ $0 -s $with_xxx -f '$qfields'" '|' \
-		paexec_reorder -m t="$eot_marker" '|' \
-	    grep -v '^success$' || true
+		paexec_reorder -y
     else
 	cd $PKGSRCDIR
 
