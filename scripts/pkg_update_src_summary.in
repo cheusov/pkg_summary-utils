@@ -178,7 +178,7 @@ comm -13 "$old_cksums_fn" "$new_cksums_fn" | \
 
 ############################################################
 #### updated packages
-vecho 'Dependencies on makefiles...\n'
+vecho 'Dependencies between makefiles...\n'
 
 pkg_subgraph_deps -f "$cksums_diff_fn" "$makefiles_deps_fn" \
     > "$makefiles_updated_fn"
