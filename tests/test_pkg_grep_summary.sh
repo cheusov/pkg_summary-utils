@@ -188,7 +188,7 @@ PKGNAME=ap2-vhost-ldap-1.2.0nb1
 
 '
 
-runtest pkg_grep_summary -f PKGNAME -t empty EXFIELD '' < src_summary.txt | \
+runtest pkg_grep_summary -f PKGNAME -t empty EXFIELD < src_summary.txt | \
 cmp 'pkg_grep_summary #7' \
 'PKGNAME=dictem-0.82
 
@@ -316,8 +316,8 @@ MAINTAINER=cheusov@tut.by
 
 '
 
-runtest pkg_grep_summary -s PKGPATH graphics/png \
-    -fPKGNAME,PKGPATH,COMMENT,MAINTAINER < src_summary.txt |
+runtest pkg_grep_summary -fPKGNAME,PKGPATH,COMMENT,MAINTAINER \
+    -s PKGPATH graphics/png < src_summary.txt |
 cmp 'pkg_grep_summary #9' \
 'PKGNAME=png-1.2.32beta01
 PKGPATH=graphics/png
@@ -326,8 +326,9 @@ MAINTAINER=wiz@NetBSD.org
 
 '
 
-runtest pkg_grep_summary -s PKGPATHe www/ap22-vhost-ldap:PKG_APACHE=apache22 \
-    -f PKGNAME,PKGPATH,COMMENT,MAINTAINER,ASSIGNMENTS < src_summary.txt |
+runtest pkg_grep_summary -f PKGNAME,PKGPATH,COMMENT,MAINTAINER,ASSIGNMENTS \
+    -s PKGPATHe www/ap22-vhost-ldap:PKG_APACHE=apache22 \
+    < src_summary.txt |
 cmp 'pkg_grep_summary #10' \
 'PKGNAME=ap22-vhost-ldap-1.2.0nb1
 ASSIGNMENTS=PKG_APACHE=apache22
@@ -337,8 +338,9 @@ PKGPATH=www/ap22-vhost-ldap
 
 '
 
-runtest pkg_grep_summary -s PKGPATHe www/ap2-vhost-ldap:PKG_APACHE=apache2 \
-    -f'PKGNAME PKGPATH COMMENT MAINTAINER ASSIGNMENTS' < src_summary.txt |
+runtest pkg_grep_summary -f'PKGNAME PKGPATH COMMENT MAINTAINER ASSIGNMENTS' \
+    -s PKGPATHe www/ap2-vhost-ldap:PKG_APACHE=apache2 \
+    < src_summary.txt |
 cmp 'pkg_grep_summary #11' \
 'PKGNAME=ap2-vhost-ldap-1.2.0nb1
 PKGPATH=www/ap2-vhost-ldap:PKG_APACHE=apache2

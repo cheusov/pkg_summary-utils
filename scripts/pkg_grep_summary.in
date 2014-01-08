@@ -76,67 +76,38 @@ EOF
 }
 
 strats=0
-while test $# -ne 0; do
-    case "$1" in
-	-h|--help)
-	    usage
-	    exit 0;;
-	-e|--empty)
-	    strategy=empty
-	    field=$2
-	    shift;;
-	-s)
-	    strategy=exact
-	    field=$2
-	    string=$3
-	    shift
-	    shift;;
-	-S)
-	    strategy=strfile
-	    field=$2
-	    string=$3
-	    shift
-	    shift;;
-	-m)
-	    strategy=re
-	    field=$2
-	    string=$3
-	    shift
-	    shift;;
-	-t)
-	    strategy=$2
-	    field=$3
-	    string=$4
-	    shift
-	    shift
-	    shift;;
-	-T)
+while getopts hivf:rRt:emsST f; do
+    case "$f" in
+	h)
+	    usage;  exit 0;;
+	e)
+	    strategy=empty;;
+	s)
+	    strategy=exact;;
+	S)
+	    strategy=strfile;;
+	m)
+	    strategy=re;;
+	t)
+	    strategy="$OPTARG";;
+	T)
 	    strats=$(($strats+1));;
-	-f)
-	    fields="$2"
-	    shift;;
-	-f*)
-	    fields=`echo "$1" | cut -b3-`;;
-	-i)
+	f)
+	    fields="$OPTARG";;
+	i)
 	    ic=1;;
-	-r)
+	r)
 	    error=1;;
-	-R)
+	R)
 	    error=1
 	    error_msg='No matches found';;
-	-v)
+	v)
 	    invert=1;;
-	--)
-	    shift
-	    break;;
-	-*)
-	    echo "Bad option $1" 1>&2
-	    exit 1;;
-	*)
-	    break
+	?)
+	    echo "Bad option $1" 1>&2; exit 1;;
     esac
-    shift
 done
+shift `expr $OPTIND - 1`
 
 show_strats (){
     cat <<'EOF'
@@ -165,18 +136,22 @@ elif test "$strats" -eq 1; then
     exit 0
 fi
 
-if test $# -eq 2 -a -z "$strategy"; then
-    strategy=awk
-    field="$1"
-    string="$2"
-    shift
-    shift
-elif test $# -eq 0; then
-    true
-else
-    usage
-    exit 1
-fi
+test_argc (){
+    if test "$1" -ne "$2"; then
+	echo "pkg_grep_summary: invalid number of arguments." 1>&2
+	exit 1
+    fi
+}
+
+case "$strategy" in
+    empty)
+	test_argc $# 1
+	field="$1";;
+    *)
+	test_argc $# 2
+	field="$1"
+	string="$2";;
+esac
 
 case "$strategy" in
     exact)
@@ -199,7 +174,8 @@ case "$strategy" in
 	condition='fvalue in strings';;
     strlist)
 	condition='fvalue in strings';;
-    awk)
+    awk|'')
+	strategy=awk
 	condition="$string";;
     empty)
 	condition='fvalue == ""';;
