@@ -7,21 +7,23 @@ export LC_ALL
 
 #
 srcdir="`pwd`/../scripts"
-objdir=${OBJDIR}
+objdir=${OBJDIR_scripts}
 
 #
 if test -z "$BMAKE"; then
     BMAKE=/usr/bin/make
 fi
 
-AWKPATH="$srcdir:$OBJDIR"
-PATH=$OBJDIR:$PATH
+AWKPATH="$srcdir:$OBJDIR_scripts"
+PATH=$OBJDIR_scripts:$PATH
 
 PSS_MKSCRIPTSDIR="${srcdir}"
-LIBEXECDIR="${OBJDIR}"
-PKGDIG_SYSCONFDIR="${OBJDIR}"
+LIBEXECDIR="${OBJDIR_scripts}"
+GREP_LIBEXECDIR="${OBJDIR_grep_summary}"
+PKGDIG_SYSCONFDIR="${OBJDIR_scripts}"
 
-export BMAKE AWKPATH PATH PSS_MKSCRIPTSDIR AWKPATH LIBEXECDIR PKGDIG_SYSCONFDIR
+export BMAKE AWKPATH PATH PSS_MKSCRIPTSDIR AWKPATH
+export GREP_LIBEXECDIR LIBEXECDIR PKGDIG_SYSCONFDIR
 
 #
 print_args (){

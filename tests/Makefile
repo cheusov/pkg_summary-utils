@@ -10,3 +10,5 @@ test:
 .export PREFIX
 .export BMAKE
 .export PKGSRCDIR
+.export OBJDIR_scripts
+.export OBJDIR_grep_summary

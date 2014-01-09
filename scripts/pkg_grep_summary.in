@@ -31,6 +31,8 @@ set -e
 
 export LC_ALL=C
 
+: ${GREP_LIBEXECDIR:=@libexecdir@}
+
 usage (){
     cat 1>&2 <<EOF
 pkg_grep_summary - output summaries about packages that matches
@@ -185,6 +187,13 @@ case "$strategy" in
     *)
 	echo "Unknown search strategy: $strategy" 1>&2
 	exit 1;;
+esac
+
+case "$strategy" in
+    exact|prefix|suffix)
+	$GREP_LIBEXECDIR/grep_summary ${ic:+-i} -f "$fields" \
+	    ${invert:+-v} ${error:+-r} ${error_msg:+-R} -t "$strategy" $1 $2
+	exit $?;;
 esac
 
 runawk -v ic="$ic" -v reqd_fields_="$fields" -v invert="$invert" \
