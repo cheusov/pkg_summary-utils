@@ -34,6 +34,9 @@
 #include <assert.h>
 #include <search.h>
 
+#define HASHVAL_FIELD (((char *)0) + 1)
+#define HASHVAL_ITEM  (((char *)0) + 2)
+
 #if !HAVE_FUNC3_STRLCPY
 size_t strlcpy(char *dst, const char *src, size_t size);
 #endif
@@ -47,6 +50,7 @@ typedef enum {
 	strat_exact,
 	strat_prefix,
 	strat_suffix,
+	strat_strlist,
 } strat_t;
 static strat_t strat = strat_bad;
 
@@ -58,7 +62,7 @@ static int error = 0;
 
 static int verbose = 0;
 
-static int found = 0;
+static int found_cnt = 0;
 
 typedef enum {
 	field_normal,
@@ -131,9 +135,10 @@ static void set_strat (const char *s)
 	int i;
 
 	static const struct { strat_t id; const char name [7]; } ids [] = {
-		{strat_exact,  "exact"},
-		{strat_prefix, "prefix"},
-		{strat_suffix, "suffix"},
+		{strat_exact,   "exact"},
+		{strat_prefix,  "prefix"},
+		{strat_suffix,  "suffix"},
+		{strat_strlist, "strlist"},
 	};
 
 	for (i=0; i < sizeof (ids)/sizeof (ids [0]); ++i){
@@ -237,12 +242,24 @@ static int process_line_suffix (char *value, size_t value_len)
 		!memcmp (value+value_len-cond_len, cond, cond_len);
 }
 
+static int process_line_strlist (char *value, size_t value_len)
+{
+	ENTRY e;
+	ENTRY *found;
+
+	e.key  = value;
+	e.data = NULL;
+	found = hsearch (e, FIND);
+	return (found && found->data == HASHVAL_ITEM);
+}
+
 typedef int (*process_line_t) (char *, size_t);
 static const process_line_t funcs [] = {
 	NULL,
 	process_line_exact,
 	process_line_prefix,
 	process_line_suffix,
+	process_line_strlist,
 };
 
 static int interesting_field (char *line)
@@ -250,6 +267,7 @@ static int interesting_field (char *line)
 	int ret;
 	char *eq;
 	ENTRY e;
+	ENTRY *found;
 
 	if (!output_fields)
 		return 1;
@@ -258,8 +276,10 @@ static int interesting_field (char *line)
 	if (eq)
 		*eq = 0;
 
-	e.key = line;
-	ret = (hsearch (e, FIND) != NULL);
+	e.key  = line;
+	e.data = NULL;
+	found = hsearch (e, FIND);
+	ret = (found && found->data == HASHVAL_FIELD);
 
 	if (eq)
 		*eq = '=';
@@ -425,7 +445,7 @@ static void end_summary (void)
 	}
 
 	if (match == match_yes){
-		found = 1;
+		++found_cnt;
 		printf ("\n");
 	}
 
@@ -478,6 +498,7 @@ static void set_field_n_cond (int argc, char **argv)
 		case strat_exact:
 		case strat_prefix:
 		case strat_suffix:
+		case strat_strlist:
 			assert (argc == 2);
 
 			field = argv [0];
@@ -493,36 +514,32 @@ static void set_field_n_cond (int argc, char **argv)
 	}
 }
 
+static void tokenize (char *p, const char *sep, void (*func) (const char *))
+{
+	char *token = strtok (p, sep);
+	if (token)
+		func (token);
+
+	while (token = strtok (NULL, sep), token != NULL){
+		func (token);
+	}
+}
+
+static void add_field (const char *f)
+{
+	ENTRY e;
+	e.key  = strdup (f);
+	e.data = HASHVAL_FIELD;
+	if (!hsearch (e, ENTER)){
+		perror ("hsearch(3) failed");
+		exit (1);
+	}
+}
+
 static void process_output_fields (void)
 {
-	char *last = NULL;
-	char *p = output_fields;
-	int ex = 0;
-
-	if (!output_fields)
-		return;
-
-	do{
-		ex = (*p == 0);
-		if (*p == ' ' || *p == ',' || *p == 0){
-			*p = 0;
-			if (last){
-				ENTRY e;
-				e.key  = strdup (last);
-				e.data = NULL;
-				if (!hsearch (e, ENTER)){
-					perror ("hsearch(3) failed");
-					exit (1);
-				}
-			}
-			last = NULL;
-		}else{
-			if (!last)
-				last = p;
-		}
-
-		++p;
-	}while (!ex);
+	if (output_fields)
+		tokenize (output_fields, " ,", add_field);
 }
 
 static void free_memory (void)
@@ -536,6 +553,23 @@ static void free_memory (void)
 		free (output_fields);
 }
 
+static void add_cond (const char *c)
+{
+	ENTRY e;
+	e.key  = strdup (c);
+	e.data = HASHVAL_ITEM;
+	if (!hsearch (e, ENTER)){
+		perror ("hsearch(3) failed");
+		exit (1);
+	}
+}
+
+static void postproc_cond (void)
+{
+	if (strat == strat_strlist)
+		tokenize (cond, " ", add_cond);
+}
+
 int main (int argc, char **argv)
 {
 	if (!hcreate (200)){
@@ -545,12 +579,13 @@ int main (int argc, char **argv)
 
 	process_args (&argc, &argv);
 	set_field_n_cond (argc, argv);
+	postproc_cond ();
 	process_output_fields ();
 	read_summaries ();
 
 	free_memory ();
 
-	if (!error || found){
+	if (!error || found_cnt){
 		return 0;
 	}else{
 		if (verbose)
