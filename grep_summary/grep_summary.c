@@ -570,14 +570,23 @@ static void postproc_cond (void)
 		tokenize (cond, " ", add_cond);
 }
 
-int main (int argc, char **argv)
+static void create_hash (void)
 {
-	if (!hcreate (200)){
+	int ht_size = 200;
+
+	if (strat == strat_strlist)
+		ht_size = 50000;
+
+	if (!hcreate (ht_size)){
 		perror ("hcreate(3) failed");
 		exit (1);
 	}
+}
 
+int main (int argc, char **argv)
+{
 	process_args (&argc, &argv);
+	create_hash ();
 	set_field_n_cond (argc, argv);
 	postproc_cond ();
 	process_output_fields ();
