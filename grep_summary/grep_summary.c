@@ -461,16 +461,11 @@ static void end_summary (void)
 
 static void read_summaries (void)
 {
-	char buf [409600];
-	size_t len;
+	char *buf = NULL;
+	ssize_t len = 0;
+	size_t linesize = 0;
 
-	while (fgets (buf, sizeof (buf), stdin) != NULL) {
-		len = strlen (buf);
-		if (len+1 == sizeof (buf)) {
-			fprintf (stderr, "pkg_grep_summary: input line is too long.\n");
-			exit (1);
-		}
-
+	while (len = getline (&buf, &linesize, stdin), len != -1) {
 		if (len && buf [len-1] == '\n'){
 			--len;
 			buf [len] = 0;
@@ -487,6 +482,9 @@ static void read_summaries (void)
 			end_summary ();
 		}
 	}
+
+	if (ferror (stdin))
+		perror("getline(3) failed");
 }
 
 static void set_field_n_cond (int argc, char **argv)
