@@ -33,6 +33,7 @@
 #include <stdio.h>
 #include <assert.h>
 #include <search.h>
+#include <errno.h>
 
 #define HASHVAL_FIELD (((char *)0) + 1)
 #define HASHVAL_ITEM  (((char *)0) + 2)
@@ -51,6 +52,7 @@ typedef enum {
 	strat_prefix,
 	strat_suffix,
 	strat_strlist,
+	strat_strfile,
 } strat_t;
 static strat_t strat = strat_bad;
 
@@ -139,6 +141,7 @@ static void set_strat (const char *s)
 		{strat_prefix,  "prefix"},
 		{strat_suffix,  "suffix"},
 		{strat_strlist, "strlist"},
+		{strat_strfile, "strfile"},
 	};
 
 	for (i=0; i < sizeof (ids)/sizeof (ids [0]); ++i){
@@ -260,6 +263,7 @@ static const process_line_t funcs [] = {
 	process_line_prefix,
 	process_line_suffix,
 	process_line_strlist,
+	process_line_strlist, /* the same */
 };
 
 static int interesting_field (char *line)
@@ -484,7 +488,7 @@ static void read_summaries (void)
 	}
 
 	if (ferror (stdin))
-		perror("getline(3) failed");
+		perror ("getline(3) failed");
 }
 
 static void set_field_n_cond (int argc, char **argv)
@@ -497,6 +501,7 @@ static void set_field_n_cond (int argc, char **argv)
 		case strat_prefix:
 		case strat_suffix:
 		case strat_strlist:
+		case strat_strfile:
 			assert (argc == 2);
 
 			field = argv [0];
@@ -564,8 +569,33 @@ static void add_cond (const char *c)
 
 static void postproc_cond (void)
 {
-	if (strat == strat_strlist)
+	FILE *fp;
+	char *line = NULL;
+	size_t linesize = 0;
+	ssize_t len;
+
+	if (strat == strat_strlist){
 		tokenize (cond, " ", add_cond);
+	}else if (strat == strat_strfile){
+		fp = fopen (cond, "r");
+		if (!fp){
+			fprintf (stderr, "Cannot open file %s: %s\n", cond, strerror (errno));
+			exit (1);
+		}
+
+		while (len = getline (&line, &linesize, fp), len != -1){
+			if (len && line [len-1] == '\n'){
+				--len;
+				line [len] = 0;
+			}
+			tokenize (line, " ", add_cond);
+		}
+
+		if (ferror (stdin))
+			perror ("getline(3) failed");
+
+		fclose (fp);
+	}
 }
 
 static void create_hash (void)
