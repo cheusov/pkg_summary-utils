@@ -48,6 +48,7 @@ size_t strlcat(char *dst, const char *src, size_t size);
 
 typedef enum {
 	strat_bad,
+	strat_empty,
 	strat_exact,
 	strat_prefix,
 	strat_suffix,
@@ -137,6 +138,7 @@ static void set_strat (const char *s)
 	int i;
 
 	static const struct { strat_t id; const char name [7]; } ids [] = {
+		{strat_empty,   "empty"},
 		{strat_exact,   "exact"},
 		{strat_prefix,  "prefix"},
 		{strat_suffix,  "suffix"},
@@ -229,6 +231,11 @@ static void process_args (int *argc, char ***argv)
 	*argv += optind;
 }
 
+static int process_line_empty (char *value, size_t value_len)
+{
+	return value [0] == 0;
+}
+
 static int process_line_exact (char *value, size_t value_len)
 {
 	return cond_len == value_len && !memcmp (value, cond, cond_len);
@@ -259,6 +266,7 @@ static int process_line_strlist (char *value, size_t value_len)
 typedef int (*process_line_t) (char *, size_t);
 static const process_line_t funcs [] = {
 	NULL,
+	process_line_empty,
 	process_line_exact,
 	process_line_prefix,
 	process_line_suffix,
@@ -436,15 +444,25 @@ static void process_line (char *line, size_t line_len)
 static void end_summary (void)
 {
 	int ret;
-	if (field_id == field_PKGPATHe && match == match_unknown && PKGPATH [0]){
-		ret = funcs [strat] (PKGPATH, strlen (PKGPATH));
-		if (invert)
-			ret = 1 - ret;
+	if (match == match_unknown){
+		if (field_id == field_PKGPATHe && PKGPATH [0]){
+			ret = funcs [strat] (PKGPATH, strlen (PKGPATH));
+			if (invert)
+				ret = 1 - ret;
 
-		if (ret){
-			match = match_yes;
-			if (summary && summary [0])
-				printf ("%s", summary);
+			if (ret){
+				match = match_yes;
+				if (summary && summary [0])
+					printf ("%s", summary);
+			}
+		}
+
+		if (match == match_unknown && strat == strat_empty){
+			if (!invert){
+				match = match_yes;
+				if (summary && summary [0])
+					printf ("%s", summary);
+			}
 		}
 	}
 
@@ -497,6 +515,7 @@ static void set_field_n_cond (int argc, char **argv)
 		case strat_bad:
 			exit (3);
 
+		case strat_empty:
 		case strat_exact:
 		case strat_prefix:
 		case strat_suffix:
