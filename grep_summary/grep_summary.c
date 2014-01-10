@@ -294,6 +294,9 @@ static int process_line_first (char *value, size_t value_len)
 static int process_line_last (char *value, size_t value_len)
 {
 	int ch;
+	if (cond_len == value_len)
+		return process_line_exact (value, value_len);
+
 	if (!process_line_suffix (value, value_len))
 		return 0;
 
