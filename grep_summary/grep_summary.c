@@ -348,7 +348,7 @@ static int process_line_re (char *value, size_t value_len)
 		return 0;
 
 	regerror (ret, &regexp, errbuf, sizeof (errbuf));
-	fprintf (stderr, "%s\n", errbuf);
+	fprintf (stderr, "regexec(3) failed: %s\n", errbuf);
 	exit (1);
 }
 
@@ -712,7 +712,7 @@ static void postproc_cond (void)
 			ret = regcomp (&regexp, cond, REG_EXTENDED | REG_NOSUB);
 			if (ret){
 				regerror (ret, &regexp, errbuf, sizeof (errbuf));
-				fprintf (stderr, "%s\n", errbuf);
+				fprintf (stderr, "regcomp(3) failed: %s\n", errbuf);
 				exit (1);
 			}
 			break;
