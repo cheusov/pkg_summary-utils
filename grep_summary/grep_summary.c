@@ -618,7 +618,7 @@ static void set_field_n_cond (int argc, char **argv)
 
 			cond  = argv [1];
 			cond_len = strlen (cond);
-			if (ic)
+			if (ic && strat != strat_strfile)
 				strlwr (cond);
 
 			break;
@@ -700,6 +700,10 @@ static void postproc_cond (void)
 					--len;
 					line [len] = 0;
 				}
+
+				if (ic)
+					strlwr (line);
+
 				tokenize (line, " ", add_cond);
 			}
 

@@ -362,11 +362,12 @@ do_src_summary (){
 
 	runpipe0 \
 	    packages2stdout $pkgpaths '|' \
-	    paexec -sylez $PSS_PAEXEC_EXTRA_OPTS \
+	    paexec -gylez $PSS_PAEXEC_EXTRA_OPTS \
 		-n "$PSS_SLAVES" \
 		-t "$PSS_TRANSPORT" \
 		-c "env $environ $0 -s $with_xxx -f '$qfields'" '|' \
-		paexec_reorder -y
+		paexec_reorder -yg '|' \
+	    sed '/^success$/ d'
     else
 	cd $PKGSRCDIR
 
