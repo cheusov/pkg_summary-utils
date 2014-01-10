@@ -190,7 +190,7 @@ case "$strategy" in
 esac
 
 case "$strategy" in
-    empty|exact|prefix|suffix|strlist|strfile|substring)
+    empty|exact|prefix|suffix|strlist|strfile|substring|first)
 	$GREP_LIBEXECDIR/grep_summary ${ic:+-i} -f "$fields" \
 	    ${invert:+-v} ${error:+-r} ${error_msg:+-R} -t "$strategy" "$1" "$2"
 	exit $?;;
