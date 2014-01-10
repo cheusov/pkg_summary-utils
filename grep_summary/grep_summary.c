@@ -54,6 +54,7 @@ typedef enum {
 	strat_suffix,
 	strat_strlist,
 	strat_strfile,
+	strat_substring,
 } strat_t;
 static strat_t strat = strat_bad;
 
@@ -137,13 +138,14 @@ static void set_strat (const char *s)
 {
 	int i;
 
-	static const struct { strat_t id; const char name [7]; } ids [] = {
+	static const struct { strat_t id; const char name [10]; } ids [] = {
 		{strat_empty,   "empty"},
 		{strat_exact,   "exact"},
 		{strat_prefix,  "prefix"},
 		{strat_suffix,  "suffix"},
 		{strat_strlist, "strlist"},
 		{strat_strfile, "strfile"},
+		{strat_substring, "substring"},
 	};
 
 	for (i=0; i < sizeof (ids)/sizeof (ids [0]); ++i){
@@ -263,6 +265,16 @@ static int process_line_strlist (char *value, size_t value_len)
 	return (found && found->data == HASHVAL_ITEM);
 }
 
+static int process_line_substring (char *value, size_t value_len)
+{
+	if (cond_len > value_len)
+		return 0;
+	else if (cond_len == value_len)
+		return process_line_exact (value, value_len);
+
+	return strstr (value, cond) != NULL;
+}
+
 typedef int (*process_line_t) (char *, size_t);
 static const process_line_t funcs [] = {
 	NULL,
@@ -272,6 +284,7 @@ static const process_line_t funcs [] = {
 	process_line_suffix,
 	process_line_strlist,
 	process_line_strlist, /* the same */
+	process_line_substring,
 };
 
 static int interesting_field (char *line)
@@ -515,12 +528,7 @@ static void set_field_n_cond (int argc, char **argv)
 		case strat_bad:
 			exit (3);
 
-		case strat_empty:
-		case strat_exact:
-		case strat_prefix:
-		case strat_suffix:
-		case strat_strlist:
-		case strat_strfile:
+		default:
 			assert (argc == 2);
 
 			field = argv [0];
