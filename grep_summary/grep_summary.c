@@ -57,6 +57,7 @@ typedef enum {
 	strat_substring,
 	strat_first,
 	strat_last,
+	strat_word,
 } strat_t;
 static strat_t strat = strat_bad;
 
@@ -150,6 +151,7 @@ static void set_strat (const char *s)
 		{strat_substring, "substring"},
 		{strat_first,   "first"},
 		{strat_last,    "last"},
+		{strat_word,    "word"},
 	};
 
 	for (i=0; i < sizeof (ids)/sizeof (ids [0]); ++i){
@@ -299,6 +301,35 @@ static int process_line_last (char *value, size_t value_len)
 	return !isalnum (ch) && ch != '_';
 }
 
+static int process_line_word (char *value, size_t value_len)
+{
+	char *p;
+	int ch;
+
+	if (cond_len > value_len)
+		return 0;
+	else if (cond_len == value_len)
+		return process_line_exact (value, value_len);
+
+	p = strstr (value, cond);
+	while (p){
+		if (p != value){
+			ch = (unsigned char) p [-1];
+			if (isalnum (ch) || ch == '_')
+				goto next_it;
+		}
+
+		ch = (unsigned char) p [cond_len];
+		if (!isalnum (ch) && ch != '_')
+			return 1;
+
+	next_it:
+		p = strstr (p+1, cond);
+	}
+
+	return 0;
+}
+
 typedef int (*process_line_t) (char *, size_t);
 static const process_line_t funcs [] = {
 	NULL,
@@ -311,6 +342,7 @@ static const process_line_t funcs [] = {
 	process_line_substring,
 	process_line_first,
 	process_line_last,
+	process_line_word,
 };
 
 static int interesting_field (char *line)
