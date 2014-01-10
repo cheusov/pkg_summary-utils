@@ -56,6 +56,7 @@ typedef enum {
 	strat_strfile,
 	strat_substring,
 	strat_first,
+	strat_last,
 } strat_t;
 static strat_t strat = strat_bad;
 
@@ -148,6 +149,7 @@ static void set_strat (const char *s)
 		{strat_strfile, "strfile"},
 		{strat_substring, "substring"},
 		{strat_first,   "first"},
+		{strat_last,    "last"},
 	};
 
 	for (i=0; i < sizeof (ids)/sizeof (ids [0]); ++i){
@@ -287,6 +289,16 @@ static int process_line_first (char *value, size_t value_len)
 	return !isalnum (ch) && ch != '_';
 }
 
+static int process_line_last (char *value, size_t value_len)
+{
+	int ch;
+	if (!process_line_suffix (value, value_len))
+		return 0;
+
+	ch = (unsigned char) value [value_len - cond_len - 1];
+	return !isalnum (ch) && ch != '_';
+}
+
 typedef int (*process_line_t) (char *, size_t);
 static const process_line_t funcs [] = {
 	NULL,
@@ -298,6 +310,7 @@ static const process_line_t funcs [] = {
 	process_line_strlist, /* the same */
 	process_line_substring,
 	process_line_first,
+	process_line_last,
 };
 
 static int interesting_field (char *line)
