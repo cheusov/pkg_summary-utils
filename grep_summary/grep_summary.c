@@ -34,6 +34,7 @@
 #include <assert.h>
 #include <search.h>
 #include <errno.h>
+#include <regex.h>
 
 #define HASHVAL_FIELD (((char *)0) + 1)
 #define HASHVAL_ITEM  (((char *)0) + 2)
@@ -58,6 +59,7 @@ typedef enum {
 	strat_first,
 	strat_last,
 	strat_word,
+	strat_re,
 } strat_t;
 static strat_t strat = strat_bad;
 
@@ -101,6 +103,8 @@ static char PKGPATH [512] = "";
 static char ASSIGNMENTS [512] = "";
 
 static char *output_fields = NULL;
+
+static regex_t regexp;
 
 /**************************************/
 
@@ -152,6 +156,7 @@ static void set_strat (const char *s)
 		{strat_first,   "first"},
 		{strat_last,    "last"},
 		{strat_word,    "word"},
+		{strat_re,      "re"},
 	};
 
 	for (i=0; i < sizeof (ids)/sizeof (ids [0]); ++i){
@@ -333,6 +338,20 @@ static int process_line_word (char *value, size_t value_len)
 	return 0;
 }
 
+static int process_line_re (char *value, size_t value_len)
+{
+	char errbuf [256];
+	int ret = regexec (&regexp, value, 0, NULL, 0);
+	if (ret == 0)
+		return 1;
+	else if (ret == REG_NOMATCH)
+		return 0;
+
+	regerror (ret, &regexp, errbuf, sizeof (errbuf));
+	fprintf (stderr, "%s\n", errbuf);
+	exit (1);
+}
+
 typedef int (*process_line_t) (char *, size_t);
 static const process_line_t funcs [] = {
 	NULL,
@@ -346,6 +365,7 @@ static const process_line_t funcs [] = {
 	process_line_first,
 	process_line_last,
 	process_line_word,
+	process_line_re,
 };
 
 static int interesting_field (char *line)
@@ -657,32 +677,47 @@ static void add_cond (const char *c)
 
 static void postproc_cond (void)
 {
-	FILE *fp;
+	char errbuf [256];
+	FILE *fp   = NULL;
 	char *line = NULL;
 	size_t linesize = 0;
-	ssize_t len;
+	ssize_t len     = 0;
+	int ret         = 0;
 
-	if (strat == strat_strlist){
-		tokenize (cond, " ", add_cond);
-	}else if (strat == strat_strfile){
-		fp = fopen (cond, "r");
-		if (!fp){
-			fprintf (stderr, "Cannot open file %s: %s\n", cond, strerror (errno));
-			exit (1);
-		}
-
-		while (len = getline (&line, &linesize, fp), len != -1){
-			if (len && line [len-1] == '\n'){
-				--len;
-				line [len] = 0;
+	switch (strat){
+		case strat_strlist:
+			tokenize (cond, " ", add_cond);
+			break;
+		case strat_strfile:
+			fp = fopen (cond, "r");
+			if (!fp){
+				fprintf (stderr, "Cannot open file %s: %s\n", cond, strerror (errno));
+				exit (1);
 			}
-			tokenize (line, " ", add_cond);
-		}
 
-		if (ferror (stdin))
-			perror ("getline(3) failed");
+			while (len = getline (&line, &linesize, fp), len != -1){
+				if (len && line [len-1] == '\n'){
+					--len;
+					line [len] = 0;
+				}
+				tokenize (line, " ", add_cond);
+			}
 
-		fclose (fp);
+			if (ferror (stdin))
+				perror ("getline(3) failed");
+
+			fclose (fp);
+			break;
+		case strat_re:
+			ret = regcomp (&regexp, cond, REG_EXTENDED | REG_NOSUB);
+			if (ret){
+				regerror (ret, &regexp, errbuf, sizeof (errbuf));
+				fprintf (stderr, "%s\n", errbuf);
+				exit (1);
+			}
+			break;
+		default:
+			break;
 	}
 }
 
