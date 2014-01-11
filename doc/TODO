@@ -65,6 +65,4 @@ new tools?
     - pkg_summary2INDEX
       pkg_summary2PKGDB
 
-    - pkg_op_summary <refresh|intersect|subtract>
-
 ANY IDEAS? LET ME KNOW
