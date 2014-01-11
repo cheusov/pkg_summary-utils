@@ -50,6 +50,47 @@ CATEGORIES=textproc
 
 '
 
+runtest pkg_grep_summary -mi PKGBASE '^DICT' < src_summary.txt |
+cmp 'pkg_grep_summary -i #2.1' \
+'PKGPATH=textproc/dictem
+DEPENDS=dict-client>=1.9.14:../../textproc/dict-client emacs>=22:../../editors/emacs  emacs>=22:../../editors/emacs
+BUILD_DEPENDS= checkperms>=1.1:../../sysutils/checkperms
+CONFLICTS=xemacs-dictem-[0-9]*
+HOMEPAGE=http://freshmeat.net/projects/dictem/
+COMMENT=Dictionary client (RFC-2229) for [X]Emacs
+MAINTAINER=cheusov@tut.by
+CATEGORIES=textproc editors
+PKGNAME=dictem-0.82
+
+BUILD_DEPENDS= libtool-base>=1.5.18nb5:../../devel/libtool-base gmake>=3.81:../../devel/gmake checkperms>=1.1:../../sysutils/checkperms
+PKGNAME=dict-server-1.10.11nb2
+PKGPATH=wip/dict-server
+DEPENDS=   libmaa>=1.2:../../devel/libmaa
+HOMEPAGE=http://www.dict.org/
+COMMENT=Dictionary Service Protocol server
+MAINTAINER=cheusov@tut.by
+CATEGORIES=textproc
+
+PKGNAME=dict-client-1.9.15nb2
+PKGPATH=textproc/dict-client
+DEPENDS=  libltdl>=1.5.10:../../devel/libltdl
+BUILD_DEPENDS= gmake>=3.81:../../devel/gmake checkperms>=1.1:../../sysutils/checkperms
+HOMEPAGE=http://www.dict.org/
+COMMENT=Dictionary Service Protocol client
+MAINTAINER=pkgsrc-users@NetBSD.org
+CATEGORIES=textproc
+
+PKGNAME=dict-client-1.10.11nb2
+PKGPATH=wip/dict-client
+DEPENDS=  libmaa>=1.0:../../devel/libmaa
+BUILD_DEPENDS= libtool-base>=1.5.18nb5:../../devel/libtool-base gmake>=3.81:../../devel/gmake checkperms>=1.1:../../sysutils/checkperms
+HOMEPAGE=http://www.dict.org/
+COMMENT=Dictionary Service Protocol client
+MAINTAINER=cheusov@tut.by
+CATEGORIES=textproc
+
+'
+
 runtest pkg_grep_summary PKGNAME 'fvalue ~ /^d/' < src_summary.txt |
 cmp 'pkg_grep_summary #3' \
 'PKGNAME=distbb-0.22.0
@@ -326,6 +367,16 @@ MAINTAINER=wiz@NetBSD.org
 
 '
 
+runtest pkg_grep_summary -fPKGNAME,PKGPATH,COMMENT,MAINTAINER \
+    -si PKGPATH GRAPHICS/PNG < src_summary.txt |
+cmp 'pkg_grep_summary -i #9.1' \
+'PKGNAME=png-1.2.32beta01
+PKGPATH=graphics/png
+COMMENT=Library for manipulating PNG images
+MAINTAINER=wiz@NetBSD.org
+
+'
+
 runtest pkg_grep_summary -f PKGNAME,PKGPATH,COMMENT,MAINTAINER,ASSIGNMENTS \
     -s PKGPATHe www/ap22-vhost-ldap:PKG_APACHE=apache22 \
     < src_summary.txt |
@@ -374,6 +425,44 @@ CATEGORIES=www databases
 
 runtest pkg_grep_summary -S PKGPATH  pkgs.txt < src_summary.txt |
 cmp 'pkg_grep_summary #14' \
+'PKGNAME=distbb-0.22.0
+PKGPATH=wip/distbb
+DEPENDS=pkg_summary-utils>=0.18.1:../../wip/pkg_summary-utils paexec>=0.10.0:../../wip/paexec runawk>=0.13.0:../../wip/runawk
+BUILD_DEPENDS= checkperms>=1.1:../../sysutils/checkperms
+HOMEPAGE=http://mova.org/~cheusov/pub/distbb/
+COMMENT=DISTributed Bulk Build tool for pkgsrc
+MAINTAINER=cheusov@tut.by
+CATEGORIES=pkgtools
+EXFIELD=XVALUE1
+
+BUILD_DEPENDS= libtool-base>=1.5.18nb5:../../devel/libtool-base gmake>=3.81:../../devel/gmake checkperms>=1.1:../../sysutils/checkperms
+PKGNAME=dict-server-1.10.11nb2
+PKGPATH=wip/dict-server
+DEPENDS=   libmaa>=1.2:../../devel/libmaa
+HOMEPAGE=http://www.dict.org/
+COMMENT=Dictionary Service Protocol server
+MAINTAINER=cheusov@tut.by
+CATEGORIES=textproc
+
+PKGNAME=png-1.2.32beta01
+PKGPATH=graphics/png
+BUILD_DEPENDS= libtool-base>=1.5.18nb5:../../devel/libtool-base checkperms>=1.1:../../sysutils/checkperms
+HOMEPAGE=http://www.libpng.org/pub/png/
+COMMENT=Library for manipulating PNG images
+MAINTAINER=wiz@NetBSD.org
+CATEGORIES=graphics
+
+PKGNAME=ap2-vhost-ldap-1.2.0nb1
+PKGPATH=www/ap2-vhost-ldap:PKG_APACHE=apache2
+HOMEPAGE=http://packages.qa.debian.org/m/mod-vhost-ldap.html
+COMMENT=Apache 2 module LDAP Virtual Hosts support
+MAINTAINER=imil@gcu.info
+CATEGORIES=www databases
+
+'
+
+runtest pkg_grep_summary -iS PKGPATH  PKGS2.TXT < src_summary.txt |
+cmp 'pkg_grep_summary -i #14.1' \
 'PKGNAME=distbb-0.22.0
 PKGPATH=wip/distbb
 DEPENDS=pkg_summary-utils>=0.18.1:../../wip/pkg_summary-utils paexec>=0.10.0:../../wip/paexec runawk>=0.13.0:../../wip/runawk
@@ -550,6 +639,23 @@ PKGPATH=wip/dict-client
 
 '
 
+runtest pkg_grep_summary -t substring -i PKGNAME Dict < src_summary.txt |
+    grep_PKGNAME_n_PKGBASE_only |
+cmp 'pkg_grep_summary -i #19.1' \
+'PKGPATH=textproc/dictem
+PKGNAME=dictem-0.82
+
+PKGNAME=dict-server-1.10.11nb2
+PKGPATH=wip/dict-server
+
+PKGNAME=dict-client-1.9.15nb2
+PKGPATH=textproc/dict-client
+
+PKGNAME=dict-client-1.10.11nb2
+PKGPATH=wip/dict-client
+
+'
+
 runtest pkg_grep_summary -t substring PKGNAME distcc < src_summary.txt |
     grep_PKGNAME_n_PKGBASE_only |
 cmp 'pkg_grep_summary #20' \
@@ -566,6 +672,20 @@ PKGPATH=wip/pkg_online
 runtest pkg_grep_summary -t first PKGNAME dict < src_summary.txt |
     grep_PKGNAME_n_PKGBASE_only |
 cmp 'pkg_grep_summary #22' \
+'PKGNAME=dict-server-1.10.11nb2
+PKGPATH=wip/dict-server
+
+PKGNAME=dict-client-1.9.15nb2
+PKGPATH=textproc/dict-client
+
+PKGNAME=dict-client-1.10.11nb2
+PKGPATH=wip/dict-client
+
+'
+
+runtest pkg_grep_summary -i -t first PKGNAME Dict < src_summary.txt |
+    grep_PKGNAME_n_PKGBASE_only |
+cmp 'pkg_grep_summary -i #22.1' \
 'PKGNAME=dict-server-1.10.11nb2
 PKGPATH=wip/dict-server
 
@@ -596,6 +716,20 @@ PKGPATH=wip/dict-client
 
 '
 
+runtest pkg_grep_summary -t last -i PKGBASE Client < src_summary.txt |
+    grep_PKGNAME_n_PKGBASE_only |
+cmp 'pkg_grep_summary -i #24.1' \
+'PKGNAME=dict-client-1.9.15nb2
+PKGPATH=textproc/dict-client
+
+PKGNAME=pkg_online-client-0.5.0
+PKGPATH=wip/pkg_online-client
+
+PKGNAME=dict-client-1.10.11nb2
+PKGPATH=wip/dict-client
+
+'
+
 runtest pkg_grep_summary -t last PKGBASE lient < src_summary.txt |
     grep_PKGNAME_n_PKGBASE_only |
 cmp 'pkg_grep_summary #25' \
@@ -609,6 +743,14 @@ PKGNAME=dictem-0.82
 
 '
 
+runtest pkg_grep_summary -i -t exact PKGBASE DictEm < src_summary.txt |
+    grep_PKGNAME_n_PKGBASE_only |
+cmp 'pkg_grep_summary -i #26.1' \
+'PKGPATH=textproc/dictem
+PKGNAME=dictem-0.82
+
+'
+
 runtest pkg_grep_summary -t exact PKGBASE dict < src_summary.txt |
     grep_PKGNAME_n_PKGBASE_only |
 cmp 'pkg_grep_summary #27' \
@@ -617,6 +759,14 @@ cmp 'pkg_grep_summary #27' \
 runtest pkg_grep_summary -t prefix PKGBASE awk < src_summary.txt |
     grep_PKGNAME_n_PKGBASE_only |
 cmp 'pkg_grep_summary #28' \
+'PKGNAME=awk-pkgsrc-dewey-0.5.6
+PKGPATH=wip/awk-pkgsrc-dewey
+
+'
+
+runtest pkg_grep_summary -it prefix PKGBASE AWK < src_summary.txt |
+    grep_PKGNAME_n_PKGBASE_only |
+cmp 'pkg_grep_summary -i #28.1' \
 'PKGNAME=awk-pkgsrc-dewey-0.5.6
 PKGPATH=wip/awk-pkgsrc-dewey
 
@@ -638,6 +788,17 @@ PKGPATH=www/ap2-vhost-ldap:PKG_APACHE=apache2
 
 '
 
+runtest pkg_grep_summary -ii -t suffix PKGBASE LDAP < src_summary.txt |
+    grep_PKGNAME_n_PKGBASE_only |
+cmp 'pkg_grep_summary -i #30.1' \
+'PKGNAME=ap22-vhost-ldap-1.2.0nb1
+PKGPATH=www/ap22-vhost-ldap
+
+PKGNAME=ap2-vhost-ldap-1.2.0nb1
+PKGPATH=www/ap2-vhost-ldap:PKG_APACHE=apache2
+
+'
+
 runtest pkg_grep_summary -t suffix PKGBASE nis < src_summary.txt |
     grep_PKGNAME_n_PKGBASE_only |
 cmp 'pkg_grep_summary #31' \
@@ -646,6 +807,20 @@ cmp 'pkg_grep_summary #31' \
 runtest pkg_grep_summary -t word PKGBASE dict < src_summary.txt |
     grep_PKGNAME_n_PKGBASE_only |
 cmp 'pkg_grep_summary #32' \
+'PKGNAME=dict-server-1.10.11nb2
+PKGPATH=wip/dict-server
+
+PKGNAME=dict-client-1.9.15nb2
+PKGPATH=textproc/dict-client
+
+PKGNAME=dict-client-1.10.11nb2
+PKGPATH=wip/dict-client
+
+'
+
+runtest pkg_grep_summary -it word PKGBASE DICT < src_summary.txt |
+    grep_PKGNAME_n_PKGBASE_only |
+cmp 'pkg_grep_summary -i #32.1' \
 'PKGNAME=dict-server-1.10.11nb2
 PKGPATH=wip/dict-server
 
@@ -711,9 +886,29 @@ PKGPATH=wip/dict-client
 
 '
 
+runtest pkg_grep_summary -i -t re PKGBASE 'D.*T' < src_summary.txt |
+    grep_PKGNAME_n_PKGBASE_only |
+cmp 'pkg_grep_summary -i #38.1' \
+'PKGNAME=distbb-0.22.0
+PKGPATH=wip/distbb
+
+PKGPATH=textproc/dictem
+PKGNAME=dictem-0.82
+
+PKGNAME=dict-server-1.10.11nb2
+PKGPATH=wip/dict-server
+
+PKGNAME=dict-client-1.9.15nb2
+PKGPATH=textproc/dict-client
+
+PKGNAME=dict-client-1.10.11nb2
+PKGPATH=wip/dict-client
+
+'
+
 runtest pkg_grep_summary -i -s MAINTAINER 'rillig@netbsd.org' < src_summary.txt |
     grep_PKGNAME_n_PKGBASE_only |
-cmp 'pkg_grep_summary #39' \
+cmp 'pkg_grep_summary -i #39.1' \
 'PKGNAME=checkperms-1.10
 PKGPATH=sysutils/checkperms
 
