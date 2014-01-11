@@ -1590,3 +1590,8 @@ DEPENDS misc/rubygems:RUBY_VERSION_REQD=18;ruby18-rubygems-1.8.24 www/ruby-rack-
 DEPENDS misc/rubygems:RUBY_VERSION_REQD=18;ruby18-rubygems-1.8.24 www/ruby-sinatra:RUBY_VERSION_REQD=18;ruby18-sinatra-1.3.3
 DEPENDS www/ruby-rack-protection:RUBY_VERSION_REQD=18;ruby18-rack-protection-1.2.0 www/ruby-sinatra:RUBY_VERSION_REQD=18;ruby18-sinatra-1.3.3
 '
+
+pkg_summary2deps -dnrs bin_summary9.txt 2>&1 | sort |
+cmp 'pkg_summary2deps -dnrs + >=*?[] #51' \
+'aaa-111 bbb-222
+'

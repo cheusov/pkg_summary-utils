@@ -1,0 +1,7 @@
+PKGNAME=aaa-111
+PKGPATH=catA
+
+PKGNAME=bbb-222
+PKGPATH=catB
+DEPENDS=aaa>=111.*
+
