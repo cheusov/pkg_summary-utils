@@ -47,6 +47,10 @@ size_t strlcpy(char *dst, const char *src, size_t size);
 size_t strlcat(char *dst, const char *src, size_t size);
 #endif
 
+#if !HAVE_FUNC3_GETLINE
+ssize_t getline(char** lineptr, size_t* n, FILE* stream);
+#endif
+
 typedef enum {
 	strat_bad,
 	strat_empty,
