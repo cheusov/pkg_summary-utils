@@ -64,8 +64,8 @@ typedef enum {
 	strat_last,
 	strat_word,
 	strat_re,
-} strat_t;
-static strat_t strat = strat_bad;
+} strat_id_t;
+static strat_id_t strat_id = strat_bad;
 
 static int ic = 0;
 
@@ -149,7 +149,7 @@ static void set_strat (const char *s)
 {
 	int i;
 
-	static const struct { strat_t id; const char name [10]; } ids [] = {
+	static const struct { strat_id_t id; const char name [10]; } ids [] = {
 		{strat_empty,   "empty"},
 		{strat_exact,   "exact"},
 		{strat_prefix,  "prefix"},
@@ -165,7 +165,7 @@ static void set_strat (const char *s)
 
 	for (i=0; i < sizeof (ids)/sizeof (ids [0]); ++i){
 		if (!strcmp (ids [i].name, s)){
-			strat = ids [i].id;
+			strat_id = ids [i].id;
 			return;
 		}
 	}
@@ -495,7 +495,7 @@ static void process_line (char *line, size_t line_len)
 			strlwr (value);
 
 		assert (strlen (value) == value_len); /* FIXME: remove me */
-		ret = funcs [strat] (value, value_len);
+		ret = funcs [strat_id] (value, value_len);
 
 		if (invert)
 			ret = 1 - ret;
@@ -544,7 +544,7 @@ static void end_summary (void)
 	int ret;
 	if (match == match_unknown){
 		if (field_id == field_PKGPATHe && PKGPATH [0]){
-			ret = funcs [strat] (PKGPATH, strlen (PKGPATH));
+			ret = funcs [strat_id] (PKGPATH, strlen (PKGPATH));
 			if (invert)
 				ret = 1 - ret;
 
@@ -555,7 +555,7 @@ static void end_summary (void)
 			}
 		}
 
-		if (match == match_unknown && strat == strat_empty){
+		if (match == match_unknown && strat_id == strat_empty){
 			if (!invert){
 				match = match_yes;
 				if (summary && summary [0])
@@ -609,7 +609,7 @@ static void read_summaries (void)
 
 static void set_field_n_cond (int argc, char **argv)
 {
-	switch (strat){
+	switch (strat_id){
 		case strat_bad:
 			exit (3);
 
@@ -622,7 +622,7 @@ static void set_field_n_cond (int argc, char **argv)
 
 			cond  = argv [1];
 			cond_len = strlen (cond);
-			if (ic && strat != strat_strfile)
+			if (ic && strat_id != strat_strfile)
 				strlwr (cond);
 
 			break;
@@ -667,7 +667,7 @@ static void free_memory (void)
 	if (output_fields)
 		free (output_fields);
 
-	if (strat == strat_re)
+	if (strat_id == strat_re)
 		regfree (&regexp);
 }
 
@@ -691,7 +691,7 @@ static void postproc_cond (void)
 	ssize_t len     = 0;
 	int ret         = 0;
 
-	switch (strat){
+	switch (strat_id){
 		case strat_strlist:
 			tokenize (cond, " ", add_cond);
 			break;
@@ -736,7 +736,7 @@ static void create_hash (void)
 {
 	int ht_size = 200;
 
-	if (strat == strat_strlist)
+	if (strat_id == strat_strlist)
 		ht_size = 50000;
 
 	if (!hcreate (ht_size)){
