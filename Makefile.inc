@@ -13,11 +13,12 @@ DISTDIR    ?=	/usr/pkgsrc/distfiles
 PKGSRCDIR  ?=	/usr/pkgsrc
 PKG_SUFX   ?=	.tgz
 PKG_DBDIR  ?=	/var/db/pkg
+PKG_TOOLS_BIN ?=/usr/sbin
 DIFF_PROG  ?=	diff -U10
 
 SH           ?=	/bin/sh
 AWK          ?=	/usr/bin/awk
-PKG_INFO_CMD ?=	/usr/sbin/pkg_info -K ${PKG_DBDIR}
+PKG_INFO_CMD ?=	${PKG_TOOLS_BIN}/pkg_info -K ${PKG_DBDIR}
 
 # NetBSD make is required for pkgsrc
 BMAKE        ?=	/usr/bin/make
