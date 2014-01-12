@@ -666,6 +666,9 @@ static void free_memory (void)
 
 	if (output_fields)
 		free (output_fields);
+
+	if (strat == strat_re)
+		regfree (&regexp);
 }
 
 static void add_cond (const char *c)
