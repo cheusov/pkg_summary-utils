@@ -1,6 +1,6 @@
 #!/usr/bin/env runawk
 
-#use "./pkgsrc-dewey.awk"
+#use "pkgsrc-dewey.awk"
 #use "alt_assert.awk"
 
 function check (condition, msg){
