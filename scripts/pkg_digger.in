@@ -1,4 +1,4 @@
-#!/bin/sh
+#!@SH@
 
 # Copyright (c) 2008-2014, Aleksey Cheusov <vle@gmx.net>
 # All rights reserved.
