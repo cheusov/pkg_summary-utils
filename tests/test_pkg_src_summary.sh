@@ -7,6 +7,7 @@ hide_distfile_size (){
 }
 
 pkg_src_summary -f PKGNAME,PKGPATH -A databases/sqlite3 |
+pkg_grep_summary -v -t strlist PKGBASE 'readline ncurses pkg_install-info' |
 hide_distfile_size | normalize_version | grep -vE 'DEPENDS=' |
 cmp 'pkg_src_summary #27.1' \
 'PKGNAME=sqlite3-X
@@ -15,6 +16,7 @@ PKGPATH=databases/sqlite3
 '
 
 pkg_src_summary -f PKGNAME,PKGPATH -At databases/sqlite3 |
+pkg_grep_summary -v -t strlist PKGBASE 'readline ncurses pkg_install-info nbpatch' |
 hide_distfile_size | normalize_version | grep -vE 'DEPENDS=' |
 cmp 'pkg_src_summary #27.2' \
 'PKGNAME=sqlite3-X
