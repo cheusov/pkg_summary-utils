@@ -3,7 +3,7 @@ test:
 	unset MAKEFLAGS; \
 	set -e; \
 	OBJDIR=${OBJDIR_scripts}; export OBJDIR; \
-	env PATH="$OBJDIR:$$PATH" ./test.sh
+	env PATH="$OBJDIR:$$PATH" ${SH} ./test.sh
 
 .include <mkc.mk>
 
