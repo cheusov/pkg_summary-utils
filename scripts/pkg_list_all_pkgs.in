@@ -1,7 +1,7 @@
 #!@SH@
 #-*-mode:  sh -*-
 
-# Copyright (c) 2007-2012, Aleksey Cheusov <vle@gmx.net>
+# Copyright (c) 2007-2014, Aleksey Cheusov <vle@gmx.net>
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -33,7 +33,10 @@ set -e
 
 LIBEXECDIR=${LIBEXECDIR-@libexecdir@}
 . ${LIBEXECDIR}/sig_handler.sh
-on_exit () { rm -rf $tmp_dir; }
+on_exit () {
+	# Stupid test for stupid Solaris
+	if test -n "$tmp_dir"; then rm -rf $tmp_dir; fi
+}
 
 ############################################################
 usage (){
@@ -103,7 +106,7 @@ get_SUBDIR (){
 }
 
 prepand (){
-    awk -v prefix="$1" '
+    runawk -v prefix="$1" -e '
 {
    for (i=1; i <= NF; ++i)
       print prefix $i

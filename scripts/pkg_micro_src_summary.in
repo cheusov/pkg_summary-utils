@@ -1,7 +1,7 @@
 #!@SH@
 #-*-mode:  sh -*-
 
-# Copyright (c) 2007-2010, Aleksey Cheusov <vle@gmx.net>
+# Copyright (c) 2007-2014, Aleksey Cheusov <vle@gmx.net>
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -40,7 +40,10 @@ SH=${SH-@SH@}
 ############################################################
 LIBEXECDIR=${LIBEXECDIR-@libexecdir@}
 . ${LIBEXECDIR}/sig_handler.sh
-on_exit () { rm -rf $tmpdir; }
+on_exit () {
+	# Stupid test for stupid Solaris
+	if test -n "$tmpdir"; then rm -rf $tmpdir; fi
+}
 
 tmpdir=`mktemp -d ${TMPDIR-/tmp}/pkg_micro_src_summary.XXXXXX`
 test -n $tmpdir || exit 1

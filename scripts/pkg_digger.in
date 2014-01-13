@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# Copyright (c) 2008-2010, Aleksey Cheusov <vle@gmx.net>
+# Copyright (c) 2008-2014, Aleksey Cheusov <vle@gmx.net>
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -32,7 +32,10 @@ export LC_ALL=C
 
 LIBEXECDIR=${LIBEXECDIR-@libexecdir@}
 . ${LIBEXECDIR}/sig_handler.sh
-on_exit () { rm -rf $tmp_dir; }
+on_exit () {
+	# Stupid test for stupid Solaris
+	if test -n "$tmp_dir"; then rm -rf $tmp_dir; fi
+}
 
 PKGDIG_SYSCONFDIR=${PKGDIG_SYSCONFDIR-@sysconfdir@}
 
