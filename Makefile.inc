@@ -1,4 +1,4 @@
-VERSION     =	0.62.0
+VERSION     =	0.63.0
 
 MKC_COMMON_HEADERS  =	string.h stdio.h
 MKC_SOURCE_FUNCLIBS =	strlcat strlcpy getline

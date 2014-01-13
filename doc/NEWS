@@ -1,4 +1,37 @@
 ----------------------------------------------------------------------
+Version 0.63.0, by Aleksey Cheusov, Mon, 13 Jan 2014 18:23:17 +0300
+
+  pkg_grep_summary:
+    - almost all search strategies were reimplemented in C for better
+      performance, as a result all utilities using pkg_grep_summary(1)
+      work much faster.  Strategies still implemented in AWK: awk, kw.
+    - converted to use shell's getopts.
+    - new regression tests.
+
+  pkg_src_summary:
+    - if -m, -d, -D aren't applied, temporary files are not created.
+    - adapted for recent paexec(1) improvements.
+
+  pkg_update_src_summary:
+    - progress counter is output if -v is applied.
+
+  pkg_summary2deps:
+    - workaround for buggy patterns like >=foo-1.* was implemented.
+
+  pkg_summary-utils build infrastructure is completely reimplemented. Now
+  it is a two-level project.  Subprojects: scripts and grep_summary
+  (enabled by default), doc and tests.
+
+  PKG_TOOLS_BIN env. variable is used at build time as a default
+  directory for pkg_info(8) (for OpenBSD/FreeBSD in order to avoid
+  conflicts with their native pkg_* tools).
+
+  A number of stupid workarounds for stupid Solaris' userlevel.
+
+  All scripts written in shell uses @SH@ in shebang and therefore uses
+  pkgsrc's ${SH} at run time.
+
+----------------------------------------------------------------------
 Version 0.62.0, by Aleksey Cheusov, Thu, 16 May 2013 03:54:40 +0300
 
   pkg_src_summary:
