@@ -129,20 +129,22 @@ NF == 2 {
 }
 
 function rec (pkg,                    i,to){
+	result [pkg] = 1
+
 	if (! (pkg in count))
 		return
 
-	result [pkg] = 1
 	for (i=1; i <= count [pkg]; ++i){
 		to = edge [pkg, i]
 
 #		print "!", pkg, to
-		if (opt_1)
+		if (opt_1){
 			result_edge [pkg, to] = 0
-		else
-			rec(to)
-
-		result [to] = 1
+			result [to] = 1
+		}else{
+			if (! (to in result))
+				rec(to)
+		}
 	}
 }
 
