@@ -26,9 +26,6 @@ PKGPATH=devel/libtool-base
 PKGNAME=pkg_summary-utils-X
 PKGPATH=wip/pkg_summary-utils
 
-PKGNAME=libungif-X
-PKGPATH=graphics/libungif
-
 PKGNAME=tiff-X
 PKGPATH=graphics/tiff
 
@@ -83,6 +80,8 @@ Bad package wip/pkg_online-client, skipped
 Bad package wip/paexec, skipped
  ------------------
 Bad package wip/runawk, skipped
+ ------------------
+Bad package graphics/libungif, skipped
  ------------------
 Bad package wip/dict-client, skipped
  ------------------
