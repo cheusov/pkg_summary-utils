@@ -1,6 +1,6 @@
 #!/usr/bin/env runawk
 
-# Copyright (c) 2007-2013, Aleksey Cheusov <vle@gmx.net>
+# Copyright (c) 2007-2014, Aleksey Cheusov <vle@gmx.net>
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -41,10 +41,11 @@
 #        pkg_cmp_summary [OPTIONS] summary1 summary2
 # OPTIONS:
 #   -h         display this help
-#   -p         use PKGPATH:PKGBASE pair for identifing a package
+#   =f <id>    specifies what fields to use for package identifying:
+#              "b" -- PKGBASE (the default),
+#              "p" -- PKGPATH,
+#              "a" -- ASSIGNMENTS.
 #   -c         synonym for '-a CVS_CHECKSUM'
-#   -m         ignored
-#   -P         use PKGPATH only for comparison, ignore PKGNAME
 #   -d         consider packages different
 #              if they have different DEPENDS
 #   -b         synonym for '-a BUILD_DATE'
@@ -65,9 +66,21 @@
 #                 don't use them for comparison.
 #   -E            if -A and -E applied field values are output even
 #                 if they are equal in summary1 and summary2
-#                
+# DEPRECATED OPTIONS
+#   -p         synonym for '-f pab' (deprecated since 2014-06-28)
+#   -P         synonym for '-f pa'  (deprecated since 2014-06-28)
+#
 #.end-str
 ############################################################
+
+function set_pkg_id(id){
+#	print "lalala ", id
+	if (index(id, "b")) with_pkgname = 1
+	if (index(id, "p")) with_pkgpath = 1
+	if (index(id, "a")) with_assigns = 1
+	if (id ~ /[^bpa]/)
+		abort("invalid argument for 'pkg_cmp_summary -f'")
+}
 
 BEGIN {
 	if (getarg("h")){
@@ -75,9 +88,13 @@ BEGIN {
 		exit 0
 	}
 
-	with_pkgname = 1
+	if (getarg("p"))
+		set_pkg_id("pab")
+	else if (getarg("P"))
+		set_pkg_id("pa")
+	else
+		set_pkg_id(getarg("f", "b"))
 
-	with_pkgpath    = getarg("p")
 	use_dep         = getarg("d")
 	check_existence = getarg("e")
 	user_auto       = getarg("u")
@@ -94,11 +111,6 @@ BEGIN {
 	output_equal    = getarg("E") || OUT_fields != ""
 
 	add_fields = trim_lrc(add_fields " " ADD_fields)
-
-	if (getarg("P")){
-		with_pkgpath = 1
-		with_pkgname = 0
-	}
 
 	output2 = getarg("2")
 
@@ -150,7 +162,7 @@ user_auto && FILENAME == file1 && /^automatic=/ {
 	next
 }
 
-with_pkgpath && /^ASSIGNMENTS=/ {
+with_assigns && /^ASSIGNMENTS=/ {
 	assigns = trim_lr(substr($0, 13))
 	next
 }

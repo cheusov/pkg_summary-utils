@@ -21,18 +21,11 @@ existing tools:
        - reimplement -F via -f
 
     pkg_cmp_summary:
-       - -f <p> use pkgpath only for comparison
-       - -f <n> use pkgbase only for comparison
-       - -f <pn> use pkgbase and pkgpath for comparison
        - automatic removal of #-comments
 
     pkg_micro_src_summary:
        - support for DESCRIPTION and ALLDISTFILES
-       - rewrite it! There is no reason to "emulate" 'make'.
-         Sometimes it is enough to run bmake for cut off Makefile.
-
-    pkg_src_fetch_var:
-       - remove it, see pkg_micro_src_summary
+       - _sometimes_ it is enough to run bmake for cut off Makefile.
 
     pkg_src_summary:
        - new option for exit code 0 if everything was done successfully,

@@ -51,12 +51,10 @@ PKGPATH appears in output if -p option is specified.
 .B "-h"
 display help message.
 .TP
-.B "-p"
-use (PKGPATH, PKGBASE) pair for identifing a package instead of PKGBASE.
-.TP
-.B "-m"
-for comparing summaries for multi-variant packages
-(PKGPATH=category/name:variable_assignments format of PKGPATH field).
+.BI -f " id"
+specifies what fields to use for package identifying. Letter
+"b" means PKGBASE (the default), "p" -- PKGPATH,
+"a" -- ASSIGNMENTS.
 .TP
 .B "-c"
 synonym for
