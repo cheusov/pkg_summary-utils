@@ -57,43 +57,6 @@ BEGIN {
 	delete f
 }
 
-function match_first_word (s, word){
-	if (s == word)
-		return 1
-	else if (!has_prefix(s, word))
-		return 0
-	else{
-		return substr(s, length(word)+1, 1) ~ /^[^A-Za-z0-9]$/
-	}
-}
-
-function match_last_word (s, word){
-	if (s == word)
-		return 1
-	else if (!has_suffix(s, word))
-		return 0
-	else
-		return substr(s, length(s)-length(word), 1) ~ /^[^A-Za-z0-9]$/
-}
-
-function match_word (s, word,                  idx){
-	if (s == word)
-		return 1
-
-	idx = index(s, word)
-	if (!idx)
-		return 0
-
-	if (idx > 1 && substr(s, idx-1, 1) ~ /[A-Za-z0-9]$/)
-		return 0
-
-	idx += length(word)
-	if (idx <= length(s) && substr(s, idx, 1) ~ /[A-Za-z0-9]$/)
-		return 0
-
-	return 1
-}
-
 function match_keywords (s,         cnt_s, arr_s, set_s, i){
     if (s !~ re_kw)
 		return 0
