@@ -1168,11 +1168,25 @@ if runtest pkg_grep_summary -r -fPKGNAME,PKGPATH \
 then
     echo found
 else
-    echo not found
+    echo "exit status: $?"
 fi
 } |
 cmp 'pkg_grep_summary #51' \
-'not found
+'exit status: 1
+'
+
+{
+if runtest pkg_grep_summary -r -t re PKGNAME '*' < src_summary.txt 2>&1
+then
+    echo found
+else
+    echo "exit status: $?"
+fi
+} |
+sed 's,\(regcomp[(]3[)] failed\):.*$,\1,' |
+cmp 'pkg_grep_summary -r <bad re> #51.1' \
+'regcomp(3) failed
+exit status: 2
 '
 
 {
@@ -1181,12 +1195,27 @@ if runtest pkg_grep_summary -R -fPKGNAME,PKGPATH \
 then
     echo found
 else
-    echo not found
+    echo "exit status: $?"
 fi
 } |
 cmp 'pkg_grep_summary #52' \
 'No matches found
-not found
+exit status: 1
+'
+
+{
+echo lalala |
+if runtest pkg_grep_summary -R -fPKGNAME,PKGPATH \
+    -s PKGPAIR 'foo-bar-baz' 2>&1
+then
+    echo found
+else
+    echo "exit status: $?"
+fi
+} |
+cmp 'pkg_grep_summary <bad input> #52.1' \
+'bad line: `lalala`
+exit status: 2
 '
 
 runtest pkg_grep_summary -T |

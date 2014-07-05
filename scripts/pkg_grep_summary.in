@@ -106,7 +106,7 @@ while getopts hivf:rRt:emsST f; do
 	v)
 	    invert=1;;
 	?)
-	    echo "Bad option $1" 1>&2; exit 1;;
+	    echo "Bad option $1" 1>&2; exit 2;;
     esac
 done
 shift `expr $OPTIND - 1`
@@ -141,7 +141,7 @@ fi
 test_argc (){
     if test "$1" -ne "$2"; then
 	echo "pkg_grep_summary: invalid number of arguments." 1>&2
-	exit 1
+	exit 2
     fi
 }
 
@@ -186,7 +186,7 @@ case "$strategy" in
 	condition='match_keywords(fvalue)';;
     *)
 	echo "Unknown search strategy: $strategy" 1>&2
-	exit 1;;
+	exit 2;;
 esac
 
 case "$strategy" in

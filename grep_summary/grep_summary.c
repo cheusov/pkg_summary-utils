@@ -111,7 +111,7 @@ static void *xrealloc(void *ptr, size_t size)
         void *ret = realloc (ptr, size);
         if (!ret){
                 perror ("realloc(3) failed");
-                exit (1);
+                exit (2);
         }
 
         return ret;
@@ -122,7 +122,7 @@ static char *xstrdup (const char *s)
         char *ret = strdup (s);
         if (!ret){
                 perror ("strdup(3) failed");
-                exit (1);
+                exit (2);
         }
 
         return ret;
@@ -165,7 +165,7 @@ static void set_strat (const char *s)
 	}
 
 	fprintf (stderr, "Unknown search strategy: %s\n", s);
-	exit (1);
+	exit (2);
 }
 
 static void set_field (const char *f)
@@ -347,7 +347,7 @@ static int process_line_re (char *value, size_t value_len)
 
 	regerror (ret, &regexp, errbuf, sizeof (errbuf));
 	fprintf (stderr, "regexec(3) failed: %s\n", errbuf);
-	exit (1);
+	exit (2);
 }
 
 typedef int (*process_line_t) (char *, size_t);
@@ -403,7 +403,7 @@ static void process_line (char *line, size_t line_len)
 
 	if (!value){
 		fprintf (stderr, "bad line: `%s`\n", line);
-		exit (1);
+		exit (2);
 	}
 	assert (value);
 
@@ -641,7 +641,7 @@ static void add_field (const char *f)
 	e.data = HASHVAL_FIELD;
 	if (!hsearch (e, ENTER)){
 		perror ("hsearch(3) failed");
-		exit (1);
+		exit (2);
 	}
 }
 
@@ -672,7 +672,7 @@ static void add_cond (const char *c)
 	e.data = HASHVAL_ITEM;
 	if (!hsearch (e, ENTER)){
 		perror ("hsearch(3) failed");
-		exit (1);
+		exit (2);
 	}
 }
 
@@ -693,7 +693,7 @@ static void postproc_cond (void)
 			fp = fopen (cond, "r");
 			if (!fp){
 				fprintf (stderr, "Cannot open file %s: %s\n", cond, strerror (errno));
-				exit (1);
+				exit (2);
 			}
 
 			while (len = getline (&line, &linesize, fp), len != -1){
@@ -718,7 +718,7 @@ static void postproc_cond (void)
 			if (ret){
 				regerror (ret, &regexp, errbuf, sizeof (errbuf));
 				fprintf (stderr, "regcomp(3) failed: %s\n", errbuf);
-				exit (1);
+				exit (2);
 			}
 			break;
 		default:
@@ -750,7 +750,7 @@ static void calc_hash_size (void)
 			fp = fopen (cond, "r");
 			if (!fp){
 				fprintf (stderr, "Cannot open file %s: %s\n", cond, strerror (errno));
-				exit (1);
+				exit (2);
 			}
 
 			while (len = getline (&line, &linesize, fp), len != -1){
@@ -781,7 +781,7 @@ static void create_hash (void)
 {
 	if (!hcreate (hash_size)){
 		perror ("hcreate(3) failed");
-		exit (1);
+		exit (2);
 	}
 }
 

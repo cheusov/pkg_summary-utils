@@ -90,7 +90,7 @@ is converted to lower case.
 invert the sense of match
 .TP
 .B "-r"
-exit status is non-zero if no matches were found.
+exit status is 1 if no matches were found.
 .TP
 .B "-R"
 option
@@ -169,6 +169,13 @@ will show search strategies with their descriptions separated by TAB character.
 .IR "-t awk <field> <awk_expr>" " and " "<field> <awk_expr>" " are equivalents"
 .br
 .IR "-t empty <field> ''" " and " "-e <field>" " are equivalents"
+.SH EXIT STATUS
+If unexpected failure happened, an exit status is more than 1.
+If matches were not found and option
+.B -r
+or
+.B -R
+were applied, exit status is 1. Otherwise, exit status is 0.
 .SH EXAMPLES
 .VB
 pkg_grep_summary -s PKGPATH 'devel/libjudy'
