@@ -6,7 +6,7 @@ SUBPRJ =	${SUBPRJ_DFLT} doc scripts:tests
 
 SHRTOUT     =	yes
 
-MKC-REQD    =	0.24.0
+MKC_REQD    =	0.26.0
 
 NODEPS      =	*:test-tests
 

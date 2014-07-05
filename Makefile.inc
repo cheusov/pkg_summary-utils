@@ -1,8 +1,6 @@
 VERSION     =	0.63.0
 
-MKC_COMMON_HEADERS  =	string.h stdio.h
-MKC_SOURCE_FUNCLIBS =	strlcat strlcpy getline
-MKC_CHECK_FUNCS3    =	strlcat strlcpy getline
+MKC_FEATURES        =	strlcat strlcpy getline
 
 LIBEXECDIR ?=	${PREFIX}/libexec/psu
 DOCDIR     ?=	${DATADIR}/doc/pkg_summary-utils

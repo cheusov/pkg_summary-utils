@@ -36,20 +36,12 @@
 #include <errno.h>
 #include <regex.h>
 
+#include <mkc_getline.h>
+#include <mkc_strlcat.h>
+#include <mkc_strlcpy.h>
+
 #define HASHVAL_FIELD (((char *)0) + 1)
 #define HASHVAL_ITEM  (((char *)0) + 2)
-
-#if !HAVE_FUNC3_STRLCPY
-size_t strlcpy(char *dst, const char *src, size_t size);
-#endif
-
-#if !HAVE_FUNC3_STRLCAT
-size_t strlcat(char *dst, const char *src, size_t size);
-#endif
-
-#if !HAVE_FUNC3_GETLINE
-ssize_t getline(char** lineptr, size_t* n, FILE* stream);
-#endif
 
 typedef enum {
 	strat_bad,
