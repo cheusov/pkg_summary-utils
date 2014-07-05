@@ -34,7 +34,7 @@ export LC_ALL=C
 : ${GREP_LIBEXECDIR:=@libexecdir@}
 
 usage (){
-    cat 1>&2 <<EOF
+    cat 1>&2 <<'EOF'
 pkg_grep_summary - output summaries about packages that matches
 the specified condition, summaries are read from stdin.
 
@@ -58,7 +58,7 @@ OPTIONS:
   -v          invert the sense of matching
   -f <fields> output only the specified fields, by default
               the whole summary is output
-  -r          exit status is non-zero if nothing was found
+  -r          exit status is 1 if nothing was found
   -R          -r + "No matches found" is output to stderr
 
   -t          matches <field> using search strategy <strategy>
