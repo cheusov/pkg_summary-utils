@@ -102,6 +102,8 @@ static char *output_fields = NULL;
 
 static regex_t regexp;
 
+static size_t hash_size = 0;
+
 /**************************************/
 
 static void *xrealloc(void *ptr, size_t size)
@@ -724,14 +726,60 @@ static void postproc_cond (void)
 	}
 }
 
+static void inc_hash_size (const char *s)
+{
+	++hash_size;
+}
+
+static void calc_hash_size (void)
+{
+	FILE *fp   = NULL;
+	char *line = NULL;
+	char *cond_copy = NULL;
+	size_t linesize = 0;
+	ssize_t len     = 0;
+
+	hash_size = 100;
+	switch (strat_id){
+		case strat_strlist:
+			cond_copy = xstrdup (cond);
+			tokenize (cond_copy, " ", inc_hash_size);
+			free (cond_copy);
+			break;
+		case strat_strfile:
+			fp = fopen (cond, "r");
+			if (!fp){
+				fprintf (stderr, "Cannot open file %s: %s\n", cond, strerror (errno));
+				exit (1);
+			}
+
+			while (len = getline (&line, &linesize, fp), len != -1){
+				if (len && line [len-1] == '\n'){
+					--len;
+					line [len] = 0;
+				}
+
+				if (ic)
+					strlwr (line);
+
+				tokenize (line, " ", inc_hash_size);
+			}
+
+			if (ferror (stdin))
+				perror ("getline(3) failed");
+
+			fclose (fp);
+			break;
+		default:
+			break;
+	}
+
+	hash_size = hash_size * 4 / 3;
+}
+
 static void create_hash (void)
 {
-	int ht_size = 200;
-
-	if (strat_id == strat_strlist)
-		ht_size = 50000;
-
-	if (!hcreate (ht_size)){
+	if (!hcreate (hash_size)){
 		perror ("hcreate(3) failed");
 		exit (1);
 	}
@@ -740,8 +788,9 @@ static void create_hash (void)
 int main (int argc, char **argv)
 {
 	process_args (&argc, &argv);
-	create_hash ();
 	set_field_n_cond (argc, argv);
+	calc_hash_size ();
+	create_hash ();
 	postproc_cond ();
 	process_output_fields ();
 	read_summaries ();
