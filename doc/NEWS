@@ -1,4 +1,16 @@
 ----------------------------------------------------------------------
+Version 0.65.0, by Aleksey Cheusov, Sun, 13 Jul 2014 19:36:25 +0300
+
+  mk-configure>=0.26.0 is required for build.
+
+  pkg_grep_summary
+    - fix for "-t strfile" (hcreate(3) hash is not autoresizable)
+    - if option -r was applied, the exit status is 1 for "not match"
+      and 2 for unexpected failure.
+
+  Code clean-ups and improvements.
+
+----------------------------------------------------------------------
 Version 0.64.0, by Aleksey Cheusov, Sat, 28 Jun 2014 17:32:10 +0300
 
   pkg_subgraph_deps:
