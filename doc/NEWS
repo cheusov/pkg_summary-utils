@@ -1,4 +1,15 @@
 ----------------------------------------------------------------------
+Version 0.64.0, by Aleksey Cheusov, Sat, 28 Jun 2014 17:32:10 +0300
+
+  pkg_subgraph_deps:
+    - significant performance improvements
+
+  pkg_cmp_summary:
+    - option -f was added, options -p and -P are considered deprecated
+
+  Code clean-ups in the default pkg_digger.conf
+
+----------------------------------------------------------------------
 Version 0.63.0, by Aleksey Cheusov, Mon, 13 Jan 2014 18:23:17 +0300
 
   pkg_grep_summary:

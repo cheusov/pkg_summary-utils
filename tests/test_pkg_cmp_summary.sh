@@ -32,6 +32,39 @@ cmp 'pkg_cmp_summary      #1' \
 - x11-links 0.38
 '
 
+pkg_cmp_summary -f b src_summary.txt src_summary2.txt | sort -k2,2 |
+cmp 'pkg_cmp_summary -f b #1.0.1' \
+'- ap2-vhost-ldap 1.2.0nb1
+- ap22-vhost-ldap 1.2.0nb1
+= awk-pkgsrc-dewey 0.5.6 0.5.6
+= checkperms 1.10 1.10
+2 dict-client
+< dict-server 1.10.11nb2 1.11.0
+= dictem 0.82 0.82
++ digest 99.99.99
+= distbb 0.22.0 0.22.0
+= emacs 22.1nb6 22.1nb6
+= gmake 3.81 3.81
+= jpeg 6bnb4 6bnb4
+= libltdl 1.5.24 1.5.24
+= libmaa 1.0.1nb1 1.0.1nb1
+= libtool-base 1.5.24nb6 1.5.24nb6
+= libungif 4.1.4nb1 4.1.4nb1
+- netcat 1.10nb2
+= paexec 0.10.0nb1 0.10.0nb1
+= perl 5.8.8nb8 5.8.8nb8
+< pipestatus 0.4.0 0.5.0
+= pkg-config 0.23 0.23
+= pkg_online 0.5.0nb2 0.5.0nb2
+= pkg_online-client 0.5.0 0.5.0
+= pkg_online-server 0.5.0 0.5.0
+= pkg_summary-utils 0.18.1 0.18.1
+= png 1.2.32beta01 1.2.32beta01
+> runawk 0.14.3 0.13.0
+= tiff 3.8.2nb4 3.8.2nb4
+- x11-links 0.38
+'
+
 pkg_cmp_summary -e src_summary.txt src_summary2.txt | sort -k2,2 |
 cmp 'pkg_cmp_summary -e   #1.1' \
 '- ap2-vhost-ldap 1.2.0nb1
@@ -100,6 +133,40 @@ cmp 'pkg_cmp_summary -p   #2' \
 - www/ap22-vhost-ldap:PKG_APACHE=apache22 ap22-vhost-ldap 1.2.0nb1
 '
 
+pkg_cmp_summary -fpba src_summary.txt src_summary2.txt | sort -k2,2 |
+cmp 'pkg_cmp_summary -fpba #2.1' \
+'= devel/gmake gmake 3.81 3.81
+= devel/libltdl libltdl 1.5.24 1.5.24
+= devel/libmaa libmaa 1.0.1nb1 1.0.1nb1
+= devel/libtool-base libtool-base 1.5.24nb6 1.5.24nb6
+< devel/pipestatus pipestatus 0.4.0 0.5.0
+= devel/pkg-config pkg-config 0.23 0.23
+= editors/emacs emacs 22.1nb6 22.1nb6
+= graphics/jpeg jpeg 6bnb4 6bnb4
+= graphics/libungif libungif 4.1.4nb1 4.1.4nb1
+= graphics/png png 1.2.32beta01 1.2.32beta01
+= graphics/tiff tiff 3.8.2nb4 3.8.2nb4
+= lang/perl5 perl 5.8.8nb8 5.8.8nb8
+- net/netcat netcat 1.10nb2
++ pkgtools/digest digest 99.99.99
+- pkgtools/x11-links x11-links 0.38
+= sysutils/checkperms checkperms 1.10 1.10
+= textproc/dict-client dict-client 1.9.15nb2 1.9.15nb2
+= textproc/dictem dictem 0.82 0.82
+= wip/awk-pkgsrc-dewey awk-pkgsrc-dewey 0.5.6 0.5.6
+= wip/dict-client dict-client 1.10.11nb2 1.10.11nb2
+< wip/dict-server dict-server 1.10.11nb2 1.11.0
+= wip/distbb distbb 0.22.0 0.22.0
+= wip/paexec paexec 0.10.0nb1 0.10.0nb1
+= wip/pkg_online pkg_online 0.5.0nb2 0.5.0nb2
+= wip/pkg_online-client pkg_online-client 0.5.0 0.5.0
+= wip/pkg_online-server pkg_online-server 0.5.0 0.5.0
+= wip/pkg_summary-utils pkg_summary-utils 0.18.1 0.18.1
+> wip/runawk runawk 0.14.3 0.13.0
+- www/ap2-vhost-ldap:PKG_APACHE=apache2 ap2-vhost-ldap 1.2.0nb1
+- www/ap22-vhost-ldap:PKG_APACHE=apache22 ap22-vhost-ldap 1.2.0nb1
+'
+
 pkg_cmp_summary src_summary4.txt src_summary5.txt | sort -k2,2 |
 cmp 'pkg_cmp_summary      #4' \
 '= dictem 1.0.0 1.0.0
@@ -122,7 +189,41 @@ cmp 'pkg_cmp_summary -cp  #8' \
 '
 
 pkg_cmp_summary -P src_summary.txt src_summary2.txt | sort -k2,2 |
-cmp 'pkg_cmp_summary -P   #9' \
+cmp 'pkg_cmp_summary -f ap   #9' \
+'= devel/gmake
+= devel/libltdl
+= devel/libmaa
+= devel/libtool-base
+= devel/pipestatus
+= devel/pkg-config
+= editors/emacs
+= graphics/jpeg
+= graphics/libungif
+= graphics/png
+= graphics/tiff
+= lang/perl5
+- net/netcat
++ pkgtools/digest
+- pkgtools/x11-links
+= sysutils/checkperms
+= textproc/dict-client
+= textproc/dictem
+= wip/awk-pkgsrc-dewey
+= wip/dict-client
+= wip/dict-server
+= wip/distbb
+= wip/paexec
+= wip/pkg_online
+= wip/pkg_online-client
+= wip/pkg_online-server
+= wip/pkg_summary-utils
+= wip/runawk
+- www/ap2-vhost-ldap:PKG_APACHE=apache2
+- www/ap22-vhost-ldap:PKG_APACHE=apache22
+'
+
+pkg_cmp_summary -fpa src_summary.txt src_summary2.txt | sort -k2,2 |
+cmp 'pkg_cmp_summary -fpa  #9.1' \
 '= devel/gmake
 = devel/libltdl
 = devel/libmaa

@@ -14,5 +14,5 @@ test : all-tests test-tests
 	@:
 
 ############################################################
-
+.include "Makefile.inc"
 .include <mkc.subprj.mk>
