@@ -1,4 +1,10 @@
 ----------------------------------------------------------------------
+Version 0.65.1, by Aleksey Cheusov, Wed, 13 Aug 2014 01:57:37 +0300
+
+  Build failure was fixed on Haiku.  Haiku provides strlwr(3) that
+  conflicts with pkg_summary-utils' version.
+
+----------------------------------------------------------------------
 Version 0.65.0, by Aleksey Cheusov, Sun, 13 Jul 2014 19:36:25 +0300
 
   mk-configure>=0.26.0 is required for build.
