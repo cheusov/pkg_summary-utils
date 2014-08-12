@@ -130,7 +130,7 @@ static char *xstrdup (const char *s)
 
 /**************************************/
 
-static void strlwr (char *p)
+static void strlwr_imp (char *p)
 {
 	for (; *p; ++p){
 		*p = tolower ((int) (unsigned char) *p);
@@ -486,7 +486,7 @@ static void process_line (char *line, size_t line_len)
 
 	if (run_func){
 		if (ic)
-			strlwr (value);
+			strlwr_imp (value);
 
 		assert (strlen (value) == value_len); /* FIXME: remove me */
 		ret = funcs [strat_id] (value, value_len);
@@ -617,7 +617,7 @@ static void set_field_n_cond (int argc, char **argv)
 			cond  = argv [1];
 			cond_len = strlen (cond);
 			if (ic && strat_id != strat_strfile)
-				strlwr (cond);
+				strlwr_imp (cond);
 
 			break;
 	}
@@ -703,7 +703,7 @@ static void postproc_cond (void)
 				}
 
 				if (ic)
-					strlwr (line);
+					strlwr_imp (line);
 
 				tokenize (line, " ", add_cond);
 			}
@@ -760,7 +760,7 @@ static void calc_hash_size (void)
 				}
 
 				if (ic)
-					strlwr (line);
+					strlwr_imp (line);
 
 				tokenize (line, " ", inc_hash_size);
 			}
