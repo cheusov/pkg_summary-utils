@@ -1,4 +1,4 @@
-VERSION     =	0.65.1
+VERSION     =	0.65.2
 
 MKC_FEATURES        =	strlcat strlcpy getline
 
