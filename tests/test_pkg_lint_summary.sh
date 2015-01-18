@@ -6,14 +6,14 @@ cmp 'pkg_lint_summary #1' \
 '
 
 pkg_lint_summary -p /usr/pkg -l bin_summary1.txt | sort |
-cmp 'pkg_lint_summary #2' \
+cmp 'pkg_lint_summary -l #2' \
 'l: not_found /usr/pkg/lib/libmaa.so.2 wip/dict-client dict-client-1.11.2
 l: not_found /usr/pkg/lib/libz.so.1 wip/dict-client dict-client-1.11.2
 l: not_found /usr/pkg/lib/libz.so.1 wip/dict-server dict-server-1.11.2
 '
 
 pkg_lint_summary -p /usr -l bin_summary1.txt | sort |
-cmp 'pkg_lint_summary #2.1' \
+cmp 'pkg_lint_summary -l #2.1' \
 'l: not_found /usr/lib/libc.so.12 devel/gmake gmake-3.81
 l: not_found /usr/lib/libc.so.12 devel/libmaa libmaa-1.1.0
 l: not_found /usr/lib/libc.so.12 net/netcat netcat-1.10nb2
@@ -28,21 +28,25 @@ l: not_found /usr/pkg/lib/libz.so.1 wip/dict-client dict-client-1.11.2
 l: not_found /usr/pkg/lib/libz.so.1 wip/dict-server dict-server-1.11.2
 '
 
+pkg_lint_summary -p /usr/pkg -l bin_summary12.txt | sort |
+cmp 'pkg_lint_summary -l #2.2' \
+''
+
 pkg_lint_summary -dDu src_summary.txt | sort |
-cmp 'pkg_lint_summary -Ap #3' \
+cmp 'pkg_lint_summary -dDu #3' \
 'd: not_found libmaa>=1.2 <- wip/dict-server dict-server-1.10.11nb2
 d: not_found pkg_summary-utils>=0.19.0 <- wip/pkg_online-server pkg_online-server-0.5.0
 u: unicity dict-client <- textproc/dict-client wip/dict-client
 '
 
 pkg_lint_summary -dD src_summary2.txt | sort |
-cmp 'pkg_lint_summary -Ap #4' \
+cmp 'pkg_lint_summary -dD #4' \
 'd: not_found pkg_online-client-0.5.0nb2 <- wip/pkg_online pkg_online-0.5.0nb2
 d: not_found pkg_online-server-0.5.0nb2 <- wip/pkg_online pkg_online-0.5.0nb2
 '
 
 pkg_lint_summary -cd src_summary12.txt | sort |
-cmp 'pkg_lint_summary -Ap #5' \
+cmp 'pkg_lint_summary -cd #5' \
 'c: conflict awk-pkgsrc-dewey-[0-9]* wip/awk-pkgsrc-dewey awk-pkgsrc-dewey-0.5.6 <- wip/pkg_summary-utils pkg_summary-utils-0.49beta2
 c: conflict egcs-current-19980608 somewhere/egcs-current egcs-current-19980608 <- lang/f2c f2c-20090411nb5
 c: conflict glibtool-[0-9]* somewhere/glibtool glibtool-1.2.3 <- devel/libtool-base libtool-base-2.2.6bnb4
@@ -57,16 +61,16 @@ d: not_found paexec>=0.15.0 <- wip/distbb distbb-0.38.2
 '
 
 pkg_lint_summary -u src_summary3.txt | sort |
-cmp 'pkg_lint_summary -Ap #6' \
+cmp 'pkg_lint_summary -u #6' \
 'u: unicity distbb <- wip/distbb:OPT1=1,OPT2=2 wip/distbb:OPT1=1,OPT2=2 wip/distbb:OPT=1,OPT2=3
 '
 
 pkg_lint_summary -u src_summary7.txt | sort |
-cmp 'pkg_lint_summary -Ap #7' \
+cmp 'pkg_lint_summary -u #7' \
 ''
 
 pkg_lint_summary -u src_summary9.txt | sort |
-cmp 'pkg_lint_summary -Ap #8' \
+cmp 'pkg_lint_summary -u #8' \
 'u: unicity emacs <- editors/emacs editors/emacs21 editors/emacs22
 '
 

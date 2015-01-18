@@ -1,0 +1,157 @@
+PKGNAME=gcc48-cc++-4.8.3
+DEPENDS=gcc48-libs-4.8.3{,nb[0-9]*}
+COMMENT=C/C++ compilers from the GNU Compiler Collection (GCC) 4.8
+SIZE_PKG=71647611
+BUILD_DATE=2014-11-13 01:39:03 +0000
+CATEGORIES=lang
+HOMEPAGE=http://gcc.gnu.org/
+LICENSE=gnu-gpl-v2 AND gnu-gpl-v3 AND gnu-lgpl-v2 AND gnu-lgpl-v3
+MACHINE_ARCH=x86_64
+OPSYS=NetBSD
+OS_VERSION=6.0
+PKGPATH=lang/gcc48-cc++
+PKGTOOLS_VERSION=20091115
+PKG_OPTIONS=gcc-graphite gcc-inplace-math nls
+REQUIRES=/lib/libgcc_s.so.1
+REQUIRES=/usr/lib/libc.so.12
+REQUIRES=/usr/lib/libm.so.0
+REQUIRES=/usr/pkg/gcc48//lib/./libgcc_s.so.1
+FILE_NAME=gcc48-cc++-4.8.3.tgz
+FILE_SIZE=21911617
+DESCRIPTION=C and C++ compilers from the GNU Compiler Collection (GCC) 4.8 release branch.
+DESCRIPTION=
+DESCRIPTION=Homepage:
+DESCRIPTION=http://gcc.gnu.org/
+
+PKGNAME=webkit-gtk-2.4.5
+DEPENDS=gcc48-libs>=4.8.0
+DEPENDS=enchant>=1.6.0nb5
+DEPENDS=glib2>=2.34.0
+DEPENDS=libwebp>=0.2.0
+DEPENDS=jpeg>=9
+DEPENDS=png>=1.6.0nb1
+DEPENDS=gstreamer1>=1.0.3
+DEPENDS=gst-plugins1-base>=1.0.3
+DEPENDS=libsoup24>=2.44.2nb1
+DEPENDS=libsecret>=0.15nb1
+DEPENDS=icu>=53.1
+DEPENDS=libxslt>=1.1.28nb2
+DEPENDS=gtk2+>=2.24.22nb3
+DEPENDS=cairo-gobject>=1.12.16nb1
+COMMENT=GTK2 port of the WebKit browser engine
+SIZE_PKG=688652921
+BUILD_DATE=2014-11-23 23:49:49 +0000
+CATEGORIES=www
+HOMEPAGE=http://www.webkitgtk.org/
+LICENSE=
+MACHINE_ARCH=x86_64
+OPSYS=NetBSD
+OS_VERSION=6.0
+PKGPATH=www/webkit-gtk
+PKGTOOLS_VERSION=20091115
+PKG_OPTIONS=enchant opengl
+REQUIRES=/usr/X11R7/lib/libGL.so.2
+REQUIRES=/usr/X11R7/lib/libICE.so.7
+REQUIRES=/usr/X11R7/lib/libSM.so.7
+REQUIRES=/usr/X11R7/lib/libX11.so.7
+REQUIRES=/usr/X11R7/lib/libXau.so.7
+REQUIRES=/usr/X11R7/lib/libXcomposite.so.2
+REQUIRES=/usr/X11R7/lib/libXcursor.so.2
+REQUIRES=/usr/X11R7/lib/libXdamage.so.2
+REQUIRES=/usr/X11R7/lib/libXdmcp.so.7
+REQUIRES=/usr/X11R7/lib/libXext.so.7
+REQUIRES=/usr/X11R7/lib/libXfixes.so.4
+REQUIRES=/usr/X11R7/lib/libXi.so.7
+REQUIRES=/usr/X11R7/lib/libXinerama.so.2
+REQUIRES=/usr/X11R7/lib/libXrandr.so.3
+REQUIRES=/usr/X11R7/lib/libXrender.so.2
+REQUIRES=/usr/X11R7/lib/libXt.so.7
+REQUIRES=/usr/X11R7/lib/libXxf86vm.so.2
+REQUIRES=/usr/X11R7/lib/libdrm.so.3
+REQUIRES=/usr/X11R7/lib/libfreetype.so.7
+REQUIRES=/usr/X11R7/lib/libxcb-render.so.0
+REQUIRES=/usr/X11R7/lib/libxcb-shm.so.0
+REQUIRES=/usr/X11R7/lib/libxcb.so.1
+REQUIRES=/usr/lib/libbz2.so.1
+REQUIRES=/usr/lib/libc.so.12
+REQUIRES=/usr/lib/libexpat.so.2
+REQUIRES=/usr/lib/libgcc_s.so.1
+REQUIRES=/usr/lib/libintl.so.1
+REQUIRES=/usr/lib/liblzma.so.1
+REQUIRES=/usr/lib/libm.so.0
+REQUIRES=/usr/lib/libpthread.so.1
+REQUIRES=/usr/lib/librt.so.1
+REQUIRES=/usr/lib/libsqlite3.so.1
+REQUIRES=/usr/lib/libstdc++.so.7
+REQUIRES=/usr/lib/libz.so.1
+REQUIRES=/usr/pkg/gcc48/trtrtr/lalala/..
+REQUIRES=/usr/pkg/gcc48/brbrbr
+REQUIRES=/usr/pkg/gcc48//lib/./libgcc_s.so.1
+REQUIRES=/usr/pkg/gcc48//lib/./libstdc++.so.6
+FILE_NAME=webkit-gtk-2.4.5.tgz
+FILE_SIZE=114895239
+DESCRIPTION=WebKit is an open source web browser engine. WebKit is also the name of
+DESCRIPTION=the Mac OS X system framework version of the engine that's used by
+DESCRIPTION=Safari, Dashboard, Mail, and many other OS X applications. WebKit's HTML
+DESCRIPTION=and JavaScript code began as a branch of the KHTML and KJS libraries
+DESCRIPTION=from KDE.
+DESCRIPTION=
+DESCRIPTION=This is the GTK2+ port of the engine.
+DESCRIPTION=
+DESCRIPTION=Homepage:
+DESCRIPTION=http://www.webkitgtk.org/
+
+PKGNAME=gcc48-libs-4.8.3
+COMMENT=Runtime libraries from the GNU Compiler Collection (GCC) 4.8
+SIZE_PKG=65133714
+BUILD_DATE=2014-11-12 23:07:58 +0000
+CATEGORIES=lang
+HOMEPAGE=http://gcc.gnu.org/
+LICENSE=gnu-gpl-v2 AND gnu-gpl-v3 AND gnu-lgpl-v2 AND gnu-lgpl-v3
+MACHINE_ARCH=x86_64
+OPSYS=NetBSD
+OS_VERSION=6.0
+PKGPATH=lang/gcc48-libs
+PKGTOOLS_VERSION=20091115
+PKG_OPTIONS=gcc-graphite gcc-inplace-math nls
+PROVIDES=/usr/pkg/gcc48/lib/libatomic.so
+PROVIDES=/usr/pkg/gcc48/lib/libatomic.so.1
+PROVIDES=/usr/pkg/gcc48/lib/libatomic.so.1.0
+PROVIDES=/usr/pkg/gcc48/lib/libgcc_s.so
+PROVIDES=/usr/pkg/gcc48/lib/libgcc_s.so.1
+PROVIDES=/usr/pkg/gcc48/lib/libgfortran.so
+PROVIDES=/usr/pkg/gcc48/lib/libgfortran.so.3
+PROVIDES=/usr/pkg/gcc48/lib/libgfortran.so.3.0
+PROVIDES=/usr/pkg/gcc48/lib/libgomp.so
+PROVIDES=/usr/pkg/gcc48/lib/libgomp.so.1
+PROVIDES=/usr/pkg/gcc48/lib/libgomp.so.1.0
+PROVIDES=/usr/pkg/gcc48/lib/libitm.so
+PROVIDES=/usr/pkg/gcc48/lib/libitm.so.1
+PROVIDES=/usr/pkg/gcc48/lib/libitm.so.1.0
+PROVIDES=/usr/pkg/gcc48/lib/libobjc.so
+PROVIDES=/usr/pkg/gcc48/lib/libobjc.so.4
+PROVIDES=/usr/pkg/gcc48/lib/libobjc.so.4.0
+PROVIDES=/usr/pkg/gcc48/lib/libssp.so
+PROVIDES=/usr/pkg/gcc48/lib/libssp.so.0
+PROVIDES=/usr/pkg/gcc48/lib/libssp.so.0.0
+PROVIDES=/usr/pkg/gcc48/lib/libstdc++.so
+PROVIDES=/usr/pkg/gcc48/lib/libstdc++.so.6
+PROVIDES=/usr/pkg/gcc48/lib/libstdc++.so.6.19
+PROVIDES=/usr/pkg/gcc48/libexec/gcc/x86_64--netbsd/4.8.3/liblto_plugin.so
+PROVIDES=/usr/pkg/gcc48/libexec/gcc/x86_64--netbsd/4.8.3/liblto_plugin.so.0
+PROVIDES=/usr/pkg/gcc48/libexec/gcc/x86_64--netbsd/4.8.3/liblto_plugin.so.0.0
+PROVIDES=/usr/pkg/gcc48/./trtrtr//
+PROVIDES=/usr/pkg/gcc48/./brbrbr//
+REQUIRES=/lib/libc.so.12
+REQUIRES=/lib/libgcc_s.so.1
+REQUIRES=/usr/lib/libc.so.12
+REQUIRES=/usr/lib/libgcc_s.so.1
+REQUIRES=/usr/lib/libm.so.0
+REQUIRES=/usr/lib/libpthread.so.1
+FILE_NAME=gcc48-libs-4.8.3.tgz
+FILE_SIZE=17199151
+DESCRIPTION=The runtime libraries from the GNU Compiler Collection (GCC) 4.8 release branch.
+DESCRIPTION=
+DESCRIPTION=Homepage:
+DESCRIPTION=http://gcc.gnu.org/
+
