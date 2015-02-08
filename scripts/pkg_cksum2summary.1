@@ -1,0 +1,46 @@
+.\"	$NetBSD$
+.\"
+.\" Copyright (c) 2015 by Aleksey Cheusov (vle@gmx.net)
+.\" Absolutely no warranty.
+.\"
+.\" ------------------------------------------------------------------
+.de VB \" Verbatim Begin
+.ft CW
+.nf
+.ne \\$1
+..
+.de VE \" Verbatim End
+.ft R
+.fi
+..
+.\" ------------------------------------------------------------------
+.TH PKG_CKSUM2SUMMARY 1 "Feb 8, 2015" "" ""
+.SH NAME
+pkg_cksum2summary \- add cksums to package summaries
+.SH SYNOPSIS
+.BI pkg_cksum2summary " [OPTIONS] [files...]"
+.SH DESCRIPTION
+.B pkg_cksum2summary
+takes
+.B pkg_summary(5)
+and cksums on input and
+prints summaries with cksums to stdout. Cksums are in
+.B digest(1)
+format.
+.SH OPTIONS
+.TP
+.B "-h"
+Display help message.
+.TP
+.BI "-c" " filename"
+Filename with cksums produced by
+.BR digest(1) .
+.SH EXAMPLES
+.VB
+pkg_cksum2summary -c SHA512.txt pkg_summary.txt
+.VE
+.SH SEE ALSO
+.BR digest(1) ,
+.B pkg_summary(5)
+.SH AUTHOR
+Aleksey Cheusov <vle@gmx.net>

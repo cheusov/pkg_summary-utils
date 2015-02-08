@@ -15,7 +15,7 @@ INSCRIPTS +=	pkg_cleanup_distdir pkg_summary2build_graph
 INSCRIPTS +=	pkg_summary2deps pkg_lint_summary
 INSCRIPTS +=	pkg_subgraph_deps pkg_bin_summary
 INSCRIPTS +=	pkg_digger_summary pkg_digger_installed pkg_digger
-INSCRIPTS +=	makefiles2deps pkg_summary2leaves
+INSCRIPTS +=	makefiles2deps pkg_summary2leaves pkg_cksum2summary
 
 SCRIPTS    =	${INSCRIPTS}
 

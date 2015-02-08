@@ -1,0 +1,94 @@
+#!/usr/bin/env runawk
+
+# Copyright (c) 2015, Aleksey Cheusov <vle@gmx.net>
+# All rights reserved.
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions are
+# met:
+#
+#     * Redistributions of source code must retain the above copyright
+#       notice, this list of conditions and the following disclaimer.
+#     * Redistributions in binary form must reproduce the above
+#       copyright notice, this list of conditions and the following
+#       disclaimer in the documentation and/or other materials provided
+#       with the distribution.
+#
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+# "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+# LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+# A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+# HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+# SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+# LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+# DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+# THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+# (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+# OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+############################################################
+
+#env "LC_ALL=C"
+
+#use "power_getopt.awk"
+#use "xgetline.awk"
+#use "alt_assert.awk"
+
+############################################################
+#.begin-str help
+# pkg_cksum2summary - takes pkg_summary(5) and cksums on input and
+# prints summaries with cksums to stdout. Cksums are in digest(1)
+# format.
+#
+# usage: pkg_cksum2summary [OPTIONS] [files...]
+# OPTIONS:
+#   -h            display this help
+#   =c <file>     sets the filename with cksums, this is a mandatory option
+#.end-str
+#
+# Example:
+#  pkg_cksum2summary -c SHA512.txt summary.txt
+#
+############################################################
+
+BEGIN {
+	if (getarg("h")){
+		print_help()
+		exitnow(0)
+	}
+
+	cksums = getarg("c")
+
+	if (cksums == ""){
+		print "Missing option -c" > "/dev/stderr"
+		print_help()
+		exitnow(1)
+	}
+
+	while (xgetline0(cksums)){
+		assert(4 == NF)
+		assert($3 == "=")
+		fn=$2
+		sub(/All\//, "", fn)
+		sub(/^\(/, "", fn)
+		sub(/\)$/, "", fn)
+		sub(/\)$/, "", fn)
+		alg [fn] = tolower($1)
+		cksum [fn] = $4
+	}
+}
+
+/^FILE_NAME=/ {
+	fn = substr($0, 11)
+}
+
+NF == 0 {
+	if (fn in cksum)
+		print "FILE_CKSUM=" alg[fn] " " cksum[fn]
+
+	fn = ""
+}
+
+{
+	print $0
+}

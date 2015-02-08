@@ -75,6 +75,7 @@ cmp (){
 
 # real tests
 tests='
+pkg_cksum2summary
 makefiles2deps
 pkgsrc-dewey
 pkg_summary2leaves
