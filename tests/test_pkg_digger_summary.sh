@@ -132,7 +132,8 @@ cmp 'pkg_digger_summary fsq #5.3' \
 
 pkg_digger_summary -f |
 cmp 'pkg_digger_summary -f #6' \
-'ASSIGNMENTS
+'ALLSRCFILES
+ASSIGNMENTS
 BUILD_DEPENDS
 CATEGORIES
 COMMENT
@@ -153,7 +154,8 @@ PKGPATHe
 
 pkg_digger_summary -f |
 cmp 'pkg_digger_summary -s #7' \
-'ASSIGNMENTS
+'ALLSRCFILES
+ASSIGNMENTS
 BUILD_DEPENDS
 CATEGORIES
 COMMENT

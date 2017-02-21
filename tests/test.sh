@@ -97,10 +97,10 @@ pkg_digger
 pkg_micro_src_summary
 summary2multi_variants
 pkg_summary2bb_pkgs
-pkg_src_summary
 pkg_cleanup_dir
 pkg_cleanup_distdir
 pkg_cleanup_packages
+pkg_src_summary
 '
 
 normalize_version (){

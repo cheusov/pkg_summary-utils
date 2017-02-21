@@ -20,6 +20,7 @@ COMMENT=Dictionary client (RFC-2229) for [X]Emacs
 MAINTAINER=cheusov@tut.by
 CATEGORIES=textproc editors
 PKGNAME=dictem-0.82
+ALLSRCFILES=   ccc1-subdir/ccc-1.1.tgz ccc1-subdir/ccc-1.1.patch1   ccc1-subdir/ccc-1.1.patch2   
 
 BUILD_DEPENDS= libtool-base>=1.5.18nb5:../../devel/libtool-base gmake>=3.81:../../devel/gmake checkperms>=1.1:../../sysutils/checkperms
 PKGNAME=dict-server-1.10.11nb2
@@ -61,6 +62,7 @@ COMMENT=Dictionary client (RFC-2229) for [X]Emacs
 MAINTAINER=cheusov@tut.by
 CATEGORIES=textproc editors
 PKGNAME=dictem-0.82
+ALLSRCFILES=   ccc1-subdir/ccc-1.1.tgz ccc1-subdir/ccc-1.1.patch1   ccc1-subdir/ccc-1.1.patch2   
 
 BUILD_DEPENDS= libtool-base>=1.5.18nb5:../../devel/libtool-base gmake>=3.81:../../devel/gmake checkperms>=1.1:../../sysutils/checkperms
 PKGNAME=dict-server-1.10.11nb2
@@ -102,6 +104,7 @@ COMMENT=DISTributed Bulk Build tool for pkgsrc
 MAINTAINER=cheusov@tut.by
 CATEGORIES=pkgtools
 EXFIELD=XVALUE1
+ALLSRCFILES=   ccc-subdir/ccc-0.0.tgz ccc-subdir/ccc-0.0.patch1 ccc-subdir/ccc-0.0.patch2
 
 PKGPATH=textproc/dictem
 DEPENDS=dict-client>=1.9.14:../../textproc/dict-client emacs>=22:../../editors/emacs  emacs>=22:../../editors/emacs
@@ -112,6 +115,7 @@ COMMENT=Dictionary client (RFC-2229) for [X]Emacs
 MAINTAINER=cheusov@tut.by
 CATEGORIES=textproc editors
 PKGNAME=dictem-0.82
+ALLSRCFILES=   ccc1-subdir/ccc-1.1.tgz ccc1-subdir/ccc-1.1.patch1   ccc1-subdir/ccc-1.1.patch2   
 
 BUILD_DEPENDS= libtool-base>=1.5.18nb5:../../devel/libtool-base gmake>=3.81:../../devel/gmake checkperms>=1.1:../../sysutils/checkperms
 PKGNAME=dict-server-1.10.11nb2
@@ -434,6 +438,7 @@ COMMENT=DISTributed Bulk Build tool for pkgsrc
 MAINTAINER=cheusov@tut.by
 CATEGORIES=pkgtools
 EXFIELD=XVALUE1
+ALLSRCFILES=   ccc-subdir/ccc-0.0.tgz ccc-subdir/ccc-0.0.patch1 ccc-subdir/ccc-0.0.patch2
 
 BUILD_DEPENDS= libtool-base>=1.5.18nb5:../../devel/libtool-base gmake>=3.81:../../devel/gmake checkperms>=1.1:../../sysutils/checkperms
 PKGNAME=dict-server-1.10.11nb2
@@ -472,6 +477,7 @@ COMMENT=DISTributed Bulk Build tool for pkgsrc
 MAINTAINER=cheusov@tut.by
 CATEGORIES=pkgtools
 EXFIELD=XVALUE1
+ALLSRCFILES=   ccc-subdir/ccc-0.0.tgz ccc-subdir/ccc-0.0.patch1 ccc-subdir/ccc-0.0.patch2
 
 BUILD_DEPENDS= libtool-base>=1.5.18nb5:../../devel/libtool-base gmake>=3.81:../../devel/gmake checkperms>=1.1:../../sysutils/checkperms
 PKGNAME=dict-server-1.10.11nb2
@@ -510,6 +516,7 @@ COMMENT=DISTributed Bulk Build tool for pkgsrc
 MAINTAINER=cheusov@tut.by
 CATEGORIES=pkgtools
 EXFIELD=XVALUE1
+ALLSRCFILES=   ccc-subdir/ccc-0.0.tgz ccc-subdir/ccc-0.0.patch1 ccc-subdir/ccc-0.0.patch2
 
 BUILD_DEPENDS= libtool-base>=1.5.18nb5:../../devel/libtool-base gmake>=3.81:../../devel/gmake checkperms>=1.1:../../sysutils/checkperms
 PKGNAME=dict-server-1.10.11nb2
@@ -541,6 +548,7 @@ COMMENT=DISTributed Bulk Build tool for pkgsrc
 MAINTAINER=cheusov@tut.by
 CATEGORIES=pkgtools
 EXFIELD=XVALUE1
+ALLSRCFILES=   ccc-subdir/ccc-0.0.tgz ccc-subdir/ccc-0.0.patch1 ccc-subdir/ccc-0.0.patch2
 
 BUILD_DEPENDS= libtool-base>=1.5.18nb5:../../devel/libtool-base gmake>=3.81:../../devel/gmake checkperms>=1.1:../../sysutils/checkperms
 PKGNAME=dict-server-1.10.11nb2
@@ -579,6 +587,7 @@ COMMENT=DISTributed Bulk Build tool for pkgsrc
 MAINTAINER=cheusov@tut.by
 CATEGORIES=pkgtools
 EXFIELD=XVALUE1
+ALLSRCFILES=   ccc-subdir/ccc-0.0.tgz ccc-subdir/ccc-0.0.patch1 ccc-subdir/ccc-0.0.patch2
 
 BUILD_DEPENDS= libtool-base>=1.5.18nb5:../../devel/libtool-base gmake>=3.81:../../devel/gmake checkperms>=1.1:../../sysutils/checkperms
 PKGNAME=dict-server-1.10.11nb2
@@ -611,6 +620,7 @@ COMMENT=DISTributed Bulk Build tool for pkgsrc
 MAINTAINER=cheusov@tut.by
 CATEGORIES=pkgtools
 EXFIELD=XVALUE1
+ALLSRCFILES=   ccc-subdir/ccc-0.0.tgz ccc-subdir/ccc-0.0.patch1 ccc-subdir/ccc-0.0.patch2
 
 PKGNAME=png-1.2.32beta01
 PKGPATH=graphics/png
@@ -998,6 +1008,7 @@ COMMENT=Dictionary client (RFC-2229) for [X]Emacs
 MAINTAINER=cheusov@tut.by
 CATEGORIES=textproc editors
 PKGNAME=dictem-0.82
+ALLSRCFILES=   ccc1-subdir/ccc-1.1.tgz ccc1-subdir/ccc-1.1.patch1   ccc1-subdir/ccc-1.1.patch2   
 
 PKGNAME=dict-client-1.9.15nb2
 PKGPATH=textproc/dict-client
@@ -1031,6 +1042,7 @@ COMMENT=Dictionary client (RFC-2229) for [X]Emacs
 MAINTAINER=cheusov@tut.by
 CATEGORIES=textproc editors
 PKGNAME=dictem-0.82
+ALLSRCFILES=   ccc1-subdir/ccc-1.1.tgz ccc1-subdir/ccc-1.1.patch1   ccc1-subdir/ccc-1.1.patch2   
 
 PKGNAME=dict-client-1.9.15nb2
 PKGPATH=textproc/dict-client
