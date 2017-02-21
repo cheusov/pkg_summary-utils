@@ -1,0 +1,69 @@
+.\"	$NetBSD$
+.\"
+.\" Copyright (c) 2017 by Aleksey Cheusov (vle@gmx.net)
+.\" Absolutely no warranty.
+.\"
+.\" ------------------------------------------------------------------
+.de VB \" Verbatim Begin
+.ft CW
+.nf
+.ne \\$1
+..
+.de VE \" Verbatim End
+.ft R
+.fi
+..
+.\" ------------------------------------------------------------------
+.TH PKG_CLEANUP_DIR 1 "Feb 21, 2017" "" ""
+.SH NAME
+PKG_CLEANUP_DIR \- removes files not referenced by pkg_summary
+.SH SYNOPSIS
+.BI pkg_cleanup_dir " [OPTIONS] [files ...]"
+.SH DESCRIPTION
+.B pkg_cleanup_dir
+analyses
+.I FIELD
+in pkg_summary given on input
+and optionally removes files and directories under
+.IR DIR ,
+not referenced by any package.
+.I FIELD
+may be FILE_NAME, for example.
+Also,
+.I FILES
+are not removed.
+.SH OPTIONS
+.TP
+.B "-h"
+Display help message.
+.TP
+.BI "-d " DIR
+Directory to clean up (mandatory option).
+.TP
+.BI "-f " FIELD
+Field name (mandatory option).
+.TP
+.BI "-r"
+Remove unreferenced files and empty subdirectories. By default
+list of files to be removed is output to stdout.
+.TP
+.BI "-x " FILES
+Do not remove the specified files.
+.SH ENVIRONMENT
+.TP
+.B TMPDIR
+Directory for temporary files, by default
+.I /tmp
+is used.
+.SH EXAMPLES
+.VB
+pkg_cleanup_dir -f FILE_NAME -d /usr/pkgsrc/packages -r bin_summary.txt
+.VE
+.VB
+pkg_cleanup_dir -f ALLSRCFILES -d /usr/pkgsrc/distfiles -r src_summary.txt
+.VE
+.SH SEE ALSO
+.BR pkg_summary-utils(7) ,
+.B pkg_summary(5)
+.SH AUTHOR
+Aleksey Cheusov <vle@gmx.net>
