@@ -1,5 +1,6 @@
 #
 files_tempdir="$tmpdir/files"
+rm -rf "$files_tempdir"
 mkdir "$files_tempdir"
 
 runawk -F= -v files_tempdir="$files_tempdir" -e '$1 == "FILE_NAME" {

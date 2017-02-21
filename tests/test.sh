@@ -99,6 +99,7 @@ summary2multi_variants
 pkg_summary2bb_pkgs
 pkg_src_summary
 pkg_cleanup_dir
+pkg_cleanup_distdir
 '
 
 normalize_version (){
