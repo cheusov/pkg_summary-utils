@@ -98,6 +98,7 @@ pkg_micro_src_summary
 summary2multi_variants
 pkg_summary2bb_pkgs
 pkg_src_summary
+pkg_cleanup_dir
 '
 
 normalize_version (){
