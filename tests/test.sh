@@ -100,6 +100,7 @@ pkg_summary2bb_pkgs
 pkg_src_summary
 pkg_cleanup_dir
 pkg_cleanup_distdir
+pkg_cleanup_packages
 '
 
 normalize_version (){

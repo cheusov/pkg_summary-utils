@@ -1,0 +1,59 @@
+#!@SH@
+#-*-mode:  sh -*-
+
+# Copyright (c) 2017, Aleksey Cheusov <vle@gmx.net>
+# All rights reserved.
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions are
+# met:
+#
+#     * Redistributions of source code must retain the above copyright
+#       notice, this list of conditions and the following disclaimer.
+#     * Redistributions in binary form must reproduce the above
+#       copyright notice, this list of conditions and the following
+#       disclaimer in the documentation and/or other materials provided
+#       with the distribution.
+#
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+# "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+# LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+# A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+# HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+# SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+# LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+# DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+# THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+# (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+# OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+############################################################
+
+set -e
+
+usage (){
+    cat 1>&2 <<EOF
+pkg_cleanup_packages - analyses FILE_NAME field of src_summary
+given on input and optionally removes files and directories in PACKAGES
+not referenced by any package.
+
+usage: pkg_cleanup_packages [OPTIONS] [files...]
+OPTIONS:
+  -h     display this help message
+  -r     remove unreferenced files and empty directories
+EOF
+}
+
+opts=''
+while getopts hr f; do
+    case "$f" in
+	h)   usage; exit 0;;
+	r)   opts='-r';;
+	?)   printf "Run pkg_cleanup_packages -h for details\n"; exit 2;;
+    esac
+done
+shift `expr $OPTIND - 1`
+
+PACKAGES=${PACKAGES:=/usr/pkgsrc/packages}
+
+pkg_cleanup_dir -d "$PACKAGES" -f FILE_NAME \
+   -x 'pkg_summary.txt pkg_summary.gz pkg_summary.bz2' $opts "$@"
