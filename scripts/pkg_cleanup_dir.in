@@ -59,17 +59,19 @@ OPTIONS:
   -d <DIR>      directory to clean up (mandatory option)
   -f <FIELD>    field name (mandatory option)
   -x <FILES>    do not remove the specified files
+  -I            ignore subdirectry of files under DIR.
 EOF
 }
 
 delete=''
-while getopts d:f:hrx: f; do
+while getopts d:If:hrx: f; do
     case "$f" in
 	h)   usage; exit 0;;
 	r)   delete=1;;
 	d)   dir="$OPTARG";;
 	f)   field="$OPTARG";;
 	x)   ex_files="$OPTARG";;
+	I)   ign_subdir=1;;
 	?)   printf "Run pkg_cleanup_dir -h for details\n"; exit 2;;
     esac
 done
@@ -104,7 +106,7 @@ useful_files (){
 }
 
 existing_files (){
-    find . -type f | sed "s,^[.]/,,"
+    find . -type f | sed 's,^[.]/,,'
 }
 
 ex_file=$tmp_dir/existing
@@ -117,8 +119,15 @@ useful_files "$@" > "$us_file"
 cd "$dir"
 existing_files > "$ex_file"
 
-sort "$ex_file" "$ex_file" "$us_file" | uniq -c |
-awk '$1 == 2 {print $2}' > "$rm_file"
+runawk -v ign_subdir="$ign_subdir" -f basename.awk -e '
+FILENAME ~ /useful$/ {
+    useful[$0] = 1; next
+}
+{
+    if (ign_subdir) $0 = basename($0)
+    if (! ($0 in useful)) print
+}
+' "$us_file" "$ex_file" > "$rm_file"
 
 if test -n "$delete"; then
     xargs rm -f < "$rm_file"
