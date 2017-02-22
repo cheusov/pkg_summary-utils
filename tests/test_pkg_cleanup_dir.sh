@@ -144,3 +144,17 @@ cmp 'pkg_cleanup_dir #7' \
 ./misc/vim-xaw-7.2.446nb1.tgz
 ./misc/webkit-gtk-2.4.5.tgz
 '
+
+# pkg_cleanup_dir #8
+create_subdirs
+{
+    pkg_cleanup_dir -Dr -d "$files_tempdir" -f FILE_NAME \
+	bin_summary10.txt bin_summary11.txt bin_summary12.txt 2>&1
+    ( cd "$files_tempdir"; find .; )
+} | sort |
+cmp 'pkg_cleanup_dir #8' \
+'.
+./All
+./devel
+./misc
+'

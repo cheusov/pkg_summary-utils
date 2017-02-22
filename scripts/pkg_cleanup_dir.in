@@ -59,12 +59,13 @@ OPTIONS:
   -d <DIR>      directory to clean up (mandatory option)
   -f <FIELD>    field name (mandatory option)
   -x <FILES>    do not remove the specified files
-  -I            ignore subdirectry of files under DIR.
+  -I            ignore subdirectry of files under DIR
+  -D            do not remove empty sudirectories
 EOF
 }
 
 delete=''
-while getopts d:If:hrx: f; do
+while getopts d:DIf:hrx: f; do
     case "$f" in
 	h)   usage; exit 0;;
 	r)   delete=1;;
@@ -72,6 +73,7 @@ while getopts d:If:hrx: f; do
 	f)   field="$OPTARG";;
 	x)   ex_files="$OPTARG";;
 	I)   ign_subdir=1;;
+	D)   keep_empty_dirs=1;;
 	?)   printf "Run pkg_cleanup_dir -h for details\n"; exit 2;;
     esac
 done
@@ -132,15 +134,17 @@ FILENAME ~ /useful$/ {
 if test -n "$delete"; then
     xargs rm -f < "$rm_file"
 
-    sed 's,/[^/]*$,,' "$rm_file" | sort | uniq |
-    while read -r dir; do
-	while test "$dir" != '.'; do
-	    if ! rmdir "$dir" 2>/dev/null; then
-		break
-	    fi
-	    dir=`dirname $dir`
+    if test -z "$keep_empty_dirs"; then
+	sed 's,/[^/]*$,,' "$rm_file" | sort | uniq |
+	while read -r dir; do
+	    while test "$dir" != '.'; do
+		if ! rmdir "$dir" 2>/dev/null; then
+		    break
+		fi
+		dir=`dirname $dir`
+	    done
 	done
-    done
+    fi
 else
     cat "$rm_file"
 fi
