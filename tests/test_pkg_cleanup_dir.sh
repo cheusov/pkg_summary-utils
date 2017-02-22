@@ -12,6 +12,30 @@ runawk -F= -v files_tempdir="$files_tempdir" -e '$1 == "FILE_NAME" {
 touch "$files_tempdir"/pkg_summary.txt "$files_tempdir"/pkg_summary.gz \
       "$files_tempdir"/pkg_summary.bz2
 
+# pkg_cleanup_dir #0.1
+{ pkg_cleanup_dir -f lalala /dev/null 2>&1; echo ex=$?; } |
+    awk 'NR==1 || /ex=/' |
+cmp 'pkg_cleanup_dir #0.1' \
+'Directory to clean-up was not specified
+ex=1
+'
+
+# pkg_cleanup_dir #0.2
+{ pkg_cleanup_dir -d lalala /dev/null 2>&1; echo ex=$?; } |
+    awk 'NR==1 || /ex=/' |
+cmp 'pkg_cleanup_dir #0.2' \
+'Field name was not specified
+ex=1
+'
+
+# pkg_cleanup_dir #0.3
+{ pkg_cleanup_dir -s -f trtrt -d lalala 2>&1 < /dev/null; echo ex=$?; } |
+    awk 'NR==1 || /ex=/' |
+cmp 'pkg_cleanup_dir #0.3' \
+'Missing pkg_summary
+ex=1
+'
+
 # pkg_cleanup_dir #1
 pkg_cleanup_dir -d "$files_tempdir" -f FILE_NAME /dev/null 2>&1 |
     sort |
@@ -157,4 +181,54 @@ cmp 'pkg_cleanup_dir #8' \
 ./All
 ./devel
 ./misc
+'
+
+# pkg_cleanup_dir #9
+create_subdirs
+cat bin_summary10.txt > "$files_tempdir/All/pkg_summary.txt"
+{
+    pkg_cleanup_dir -rs -f FILE_NAME "$files_tempdir/All/pkg_summary.txt" 2>&1
+    ( cd "$files_tempdir"; find .; )
+} | sort |
+cmp 'pkg_cleanup_dir #9' \
+'.
+./All
+./All/vim-7.2.446nb1.tgz
+./All/vim-xaw-7.2.446nb1.tgz
+./devel
+./devel/farsight2-0.0.26nb6.tgz
+./devel/gcc48-cc++-4.8.3.tgz
+./devel/gcc48-libs-4.8.3.tgz
+./devel/py26-gtk2-2.24.0nb4.tgz
+./devel/vim-7.2.446nb1.tgz
+./devel/vim-xaw-7.2.446nb1.tgz
+./devel/webkit-gtk-2.4.5.tgz
+./misc
+./misc/farsight2-0.0.26nb6.tgz
+./misc/gcc48-cc++-4.8.3.tgz
+./misc/gcc48-libs-4.8.3.tgz
+./misc/py26-gtk2-2.24.0nb4.tgz
+./misc/vim-7.2.446nb1.tgz
+./misc/vim-xaw-7.2.446nb1.tgz
+./misc/webkit-gtk-2.4.5.tgz
+'
+
+# pkg_cleanup_dir #10
+create_subdirs
+cat bin_summary10.txt > "$files_tempdir/All/pkg_summary.txt"
+{
+    pkg_cleanup_dir -rss -I -f FILE_NAME "$files_tempdir/All/pkg_summary.txt" 2>&1
+    ( cd "$files_tempdir"; find .; )
+} | sort |
+cmp 'pkg_cleanup_dir #10' \
+'.
+./All
+./All/vim-7.2.446nb1.tgz
+./All/vim-xaw-7.2.446nb1.tgz
+./devel
+./devel/vim-7.2.446nb1.tgz
+./devel/vim-xaw-7.2.446nb1.tgz
+./misc
+./misc/vim-7.2.446nb1.tgz
+./misc/vim-xaw-7.2.446nb1.tgz
 '

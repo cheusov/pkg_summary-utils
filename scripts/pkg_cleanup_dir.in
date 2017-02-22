@@ -59,18 +59,20 @@ OPTIONS:
   -d <DIR>      directory to clean up (mandatory option)
   -f <FIELD>    field name (mandatory option)
   -x <FILES>    do not remove the specified files
+  -s            DIR is set as dirname of pkg_summary file
   -I            ignore subdirectry of files under DIR
   -D            do not remove empty sudirectories
 EOF
 }
 
 delete=''
-while getopts d:DIf:hrx: f; do
+while getopts d:DIf:hrsx: f; do
     case "$f" in
 	h)   usage; exit 0;;
 	r)   delete=1;;
 	d)   dir="$OPTARG";;
 	f)   field="$OPTARG";;
+	s)   dirname_cnt="$dirname_cnt x";;
 	x)   ex_files="$OPTARG";;
 	I)   ign_subdir=1;;
 	D)   keep_empty_dirs=1;;
@@ -79,14 +81,27 @@ while getopts d:DIf:hrx: f; do
 done
 shift `expr $OPTIND - 1`
 
+if test -n "$dirname_cnt"; then
+    if test $# -eq 0; then
+	echo "Missing pkg_summary" 1>&2
+	usage
+	exit 1
+    else
+	dir="$1"
+	for i in $dirname_cnt; do
+	    dir=`dirname "$dir"`
+	done
+    fi
+fi
+
 if test -z "$dir"; then
-    echo "Directory to clean-ups was not specified" 1>&2
+    echo "Directory to clean-up was not specified" 1>&2
     usage
     exit 1
 fi
 
 if test -z "$field"; then
-    echo "Field name to clean-ups was not specified" 1>&2
+    echo "Field name was not specified" 1>&2
     usage
     exit 1
 fi
@@ -126,8 +141,9 @@ FILENAME ~ /useful$/ {
     useful[$0] = 1; next
 }
 {
-    if (ign_subdir) $0 = basename($0)
-    if (! ($0 in useful)) print
+    fn = $0
+    if (ign_subdir) fn = basename(fn)
+    if (! (fn in useful)) print $0
 }
 ' "$us_file" "$ex_file" > "$rm_file"
 
