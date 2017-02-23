@@ -38,22 +38,25 @@ not referenced by any package.
 
 usage: pkg_cleanup_packages [OPTIONS] [files...]
 OPTIONS:
-  -h     display this help message
-  -r     remove unreferenced files and empty directories
+  -h            display this help message
+  -d <DIR>      directory to clean up (mandatory option)
+  -r            remove unreferenced files and empty directories
 EOF
 }
 
 opts=''
-while getopts hr f; do
+while getopts d:hr f; do
     case "$f" in
 	h)   usage; exit 0;;
 	r)   opts='-r';;
+	d)   PACKAGES="$OPTARG";;
 	?)   printf "Run pkg_cleanup_packages -h for details\n"; exit 2;;
     esac
 done
 shift `expr $OPTIND - 1`
 
 PACKAGES=${PACKAGES:=/usr/pkgsrc/packages}
+export PACKAGES
 
 pkg_cleanup_dir -d "$PACKAGES" -f FILE_NAME \
    -x 'pkg_summary.txt pkg_summary.gz pkg_summary.bz2' $opts "$@"
