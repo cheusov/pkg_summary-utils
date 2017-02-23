@@ -39,7 +39,7 @@ not referenced by any package.
 usage: pkg_cleanup_packages [OPTIONS] [files...]
 OPTIONS:
   -h            display this help message
-  -d <DIR>      directory to clean up (mandatory option)
+  -d <DIR>      directory to clean up
   -r            remove unreferenced files and empty directories
 EOF
 }

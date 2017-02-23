@@ -30,14 +30,17 @@ it removes all those files.
 .SH OPTIONS
 .TP
 .B "-h"
-display help message
+Display help message.
+.TP
+.BI "-d " DIR
+Directory to clean up. It overrides environment variable PACKAGES.
 .TP
 .BI "-r"
 Remove unreferenced files.
 .SH ENVIRONMENT
 .TP
 .B PACKAGES
-Directory that contains distfiles.
+Directory that contains distfiles. The default is /usr/pkgsrc/packages.
 .TP
 .B TMPDIR
 Directory for temporary files, by default
@@ -45,6 +48,7 @@ Directory for temporary files, by default
 is used.
 .SH EXAMPLES
 .VB
+export PACKAGES=/usr/pkgsrc/packages
 pkg_cleanup_packages -r /usr/pkgsrc/packages/All/pkg_summary.txt
 .VE
 .SH SEE ALSO
