@@ -58,5 +58,5 @@ shift `expr $OPTIND - 1`
 : ${PACKAGES:=/usr/pkgsrc/packages}
 export PACKAGES
 
-pkg_cleanup_dir -d "$PACKAGES" -f FILE_NAME \
+pkg_cleanup_dir -I -d "$PACKAGES" -f FILE_NAME \
    -x 'pkg_summary.txt pkg_summary.gz pkg_summary.bz2' $opts "$@"
