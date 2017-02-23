@@ -1,6 +1,6 @@
 .\"	$NetBSD$
 .\"
-.\" Copyright (c) 2008-2012 by Aleksey Cheusov (vle@gmx.net)
+.\" Copyright (c) 2008-2017 by Aleksey Cheusov (vle@gmx.net)
 .\" Absolutely no warranty.
 .\"
 .\" ------------------------------------------------------------------
@@ -14,7 +14,7 @@
 .fi
 ..
 .\" ------------------------------------------------------------------
-.TH PKG_CLEANUP_DISTDIR 1 "Dec 25, 2012" "" ""
+.TH PKG_CLEANUP_DISTDIR 1 "Feb 23, 2017" "" ""
 .SH NAME
 PKG_CLEANUP_DISTDIR \- cleanups DISTDIR directory
 .SH SYNOPSIS
@@ -29,15 +29,18 @@ With option
 it removes all those files and empty subdirectories.
 .SH OPTIONS
 .TP
+.BI "-d " DIR
+Directory to clean up. It overrides environment variable DISTDIR.
+.TP
 .B "-h"
-display help message
+Display help message.
 .TP
 .BI "-r"
-Remove unreferenced files and empty subdirectories
+Remove unreferenced files and empty subdirectories.
 .SH ENVIRONMENT
 .TP
 .B DISTDIR
-Directory that contains distfiles.
+Directory that contains distfiles. The default is /usr/pkgsrc/distfiles.
 .TP
 .B TMPDIR
 Directory for temporary files, by default
@@ -45,6 +48,7 @@ Directory for temporary files, by default
 is used.
 .SH EXAMPLES
 .VB
+export DISTDIR=/usr/pkgsrc/distfiles
 pkg_cleanup_distdir -r /usr/pkgsrc/pkg_src_summary.txt
 .VE
 .SH SEE ALSO

@@ -39,15 +39,17 @@ not referenced by any package.
 usage: pkg_cleanup_distdir [OPTIONS] [files...]
 OPTIONS:
   -h     display this help message
+  -d <DIR>      directory to clean up
   -r     remove unreferenced files and empty directories
 EOF
 }
 
 opts=''
-while getopts hr f; do
+while getopts d:hr f; do
     case "$f" in
 	h)   usage; exit 0;;
 	r)   opts='-r';;
+	d)   DISTDIR="$OPTARG";;
 	?)   printf "Run pkg_cleanup_distdir -h for details\n"; exit 2;;
     esac
 done
