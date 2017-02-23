@@ -55,7 +55,7 @@ while getopts d:hr f; do
 done
 shift `expr $OPTIND - 1`
 
-PACKAGES=${PACKAGES:=/usr/pkgsrc/packages}
+: ${PACKAGES:=/usr/pkgsrc/packages}
 export PACKAGES
 
 pkg_cleanup_dir -d "$PACKAGES" -f FILE_NAME \

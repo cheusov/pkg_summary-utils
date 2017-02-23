@@ -53,6 +53,7 @@ while getopts hr f; do
 done
 shift `expr $OPTIND - 1`
 
-DISTDIR=${DISTDIR:=/usr/pkgsrc/distfiles}
+: ${DISTDIR:=/usr/pkgsrc/distfiles}
+export DISTDIR
 
 pkg_cleanup_dir -d "$DISTDIR" -f ALLSRCFILES $opts "$@"
