@@ -42,7 +42,9 @@ Display help message.
 Directory to clean up. It overrides environment variable PACKAGES.
 .TP
 .BI "-r"
-Remove unreferenced files.
+Remove unreferenced files. File specified in
+.B PSU_KEEP_FILES
+environment variable are not removed.
 .SH ENVIRONMENT
 .TP
 .B PACKAGES
@@ -52,6 +54,10 @@ Directory that contains distfiles. The default is /usr/pkgsrc/packages.
 Directory for temporary files, by default
 .I /tmp
 is used.
+.TP
+.B PSU_KEEP_FILES
+Files from this list are not removed. The default is: pkg_summary.txt,
+pkg_summary.gz, pkg_summary.bz2, SHA512.txt, SHA512.gz and SHA512.bz2.
 .SH EXAMPLES
 .VB
 # export PACKAGES=/usr/pkgsrc/packages

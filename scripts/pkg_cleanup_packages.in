@@ -60,5 +60,7 @@ shift `expr $OPTIND - 1`
 : ${PACKAGES:=/usr/pkgsrc/packages}
 export PACKAGES
 
+: ${PSU_KEEP_FILES:=pkg_summary.txt pkg_summary.gz pkg_summary.bz2 SHA512.txt SHA512.gz SHA512.bz2}
+
 pkg_cleanup_dir -I -d "$PACKAGES" -f FILE_NAME \
-   -x 'pkg_summary.txt pkg_summary.gz pkg_summary.bz2' $opts "$@"
+   -x "$PSU_KEEP_FILES" $opts "$@"

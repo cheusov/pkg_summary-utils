@@ -78,6 +78,8 @@ create_subdirs (){
 	print "" > (files_tempdir "/devel/" fn)
 	print "" > (files_tempdir "/misc/" fn)
     }' bin_summary10.txt bin_summary11.txt bin_summary12.txt
+    touch "$files_tempdir"/SHA512.txt "$files_tempdir"/SHA512.gz \
+	  "$files_tempdir"/SHA512.bz2
 }
 
 # pkg_cleanup_dir #3
@@ -87,12 +89,15 @@ cat bin_summary10.txt > "$files_tempdir/All/pkg_summary.txt"
     pkg_cleanup_packages -r -s "$files_tempdir/All/pkg_summary.txt" 2>&1
     ( cd "$files_tempdir"; find .; )
 } | sort |
-cmp 'pkg_cleanup_dir #3' \
+cmp 'pkg_cleanup_packages #3' \
 '.
 ./All
 ./All/pkg_summary.txt
 ./All/vim-7.2.446nb1.tgz
 ./All/vim-xaw-7.2.446nb1.tgz
+./SHA512.bz2
+./SHA512.gz
+./SHA512.txt
 ./devel
 ./devel/farsight2-0.0.26nb6.tgz
 ./devel/gcc48-cc++-4.8.3.tgz
@@ -118,12 +123,15 @@ cat bin_summary10.txt > "$files_tempdir/All/pkg_summary.txt"
     pkg_cleanup_packages -rss "$files_tempdir/All/pkg_summary.txt" 2>&1
     ( cd "$files_tempdir"; find .; )
 } | sort |
-cmp 'pkg_cleanup_dir #4' \
+cmp 'pkg_cleanup_packages #4' \
 '.
 ./All
 ./All/pkg_summary.txt
 ./All/vim-7.2.446nb1.tgz
 ./All/vim-xaw-7.2.446nb1.tgz
+./SHA512.bz2
+./SHA512.gz
+./SHA512.txt
 ./devel
 ./devel/vim-7.2.446nb1.tgz
 ./devel/vim-xaw-7.2.446nb1.tgz
