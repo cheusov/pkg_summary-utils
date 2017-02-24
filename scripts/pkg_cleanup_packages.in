@@ -40,15 +40,17 @@ usage: pkg_cleanup_packages [OPTIONS] [files...]
 OPTIONS:
   -h            display this help message
   -d <DIR>      directory to clean up
+  -s            DIR is set as dirname of pkg_summary file
   -r            remove unreferenced files and empty directories
 EOF
 }
 
 opts=''
-while getopts d:hr f; do
+while getopts d:hrs f; do
     case "$f" in
 	h)   usage; exit 0;;
-	r)   opts='-r';;
+	r)   opts="$opts -r";;
+	s)   opts="$opts -s";;
 	d)   PACKAGES="$OPTARG";;
 	?)   printf "Run pkg_cleanup_packages -h for details\n"; exit 2;;
     esac

@@ -65,3 +65,69 @@ pkg_summary.gz
 pkg_summary.txt
 py26-gtk2-2.24.0nb4.tgz
 '
+
+#
+create_subdirs (){
+    rm -rf "$files_tempdir"
+    mkdir "$files_tempdir"
+    mkdir "$files_tempdir/misc" "$files_tempdir/devel" "$files_tempdir/All"
+
+    runawk -F= -v files_tempdir="$files_tempdir" -e '$1 == "FILE_NAME" {
+	fn = $2
+	print "" > (files_tempdir "/All/" fn)
+	print "" > (files_tempdir "/devel/" fn)
+	print "" > (files_tempdir "/misc/" fn)
+    }' bin_summary10.txt bin_summary11.txt bin_summary12.txt
+}
+
+# pkg_cleanup_dir #3
+create_subdirs
+cat bin_summary10.txt > "$files_tempdir/All/pkg_summary.txt"
+{
+    pkg_cleanup_packages -r -s "$files_tempdir/All/pkg_summary.txt" 2>&1
+    ( cd "$files_tempdir"; find .; )
+} | sort |
+cmp 'pkg_cleanup_dir #3' \
+'.
+./All
+./All/pkg_summary.txt
+./All/vim-7.2.446nb1.tgz
+./All/vim-xaw-7.2.446nb1.tgz
+./devel
+./devel/farsight2-0.0.26nb6.tgz
+./devel/gcc48-cc++-4.8.3.tgz
+./devel/gcc48-libs-4.8.3.tgz
+./devel/py26-gtk2-2.24.0nb4.tgz
+./devel/vim-7.2.446nb1.tgz
+./devel/vim-xaw-7.2.446nb1.tgz
+./devel/webkit-gtk-2.4.5.tgz
+./misc
+./misc/farsight2-0.0.26nb6.tgz
+./misc/gcc48-cc++-4.8.3.tgz
+./misc/gcc48-libs-4.8.3.tgz
+./misc/py26-gtk2-2.24.0nb4.tgz
+./misc/vim-7.2.446nb1.tgz
+./misc/vim-xaw-7.2.446nb1.tgz
+./misc/webkit-gtk-2.4.5.tgz
+'
+
+# pkg_cleanup_dir #4
+create_subdirs
+cat bin_summary10.txt > "$files_tempdir/All/pkg_summary.txt"
+{
+    pkg_cleanup_packages -rss "$files_tempdir/All/pkg_summary.txt" 2>&1
+    ( cd "$files_tempdir"; find .; )
+} | sort |
+cmp 'pkg_cleanup_dir #4' \
+'.
+./All
+./All/pkg_summary.txt
+./All/vim-7.2.446nb1.tgz
+./All/vim-xaw-7.2.446nb1.tgz
+./devel
+./devel/vim-7.2.446nb1.tgz
+./devel/vim-xaw-7.2.446nb1.tgz
+./misc
+./misc/vim-7.2.446nb1.tgz
+./misc/vim-xaw-7.2.446nb1.tgz
+'
