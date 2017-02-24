@@ -54,8 +54,10 @@ Directory for temporary files, by default
 is used.
 .SH EXAMPLES
 .VB
-export PACKAGES=/usr/pkgsrc/packages
-pkg_cleanup_packages -r /usr/pkgsrc/packages/All/pkg_summary.txt
+# export PACKAGES=/usr/pkgsrc/packages
+# pkg_cleanup_packages -r /usr/pkgsrc/packages/All/pkg_summary.txt
+
+# pkg_cleanup_packages -r -ss /usr/pkgsrc/packages/All/pkg_summary.txt
 .VE
 .SH SEE ALSO
 .BR pkg_summary-utils(7) ,
