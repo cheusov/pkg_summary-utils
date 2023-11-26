@@ -1,3 +1,9 @@
+: ${PKGSRCDIR:=/usr/pkgsrc}
+
+if ! test -d PKGSRCDIR; then
+    echo "Directory $PKGSRCDIR does not exit, skipping tests for pkg_micro_src_summary" 1>&2
+else
+
 grep_pss_stderr (){
     grep -E 'Bad package| ----------' "$@"
 }
@@ -107,3 +113,5 @@ PKGPATH=x11/xxkb
 MAINTAINER=cheusov@NetBSD.org
 
 '
+
+fi # test -d PKGSRCDIR

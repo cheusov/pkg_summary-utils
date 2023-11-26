@@ -1,3 +1,9 @@
+: ${PKGSRCDIR:=/usr/pkgsrc}
+
+if ! test -d PKGSRCDIR; then
+    echo "Directory $PKGSRCDIR does not exit, skipping tests for pkg_list_all_pkgs" 1>&2
+else
+
 # pkg_list_all_pkgs
 env  pkg_list_all_pkgs |
 awk '
@@ -46,3 +52,5 @@ END {
 cmp 'pkg_list_all_pkgs -d #3' \
 'XXXX
 '
+
+fi

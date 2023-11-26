@@ -1235,7 +1235,7 @@ cmp 'pkg_grep_summary #53' \
 'exact prefix suffix substring word first last re strfile strlist awk empty kw
 '
 
-runtest pkg_grep_summary -T -T |
+runtest pkg_grep_summary -TT |
 cmp 'pkg_grep_summary #54' \
 'exact	Match exactly
 prefix	Match prefixes

@@ -796,18 +796,18 @@ cmp 'pkg_cmp_summary -Oa  #20.9' \
 
 '
 
-pkg_cmp_summary -A sec src_summary21.txt src_summary22.txt |
+pkg_cmp_summary -A sec src_summary21.txt src_summary22.txt | LC_ALL=C sort |
 cmp 'pkg_cmp_summary -A  #21.1' \
-'3 pkg_summary-utils
-
-2 perl
-
 '
 
-pkg_cmp_summary -O ret src_summary21.txt src_summary22.txt |
+2 perl
+3 pkg_summary-utils
+'
+
+pkg_cmp_summary -O ret src_summary21.txt src_summary22.txt | LC_ALL=C sort |
 cmp 'pkg_cmp_summary -O  #21.2' \
-'3 pkg_summary-utils
+'
 
 2 perl
-
+3 pkg_summary-utils
 '

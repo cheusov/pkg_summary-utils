@@ -1109,9 +1109,31 @@ runawk paexec
 runawk pkg_summary-utils
 '
 
-pkg_summary2deps -AplnrRa src_summary13.txt 2>&1 | sort |
+sort_alternatives() {
+    runawk -e '
+    #use "sort.awk"
+
+    {
+	for (i = 1; i <= NF; ++i) {
+	    if ($i ~ /[|]/) {
+		cnt = split($i, arr, /[|]/)
+		sort_values(arr, remap)
+		accum = ""
+		for (j = 1; j <= cnt; ++j) {
+		    if (accum != "") accum = accum "|"
+		    accum = accum arr[remap[j]]
+		}
+		$i = accum
+	    }
+	}
+	print $0
+    }
+    ' "$@"
+}
+
+pkg_summary2deps -AplnrRa src_summary13.txt 2>&1 | sort_alternatives | sort |
 cmp 'pkg_summary2deps #32' \
-'audio/libao-oss;libao-oss-1.0.0|audio/libao-oss;libao-oss-1.0.0|audio/libao-alsa;libao-alsa-1.0.0|audio/libao-arts;libao-arts-1.0.0|audio/libao-esound;libao-esound-1.0.0|audio/libao-nas;libao-nas-1.0.0|audio/libao-pulse;libao-pulse-1.0.0 audio/vorbis-tools;vorbis-tools-1.2.0nb4 ( libao-[a-z]*-[0-9]* )
+'audio/libao-alsa;libao-alsa-1.0.0|audio/libao-arts;libao-arts-1.0.0|audio/libao-esound;libao-esound-1.0.0|audio/libao-nas;libao-nas-1.0.0|audio/libao-oss;libao-oss-1.0.0|audio/libao-oss;libao-oss-1.0.0|audio/libao-pulse;libao-pulse-1.0.0 audio/vorbis-tools;vorbis-tools-1.2.0nb4 ( libao-[a-z]*-[0-9]* )
 audio/libao;libao-1.0.0 audio/libao-alsa;libao-alsa-1.0.0 ( libao>=1.0.0 )
 audio/libao;libao-1.0.0 audio/libao-arts;libao-arts-1.0.0 ( libao>=1.0.0 )
 audio/libao;libao-1.0.0 audio/libao-esound;libao-esound-1.0.0 ( libao>=1.0.0 )
@@ -1135,9 +1157,9 @@ d: not_found pulseaudio>=0.9.13 <- audio/libao-pulse libao-pulse-1.0.0
 d: not_found speex>=1.2rc1 <- audio/vorbis-tools vorbis-tools-1.2.0nb4
 '
 
-pkg_summary2deps -AplnrR src_summary13.txt 2>&1 | sort |
+pkg_summary2deps -AplnrR src_summary13.txt 2>&1 | sort_alternatives | sort |
 cmp 'pkg_summary2deps #32.1' \
-'audio/libao-oss;libao-oss-1.0.0 audio/vorbis-tools;vorbis-tools-1.2.0nb4 ( libao-[a-z]*-[0-9]* )
+'audio/libao-arts;libao-arts-1.0.0 audio/vorbis-tools;vorbis-tools-1.2.0nb4 ( libao-[a-z]*-[0-9]* )
 audio/libao;libao-1.0.0 audio/libao-alsa;libao-alsa-1.0.0 ( libao>=1.0.0 )
 audio/libao;libao-1.0.0 audio/libao-arts;libao-arts-1.0.0 ( libao>=1.0.0 )
 audio/libao;libao-1.0.0 audio/libao-esound;libao-esound-1.0.0 ( libao>=1.0.0 )
@@ -1161,9 +1183,9 @@ d: not_found pulseaudio>=0.9.13 <- audio/libao-pulse libao-pulse-1.0.0
 d: not_found speex>=1.2rc1 <- audio/vorbis-tools vorbis-tools-1.2.0nb4
 '
 
-pkg_summary2deps -Apna src_summary13.txt 2>/dev/null | sort |
+pkg_summary2deps -Apna src_summary13.txt 2>/dev/null | sort_alternatives | sort |
 cmp 'pkg_summary2deps #33' \
-'audio/libao-oss;libao-oss|audio/libao-oss;libao-oss|audio/libao-alsa;libao-alsa|audio/libao-arts;libao-arts|audio/libao-esound;libao-esound|audio/libao-nas;libao-nas|audio/libao-pulse;libao-pulse audio/vorbis-tools;vorbis-tools
+'audio/libao-alsa;libao-alsa|audio/libao-arts;libao-arts|audio/libao-esound;libao-esound|audio/libao-nas;libao-nas|audio/libao-oss;libao-oss|audio/libao-oss;libao-oss|audio/libao-pulse;libao-pulse audio/vorbis-tools;vorbis-tools
 audio/libao;libao audio/libao-alsa;libao-alsa
 audio/libao;libao audio/libao-arts;libao-arts
 audio/libao;libao audio/libao-esound;libao-esound
@@ -1173,9 +1195,9 @@ audio/libao;libao audio/libao-pulse;libao-pulse
 audio/libao;libao audio/vorbis-tools;vorbis-tools
 '
 
-pkg_summary2deps -Apn src_summary13.txt 2>/dev/null | sort |
+pkg_summary2deps -Apn src_summary13.txt 2>/dev/null | sort_alternatives | sort |
 cmp 'pkg_summary2deps #33.1' \
-'audio/libao-oss;libao-oss audio/vorbis-tools;vorbis-tools
+'audio/libao-arts;libao-arts audio/vorbis-tools;vorbis-tools
 audio/libao;libao audio/libao-alsa;libao-alsa
 audio/libao;libao audio/libao-arts;libao-arts
 audio/libao;libao audio/libao-esound;libao-esound
@@ -1185,7 +1207,7 @@ audio/libao;libao audio/libao-pulse;libao-pulse
 audio/libao;libao audio/vorbis-tools;vorbis-tools
 '
 
-pkg_summary2deps -Apa src_summary13.txt 2>/dev/null | sort |
+pkg_summary2deps -Apa src_summary13.txt 2>/dev/null | sort_alternatives | sort |
 cmp 'pkg_summary2deps #34' \
 'audio/libao audio/libao-alsa
 audio/libao audio/libao-arts
@@ -1194,10 +1216,10 @@ audio/libao audio/libao-nas
 audio/libao audio/libao-oss
 audio/libao audio/libao-pulse
 audio/libao audio/vorbis-tools
-audio/libao-oss|audio/libao-oss|audio/libao-alsa|audio/libao-arts|audio/libao-esound|audio/libao-nas|audio/libao-pulse audio/vorbis-tools
+audio/libao-alsa|audio/libao-arts|audio/libao-esound|audio/libao-nas|audio/libao-oss|audio/libao-oss|audio/libao-pulse audio/vorbis-tools
 '
 
-pkg_summary2deps -Ap src_summary13.txt 2>/dev/null | sort |
+pkg_summary2deps -Ap src_summary13.txt 2>/dev/null | sort_alternatives | sort |
 cmp 'pkg_summary2deps #34.1' \
 'audio/libao audio/libao-alsa
 audio/libao audio/libao-arts
@@ -1206,10 +1228,10 @@ audio/libao audio/libao-nas
 audio/libao audio/libao-oss
 audio/libao audio/libao-pulse
 audio/libao audio/vorbis-tools
-audio/libao-oss audio/vorbis-tools
+audio/libao-arts audio/vorbis-tools
 '
 
-pkg_summary2deps -Ana src_summary13.txt 2>/dev/null | sort |
+pkg_summary2deps -Ana src_summary13.txt 2>/dev/null | sort_alternatives | sort |
 cmp 'pkg_summary2deps #35' \
 'libao libao-alsa
 libao libao-arts
@@ -1218,10 +1240,10 @@ libao libao-nas
 libao libao-oss
 libao libao-pulse
 libao vorbis-tools
-libao-oss|libao-oss|libao-alsa|libao-arts|libao-esound|libao-nas|libao-pulse vorbis-tools
+libao-alsa|libao-arts|libao-esound|libao-nas|libao-oss|libao-oss|libao-pulse vorbis-tools
 '
 
-pkg_summary2deps -An src_summary13.txt 2>/dev/null | sort |
+pkg_summary2deps -An src_summary13.txt 2>/dev/null | sort_alternatives | sort |
 cmp 'pkg_summary2deps #35.1' \
 'libao libao-alsa
 libao libao-arts
@@ -1230,7 +1252,7 @@ libao libao-nas
 libao libao-oss
 libao libao-pulse
 libao vorbis-tools
-libao-oss vorbis-tools
+libao-arts vorbis-tools
 '
 
 pkg_summary2deps -Apa -Pwip/distbb,editors/emacs src_summary.txt | sort |

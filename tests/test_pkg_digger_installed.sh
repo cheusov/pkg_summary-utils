@@ -19,7 +19,7 @@ grep -E '^(PKGNAME|PKGPATH|COMMENT|HOMEPAGE|$)' | sort |
 cmp 'pkg_digger_installed #3' \
 '
 COMMENT=Package management and administration tools for pkgsrc
-HOMEPAGE=http://www.pkgsrc.org/
+HOMEPAGE=https://www.pkgsrc.org/
 PKGNAME=pkg_install-X
 PKGPATH=pkgtools/pkg_install
 '
@@ -29,7 +29,7 @@ normalize_version |
 grep -E '(PKGNAME|PKGPATH|COMMENT|HOMEPAGE)' | sort |
 cmp 'pkg_digger_installed #4' \
 'COMMENT=Package management and administration tools for pkgsrc
-HOMEPAGE=http://www.pkgsrc.org/
+HOMEPAGE=https://www.pkgsrc.org/
 PKGNAME=pkg_install-X
 PKGPATH=pkgtools/pkg_install
 '
@@ -40,7 +40,7 @@ grep -E '^(PKGNAME|PKGPATH|COMMENT|HOMEPAGE|$)' | sort |
 cmp 'pkg_digger_installed #5' \
 '
 COMMENT=Package management and administration tools for pkgsrc
-HOMEPAGE=http://www.pkgsrc.org/
+HOMEPAGE=https://www.pkgsrc.org/
 PKGNAME=pkg_install-X
 PKGPATH=pkgtools/pkg_install
 '
@@ -50,7 +50,7 @@ normalize_version |
 grep -E '^(PKGNAME|PKGPATH|COMMENT|HOMEPAGE)' | sort |
 cmp 'pkg_digger_installed #6' \
 'COMMENT=Package management and administration tools for pkgsrc
-HOMEPAGE=http://www.pkgsrc.org/
+HOMEPAGE=https://www.pkgsrc.org/
 PKGNAME=pkg_install-X
 PKGPATH=pkgtools/pkg_install
 '
