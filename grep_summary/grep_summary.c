@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2014, Aleksey Cheusov <vle@gmx.net>
+* Copyright (c) 2014-2023, Aleksey Cheusov <vle@gmx.net>
 * All rights reserved.
 *
 * Redistribution and use in source and binary forms, with or without
@@ -109,38 +109,38 @@ static size_t hash_size = 0;
 
 static void *xrealloc(void *ptr, size_t size)
 {
-        void *ret = realloc (ptr, size);
-        if (!ret){
-                perror ("realloc(3) failed");
-                exit (2);
-        }
+	void *ret = realloc(ptr, size);
+	if (!ret){
+		perror("realloc(3) failed");
+		exit(2);
+	}
 
-        return ret;
+	return ret;
 }
 
-static char *xstrdup (const char *s)
+static char *xstrdup(const char *s)
 {
-        char *ret = strdup (s);
-        if (!ret){
-                perror ("strdup(3) failed");
-                exit (2);
-        }
+	char *ret = strdup(s);
+	if (!ret){
+		perror("strdup(3) failed");
+		exit(2);
+	}
 
-        return ret;
+	return ret;
 }
 
 /**************************************/
 
-static void strlwr_imp (char *p)
+static void strlwr_imp(char *p)
 {
 	for (; *p; ++p){
-		*p = tolower ((int) (unsigned char) *p);
+		*p = tolower((int) (unsigned char) *p);
 	}
 }
 
 /**************************************/
 
-static void set_strat (const char *s)
+static void set_strat(const char *s)
 {
 	int i;
 
@@ -159,18 +159,18 @@ static void set_strat (const char *s)
 		{strat_re,      "re"},
 	};
 
-	for (i=0; i < sizeof (ids)/sizeof (ids [0]); ++i){
-		if (!strcmp (ids [i].name, s)){
+	for (i = 0; i < sizeof(ids)/sizeof(ids [0]); ++i){
+		if (!strcmp(ids [i].name, s)){
 			strat_id = ids [i].id;
 			return;
 		}
 	}
 
-	fprintf (stderr, "Unknown search strategy: %s\n", s);
-	exit (2);
+	fprintf(stderr, "Unknown search strategy: %s\n", s);
+	exit(2);
 }
 
-static void set_field (const char *f)
+static void set_field(const char *f)
 {
 	int i;
 
@@ -194,26 +194,26 @@ static void set_field (const char *f)
 
 	field_id = field_normal;
 
-	for (i=0; i < sizeof (ids)/sizeof (ids [0]); ++i){
-		if (!strcmp (ids [i].name, f)){
+	for (i=0; i < sizeof(ids)/sizeof(ids [0]); ++i){
+		if (!strcmp(ids [i].name, f)){
 			field_id = ids [i].id;
 			break;
 		}
 	}
 
-	for (i=0; i < sizeof (ml_fields)/sizeof (ml_fields [0]); ++i){
-		if (!strcmp (ml_fields [i], f)){
+	for (i=0; i < sizeof(ml_fields)/sizeof(ml_fields [0]); ++i){
+		if (!strcmp(ml_fields [i], f)){
 			field_multiline = 1;
 			break;
 		}
 	}
 }
 
-static void process_args (int *argc, char ***argv)
+static void process_args(int *argc, char ***argv)
 {
 	int ch;
 
-	while (ch = getopt (*argc, *argv, "ivt:f:rR"), ch != -1){
+	while (ch = getopt(*argc, *argv, "ivt:f:rR"), ch != -1){
 		switch (ch) {
 			case 'i':
 				ic = 1;
@@ -222,11 +222,11 @@ static void process_args (int *argc, char ***argv)
 				invert = 1;
 				break;
 			case 't':
-				set_strat (optarg);
+				set_strat(optarg);
 				break;
 			case 'f':
 				if (optarg && optarg [0])
-					output_fields = xstrdup (optarg);
+					output_fields = xstrdup(optarg);
 				break;
 			case 'r':
 				error = 1;
@@ -237,84 +237,84 @@ static void process_args (int *argc, char ***argv)
 				break;
 			case '?':
 			default:
-				exit (2);
+				exit(2);
 		}
 	}
 	*argc -= optind;
 	*argv += optind;
 }
 
-static int process_line_empty (char *value, size_t value_len)
+static int process_line_empty(char *value, size_t value_len)
 {
-	return value [0] == 0;
+	return value_len == 0;
 }
 
-static int process_line_nonempty (char *value, size_t value_len)
+static int process_line_nonempty(char *value, size_t value_len)
 {
 	return value_len > 0;
 }
 
-static int process_line_exact (char *value, size_t value_len)
+static int process_line_exact(char *value, size_t value_len)
 {
-	return cond_len == value_len && !memcmp (value, cond, cond_len);
+	return cond_len == value_len && !memcmp(value, cond, cond_len);
 }
 
-static int process_line_prefix (char *value, size_t value_len)
+static int process_line_prefix(char *value, size_t value_len)
 {
-	return cond_len <= value_len && !memcmp (value, cond, cond_len);
+	return cond_len <= value_len && !memcmp(value, cond, cond_len);
 }
 
-static int process_line_suffix (char *value, size_t value_len)
+static int process_line_suffix(char *value, size_t value_len)
 {
 	return cond_len <= value_len &&
-		!memcmp (value+value_len-cond_len, cond, cond_len);
+		!memcmp(value+value_len-cond_len, cond, cond_len);
 }
 
-static int process_line_strlist (char *value, size_t value_len)
+static int process_line_strlist(char *value, size_t value_len)
 {
 	ENTRY e;
 	ENTRY *found;
 
 	e.key  = value;
 	e.data = NULL;
-	found = hsearch (e, FIND);
+	found = hsearch(e, FIND);
 	return (found && found->data == HASHVAL_ITEM);
 }
 
-static int process_line_substring (char *value, size_t value_len)
+static int process_line_substring(char *value, size_t value_len)
 {
 	if (cond_len > value_len)
 		return 0;
 	else if (cond_len == value_len)
-		return process_line_exact (value, value_len);
+		return process_line_exact(value, value_len);
 
-	return strstr (value, cond) != NULL;
+	return strstr(value, cond) != NULL;
 }
 
-static int process_line_first (char *value, size_t value_len)
+static int process_line_first(char *value, size_t value_len)
 {
 	int ch;
-	if (!process_line_prefix (value, value_len))
+	if (!process_line_prefix(value, value_len))
 		return 0;
 
 	ch = (unsigned char) value [cond_len];
-	return !isalnum (ch) && ch != '_';
+	return !isalnum(ch) && ch != '_';
 }
 
-static int process_line_last (char *value, size_t value_len)
+static int process_line_last(char *value, size_t value_len)
 {
 	int ch;
 	if (cond_len == value_len)
-		return process_line_exact (value, value_len);
+		return process_line_exact(value, value_len);
 
-	if (!process_line_suffix (value, value_len))
+	if (!process_line_suffix(value, value_len))
 		return 0;
 
 	ch = (unsigned char) value [value_len - cond_len - 1];
-	return !isalnum (ch) && ch != '_';
+	return !isalnum(ch) && ch != '_';
 }
 
-static int process_line_word (char *value, size_t value_len)
+static int process_line_word(char *value, size_t value_len)
 {
 	char *p;
 	int ch;
@@ -322,42 +322,42 @@ static int process_line_word (char *value, size_t value_len)
 	if (cond_len > value_len)
 		return 0;
 	else if (cond_len == value_len)
-		return process_line_exact (value, value_len);
+		return process_line_exact(value, value_len);
 
-	p = strstr (value, cond);
+	p = strstr(value, cond);
 	while (p){
 		if (p != value){
 			ch = (unsigned char) p [-1];
-			if (isalnum (ch) || ch == '_')
+			if (isalnum(ch) || ch == '_')
 				goto next_it;
 		}
 
 		ch = (unsigned char) p [cond_len];
-		if (!isalnum (ch) && ch != '_')
+		if (!isalnum(ch) && ch != '_')
 			return 1;
 
 	next_it:
-		p = strstr (p+1, cond);
+		p = strstr(p+1, cond);
 	}
 
 	return 0;
 }
 
-static int process_line_re (char *value, size_t value_len)
+static int process_line_re(char *value, size_t value_len)
 {
 	char errbuf [256];
-	int ret = regexec (&regexp, value, 0, NULL, 0);
+	int ret = regexec(&regexp, value, 0, NULL, 0);
 	if (ret == 0)
 		return 1;
 	else if (ret == REG_NOMATCH)
 		return 0;
 
-	regerror (ret, &regexp, errbuf, sizeof (errbuf));
-	fprintf (stderr, "regexec(3) failed: %s\n", errbuf);
-	exit (2);
+	regerror(ret, &regexp, errbuf, sizeof(errbuf));
+	fprintf(stderr, "regexec(3) failed: %s\n", errbuf);
+	exit(2);
 }
 
-typedef int (*process_line_t) (char *, size_t);
+typedef int(*process_line_t) (char *, size_t);
 static const process_line_t funcs [] = {
 	NULL,
 	process_line_empty,
@@ -374,7 +374,7 @@ static const process_line_t funcs [] = {
 	process_line_re,
 };
 
-static int interesting_field (char *line)
+static int interesting_field(char *line)
 {
 	int ret;
 	char *eq;
@@ -384,13 +384,13 @@ static int interesting_field (char *line)
 	if (!output_fields)
 		return 1;
 
-	eq = strchr (line, '=');
+	eq = strchr(line, '=');
 	if (eq)
 		*eq = 0;
 
 	e.key  = line;
 	e.data = NULL;
-	found = hsearch (e, FIND);
+	found = hsearch(e, FIND);
 	ret = (found && found->data == HASHVAL_FIELD);
 
 	if (eq)
@@ -399,21 +399,21 @@ static int interesting_field (char *line)
 	return ret;
 }
 
-static void process_line (char *line, size_t line_len)
+static void process_line(char *line, size_t line_len)
 {
-	char *value = strchr (line, '=');
+	char *value = strchr(line, '=');
 	char *p;
 	size_t len, value_len, curr_field_len;
 	int ret;
 	int run_func = 0;
 
-	assert (match == match_unknown);
+	assert(match == match_unknown);
 
 	if (!value){
-		fprintf (stderr, "bad line: `%s`\n", line);
-		exit (2);
+		fprintf(stderr, "bad line: `%s`\n", line);
+		exit(2);
 	}
-	assert (value);
+	assert(value);
 
 	curr_field_len = value - line;
 
@@ -423,70 +423,70 @@ static void process_line (char *line, size_t line_len)
 	switch (field_id){
 		case field_normal:
 			run_func = (field_len == curr_field_len &&
-						!memcmp (field, line, field_len));
+						!memcmp(field, line, field_len));
 			break;
 		case field_PKGPATH:
 			run_func = (7 == curr_field_len &&
-						!memcmp ("PKGPATH", line, 7));
+						!memcmp("PKGPATH", line, 7));
 			if (run_func){
-				p = strchr (value, ':');
+				p = strchr(value, ':');
 				if (p){
 					*p = 0;
-					strlcpy (PKGPATH, value, sizeof (PKGPATH));
+					strlcpy(PKGPATH, value, sizeof(PKGPATH));
 					value = PKGPATH;
-					value_len = strlen (PKGPATH);
+					value_len = strlen(PKGPATH);
 					*p = ':';
 				}
 			}
 			break;
 		case field_PKGBASE:
 			run_func = (curr_field_len == 7 &&
-						!memcmp ("PKGNAME", line, 7));
+						!memcmp("PKGNAME", line, 7));
 			if (run_func){
-				p = strrchr (value, '-');
+				p = strrchr(value, '-');
 				if (p){ /* p == NULL if PKGNAME is broken */
 					*p = 0;
-					strlcpy (PKGNAME, value, sizeof (PKGNAME));
+					strlcpy(PKGNAME, value, sizeof(PKGNAME));
 					value = PKGNAME;
-					value_len = strlen (PKGNAME);
+					value_len = strlen(PKGNAME);
 					*p = '-';
 				}
 			}
 			break;
 		case field_PKGPABA:
 		case field_PKGPANA:
-			if (curr_field_len == 7 && !memcmp ("PKGNAME", line, 7)){
-				strlcpy (PKGNAME, value, sizeof (PKGNAME));
+			if (curr_field_len == 7 && !memcmp("PKGNAME", line, 7)){
+				strlcpy(PKGNAME, value, sizeof(PKGNAME));
 				if (field_id == field_PKGPABA){
-					p = strrchr (PKGNAME, '-');
+					p = strrchr(PKGNAME, '-');
 					if (p) /* p == NULL if PKGNAME is broken */
 						*p = 0;
 				}
-			}else if (curr_field_len == 7 && !memcmp ("PKGPATH", line, 7)){
-				strlcpy (PKGPATH, value, sizeof (PKGPATH));
+			}else if (curr_field_len == 7 && !memcmp("PKGPATH", line, 7)){
+				strlcpy(PKGPATH, value, sizeof(PKGPATH));
 				/* FIXME: strip :var=val,var=val from PKGPATH? */
 			}
 
 			if (PKGPATH [0] && PKGNAME [0]){
-				strlcat (PKGPATH, ",", sizeof (PKGPATH));
-				strlcat (PKGPATH, PKGNAME, sizeof (PKGPATH));
+				strlcat(PKGPATH, ",", sizeof(PKGPATH));
+				strlcat(PKGPATH, PKGNAME, sizeof(PKGPATH));
 				value     = PKGPATH;
-				value_len = strlen (PKGPATH);
+				value_len = strlen(PKGPATH);
 				run_func  = 1;
 			}
 			break;
 		case field_PKGPATHe:
-			if (curr_field_len == 11 && !memcmp ("ASSIGNMENTS", line, 11)){
-				strlcpy (ASSIGNMENTS, value, sizeof (ASSIGNMENTS));
-			}else if (curr_field_len == 7 && !memcmp ("PKGPATH", line, 7)){
-				strlcpy (PKGPATH, value, sizeof (PKGPATH));
+			if (curr_field_len == 11 && !memcmp("ASSIGNMENTS", line, 11)){
+				strlcpy(ASSIGNMENTS, value, sizeof(ASSIGNMENTS));
+			}else if (curr_field_len == 7 && !memcmp("PKGPATH", line, 7)){
+				strlcpy(PKGPATH, value, sizeof(PKGPATH));
 			}
 
 			if (PKGPATH [0] && ASSIGNMENTS [0]){
-				strlcat (PKGPATH, ":", sizeof (PKGPATH));
-				strlcat (PKGPATH, ASSIGNMENTS, sizeof (PKGPATH));
+				strlcat(PKGPATH, ":", sizeof(PKGPATH));
+				strlcat(PKGPATH, ASSIGNMENTS, sizeof(PKGPATH));
 				value     = PKGPATH;
-				value_len = strlen (PKGPATH);
+				value_len = strlen(PKGPATH);
 				run_func  = 1;
 			}
 			break;
@@ -494,10 +494,10 @@ static void process_line (char *line, size_t line_len)
 
 	if (run_func){
 		if (ic)
-			strlwr_imp (value);
+			strlwr_imp(value);
 
-		assert (strlen (value) == value_len); /* FIXME: remove me */
-		ret = funcs [strat_id] (value, value_len);
+		assert(strlen(value) == value_len); /* FIXME: remove me */
+		ret = funcs [strat_id](value, value_len);
 
 		if (invert)
 			ret = 1 - ret;
@@ -505,7 +505,7 @@ static void process_line (char *line, size_t line_len)
 		if (ret){
 			match = match_yes;
 			if (summary && summary [0])
-				printf ("%s", summary);
+				printf("%s", summary);
 		}else if (!field_multiline){
 			match = match_no;
 		}
@@ -513,23 +513,23 @@ static void process_line (char *line, size_t line_len)
 
 	switch (match){
 		case match_yes:
-			if (interesting_field (line))
-				puts (line);
+			if (interesting_field(line))
+				puts(line);
 			break;
 
 		case match_unknown:
-			if (interesting_field (line)){
-				len = strlen (line);
+			if (interesting_field(line)){
+				len = strlen(line);
 				if (summary_sz+len+2 >= summary_allocated){
 #if 0
 					summary_allocated = summary_allocated + len + 2;
 #else
 					summary_allocated = summary_allocated * 5 / 4 + len + 16384;
 #endif
-					summary = xrealloc (summary, summary_allocated);
+					summary = xrealloc(summary, summary_allocated);
 				}
 
-				memcpy (summary + summary_sz, line, len);
+				memcpy(summary + summary_sz, line, len);
 				summary_sz += len;
 				summary [summary_sz] = '\n';
 				++summary_sz;
@@ -541,19 +541,19 @@ static void process_line (char *line, size_t line_len)
 	}
 }
 
-static void end_summary (void)
+static void end_summary(void)
 {
 	int ret;
 	if (match == match_unknown){
 		if (field_id == field_PKGPATHe && PKGPATH [0]){
-			ret = funcs [strat_id] (PKGPATH, strlen (PKGPATH));
+			ret = funcs [strat_id](PKGPATH, strlen(PKGPATH));
 			if (invert)
 				ret = 1 - ret;
 
 			if (ret){
 				match = match_yes;
 				if (summary && summary [0])
-					printf ("%s", summary);
+					printf("%s", summary);
 			}
 		}
 
@@ -562,14 +562,14 @@ static void end_summary (void)
 				if (!invert){
 					match = match_yes;
 					if (summary && summary [0])
-						printf ("%s", summary);
+						printf("%s", summary);
 				}
 			}
 			if (strat_id == strat_nonempty) {
 				if (invert){
 					match = match_yes;
 					if (summary && summary [0])
-						printf ("%s", summary);
+						printf("%s", summary);
 				}
 			}
 		}
@@ -577,7 +577,7 @@ static void end_summary (void)
 
 	if (match == match_yes){
 		++found_cnt;
-		printf ("\n");
+		printf("\n");
 	}
 
 	match = match_unknown;
@@ -590,13 +590,13 @@ static void end_summary (void)
 	ASSIGNMENTS [0] = 0;
 }
 
-static void read_summaries (void)
+static void read_summaries(void)
 {
 	char *buf = NULL;
 	ssize_t len = 0;
 	size_t linesize = 0;
 
-	while (len = getline (&buf, &linesize, stdin), len != -1) {
+	while (len = getline(&buf, &linesize, stdin), len != -1) {
 		if (len && buf [len-1] == '\n'){
 			--len;
 			buf [len] = 0;
@@ -604,96 +604,96 @@ static void read_summaries (void)
 
 		if (len){
 			if (match == match_unknown){
-				process_line (buf, len);
+				process_line(buf, len);
 			}else if (match == match_yes){
-				if (interesting_field (buf))
-					puts (buf);
+				if (interesting_field(buf))
+					puts(buf);
 			}
 		}else{
-			end_summary ();
+			end_summary();
 		}
 	}
 
-	if (ferror (stdin))
-		perror ("getline(3) failed");
+	if (ferror(stdin))
+		perror("getline(3) failed");
 }
 
-static void set_field_n_cond (int argc, char **argv)
+static void set_field_n_cond(int argc, char **argv)
 {
 	switch (strat_id){
 		case strat_bad:
-			exit (3);
+			exit(3);
 
 		default:
-			assert (argc == 2);
+			assert(argc == 2);
 
 			field = argv [0];
-			field_len = strlen (field);
-			set_field (field);
+			field_len = strlen(field);
+			set_field(field);
 
 			cond  = argv [1];
-			cond_len = strlen (cond);
+			cond_len = strlen(cond);
 			if (ic && strat_id != strat_strfile)
-				strlwr_imp (cond);
+				strlwr_imp(cond);
 
 			break;
 	}
 }
 
-static void tokenize (char *p, const char *sep, void (*func) (const char *))
+static void tokenize(char *p, const char *sep, void (*func) (const char *))
 {
-	char *token = strtok (p, sep);
+	char *token = strtok(p, sep);
 	if (token)
-		func (token);
+		func(token);
 
-	while (token = strtok (NULL, sep), token != NULL){
-		func (token);
+	while (token = strtok(NULL, sep), token != NULL){
+		func(token);
 	}
 }
 
-static void add_field (const char *f)
+static void add_field(const char *f)
 {
 	ENTRY e;
-	e.key  = strdup (f);
+	e.key  = strdup(f);
 	e.data = HASHVAL_FIELD;
-	if (!hsearch (e, ENTER)){
-		perror ("hsearch(3) failed");
-		exit (2);
+	if (!hsearch(e, ENTER)){
+		perror("hsearch(3) failed");
+		exit(2);
 	}
 }
 
-static void process_output_fields (void)
+static void process_output_fields(void)
 {
 	if (output_fields)
-		tokenize (output_fields, " ,", add_field);
+		tokenize(output_fields, " ,", add_field);
 }
 
-static void free_memory (void)
+static void free_memory(void)
 {
-	hdestroy ();
+	hdestroy();
 
 	if (summary)
-		free (summary);
+		free(summary);
 
 	if (output_fields)
-		free (output_fields);
+		free(output_fields);
 
 	if (strat_id == strat_re)
-		regfree (&regexp);
+		regfree(&regexp);
 }
 
-static void add_cond (const char *c)
+static void add_cond(const char *c)
 {
 	ENTRY e;
-	e.key  = strdup (c);
+	e.key  = strdup(c);
 	e.data = HASHVAL_ITEM;
-	if (!hsearch (e, ENTER)){
-		perror ("hsearch(3) failed");
-		exit (2);
+	if (!hsearch(e, ENTER)){
+		perror("hsearch(3) failed");
+		exit(2);
 	}
 }
 
-static void postproc_cond (void)
+static void postproc_cond(void)
 {
 	char errbuf [256];
 	FILE *fp   = NULL;
@@ -704,38 +704,38 @@ static void postproc_cond (void)
 
 	switch (strat_id){
 		case strat_strlist:
-			tokenize (cond, " ", add_cond);
+			tokenize(cond, " ", add_cond);
 			break;
 		case strat_strfile:
-			fp = fopen (cond, "r");
+			fp = fopen(cond, "r");
 			if (!fp){
-				fprintf (stderr, "Cannot open file %s: %s\n", cond, strerror (errno));
-				exit (2);
+				fprintf(stderr, "Cannot open file %s: %s\n", cond, strerror(errno));
+				exit(2);
 			}
 
-			while (len = getline (&line, &linesize, fp), len != -1){
+			while (len = getline(&line, &linesize, fp), len != -1){
 				if (len && line [len-1] == '\n'){
 					--len;
 					line [len] = 0;
 				}
 
 				if (ic)
-					strlwr_imp (line);
+					strlwr_imp(line);
 
-				tokenize (line, " ", add_cond);
+				tokenize(line, " ", add_cond);
 			}
 
-			if (ferror (stdin))
-				perror ("getline(3) failed");
+			if (ferror(stdin))
+				perror("getline(3) failed");
 
-			fclose (fp);
+			fclose(fp);
 			break;
 		case strat_re:
-			ret = regcomp (&regexp, cond, REG_EXTENDED | REG_NOSUB);
+			ret = regcomp(&regexp, cond, REG_EXTENDED | REG_NOSUB);
 			if (ret){
-				regerror (ret, &regexp, errbuf, sizeof (errbuf));
-				fprintf (stderr, "regcomp(3) failed: %s\n", errbuf);
-				exit (2);
+				regerror(ret, &regexp, errbuf, sizeof(errbuf));
+				fprintf(stderr, "regcomp(3) failed: %s\n", errbuf);
+				exit(2);
 			}
 			break;
 		default:
@@ -743,12 +743,12 @@ static void postproc_cond (void)
 	}
 }
 
-static void inc_hash_size (const char *s)
+static void inc_hash_size(const char *s)
 {
 	++hash_size;
 }
 
-static void calc_hash_size (void)
+static void calc_hash_size(void)
 {
 	FILE *fp   = NULL;
 	char *line = NULL;
@@ -759,33 +759,33 @@ static void calc_hash_size (void)
 	hash_size = 100;
 	switch (strat_id){
 		case strat_strlist:
-			cond_copy = xstrdup (cond);
-			tokenize (cond_copy, " ", inc_hash_size);
-			free (cond_copy);
+			cond_copy = xstrdup(cond);
+			tokenize(cond_copy, " ", inc_hash_size);
+			free(cond_copy);
 			break;
 		case strat_strfile:
-			fp = fopen (cond, "r");
+			fp = fopen(cond, "r");
 			if (!fp){
-				fprintf (stderr, "Cannot open file %s: %s\n", cond, strerror (errno));
-				exit (2);
+				fprintf(stderr, "Cannot open file %s: %s\n", cond, strerror(errno));
+				exit(2);
 			}
 
-			while (len = getline (&line, &linesize, fp), len != -1){
+			while (len = getline(&line, &linesize, fp), len != -1){
 				if (len && line [len-1] == '\n'){
 					--len;
 					line [len] = 0;
 				}
 
 				if (ic)
-					strlwr_imp (line);
+					strlwr_imp(line);
 
-				tokenize (line, " ", inc_hash_size);
+				tokenize(line, " ", inc_hash_size);
 			}
 
-			if (ferror (stdin))
-				perror ("getline(3) failed");
+			if (ferror(stdin))
+				perror("getline(3) failed");
 
-			fclose (fp);
+			fclose(fp);
 			break;
 		default:
 			break;
@@ -794,31 +794,32 @@ static void calc_hash_size (void)
 	hash_size = hash_size * 4 / 3;
 }
 
-static void create_hash (void)
+static void create_hash(void)
 {
-	if (!hcreate (hash_size)){
-		perror ("hcreate(3) failed");
-		exit (2);
+	if (!hcreate(hash_size)){
+		perror("hcreate(3) failed");
+		exit(2);
 	}
 }
 
-int main (int argc, char **argv)
+int main(int argc, char **argv);
+int main(int argc, char **argv)
 {
-	process_args (&argc, &argv);
-	set_field_n_cond (argc, argv);
-	calc_hash_size ();
-	create_hash ();
-	postproc_cond ();
-	process_output_fields ();
-	read_summaries ();
+	process_args(&argc, &argv);
+	set_field_n_cond(argc, argv);
+	calc_hash_size();
+	create_hash();
+	postproc_cond();
+	process_output_fields();
+	read_summaries();
 
-	free_memory ();
+	free_memory();
 
 	if (!error || found_cnt){
 		return 0;
 	}else{
 		if (verbose)
-			fprintf (stderr, "No matches found\n");
+			fprintf(stderr, "No matches found\n");
 
 		return 1;
 	}
