@@ -51,7 +51,7 @@
 #   -u    output only user-installed leaves,
 #         a field 'automatic' is expected on input
 #
-#   -r    select leaf packages recursively, implies -a
+#   -r    select leaf packages recursively
 #   -p    output PKGPATHs instead of summaries
 #   -v    PKGPATHs or summaries of non-leaf packages are output
 #.end-str
@@ -64,7 +64,7 @@ BEGIN {
 	}
 
 	rec       = getarg("r")
-	auto_only = getarg("a") || rec
+	auto_only = getarg("a")
 	user_only = getarg("u")
 	invert    = getarg("v")
 	out_pkgs  = getarg("p")
