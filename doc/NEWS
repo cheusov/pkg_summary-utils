@@ -1,4 +1,27 @@
 ----------------------------------------------------------------------
+Version 0.67.0, by Aleksey Cheusov, Mon, 27 Nov 2023 02:15:55 +0400
+
+  pkg_summary2leaves:
+    - new option -u for printing packages installed by user
+    - option -r does not implies -a any longer
+
+  pkg_grep_summary:
+    - new option -E and "-t nonempty" for matching non-empty fields
+
+  Fixes in tests
+
+  Minor code clean-ups and coding style correction in grep_summary.c
+
+  COPTS defaults to "-O3 -g"
+
+  root Makefile: BMAKE variables defaults to "bmake"
+
+----------------------------------------------------------------------
+Version 0.66.0, by Aleksey Cheusov, Sun,  1 Mar 2015 17:33:31 +0300
+
+  New utility pkg_cksum2summary was implemented
+
+----------------------------------------------------------------------
 Version 0.65.2, by Aleksey Cheusov, Sun, 18 Jan 2015 19:24:47 +0300
 
   pkg_lint_summary -l:
