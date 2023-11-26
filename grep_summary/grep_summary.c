@@ -46,6 +46,7 @@
 typedef enum {
 	strat_bad,
 	strat_empty,
+	strat_nonempty,
 	strat_exact,
 	strat_prefix,
 	strat_suffix,
@@ -145,6 +146,7 @@ static void set_strat (const char *s)
 
 	static const struct { strat_id_t id; const char name [10]; } ids [] = {
 		{strat_empty,   "empty"},
+		{strat_nonempty,"nonempty"},
 		{strat_exact,   "exact"},
 		{strat_prefix,  "prefix"},
 		{strat_suffix,  "suffix"},
@@ -245,6 +247,11 @@ static void process_args (int *argc, char ***argv)
 static int process_line_empty (char *value, size_t value_len)
 {
 	return value [0] == 0;
+}
+
+static int process_line_nonempty (char *value, size_t value_len)
+{
+	return value_len > 0;
 }
 
 static int process_line_exact (char *value, size_t value_len)
@@ -354,6 +361,7 @@ typedef int (*process_line_t) (char *, size_t);
 static const process_line_t funcs [] = {
 	NULL,
 	process_line_empty,
+	process_line_nonempty,
 	process_line_exact,
 	process_line_prefix,
 	process_line_suffix,
@@ -549,11 +557,20 @@ static void end_summary (void)
 			}
 		}
 
-		if (match == match_unknown && strat_id == strat_empty){
-			if (!invert){
-				match = match_yes;
-				if (summary && summary [0])
-					printf ("%s", summary);
+		if (match == match_unknown) {
+			if (strat_id == strat_empty) {
+				if (!invert){
+					match = match_yes;
+					if (summary && summary [0])
+						printf ("%s", summary);
+				}
+			}
+			if (strat_id == strat_nonempty) {
+				if (invert){
+					match = match_yes;
+					if (summary && summary [0])
+						printf ("%s", summary);
+				}
 			}
 		}
 	}

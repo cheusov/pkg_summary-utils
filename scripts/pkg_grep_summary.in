@@ -40,6 +40,7 @@ the specified condition, summaries are read from stdin.
 
 USAGE: pkg_grep_summary -h
        pkg_grep_summary [opts] -e <field>
+       pkg_grep_summary [opts] -E <field>
        pkg_grep_summary [opts] -m <field> <regexp>
        pkg_grep_summary [opts] -s <field> <string>
        pkg_grep_summary [opts] -S <field> <file>
@@ -65,6 +66,8 @@ OPTIONS:
               and condition specified in <condition>
   -e          matches empty and absent fields,
               synonym to "-t empty"
+  -E          matches non-empty fields,
+              synonym to "-t nonempty"
   -m          matches <field> against regular expression <regexp>,
               synonym for "-t re"
   -s          matches <field> equal to <string>,
@@ -78,12 +81,14 @@ EOF
 }
 
 strats=0
-while getopts hivf:rRt:emsST f; do
+while getopts hivf:rRt:eEmsST f; do
     case "$f" in
 	h)
 	    usage;  exit 0;;
 	e)
 	    strategy=empty;;
+	E)
+	    strategy=nonempty;;
 	s)
 	    strategy=exact;;
 	S)
@@ -125,6 +130,7 @@ strfile	Match the words from file
 strlist	Match the specified words
 awk	Match using AWK expression
 empty	Match an empty string
+nonempty	Match any non-empty string
 kw	"keyword" match
 EOF
 }
@@ -146,7 +152,7 @@ test_argc (){
 }
 
 case "$strategy" in
-    empty)
+    empty|nonempty)
 	test_argc $# 1
 	field="$1";;
     *)
@@ -156,7 +162,7 @@ case "$strategy" in
 esac
 
 case "$strategy" in
-    empty|exact|prefix|suffix|substring|first|last|word|re|strfile|strlist)
+    empty|nonempty|exact|prefix|suffix|substring|first|last|word|re|strfile|strlist)
 	;;
     awk|'')
 	strategy=awk

@@ -291,6 +291,138 @@ PKGNAME=ap2-vhost-ldap-1.2.0nb1
 
 '
 
+runtest pkg_grep_summary -f PKGNAME -v -t nonempty EXFIELD < src_summary.txt | \
+cmp 'pkg_grep_summary #7.1' \
+'PKGNAME=dictem-0.82
+
+PKGNAME=pkg_online-0.5.0nb2
+
+PKGNAME=dict-server-1.10.11nb2
+
+PKGNAME=pkg_online-server-0.5.0
+
+PKGNAME=dict-client-1.9.15nb2
+
+PKGNAME=pkg_online-client-0.5.0
+
+PKGNAME=libmaa-1.0.1nb1
+
+PKGNAME=gmake-3.81
+
+PKGNAME=paexec-0.10.0nb1
+
+PKGNAME=libtool-base-1.5.24nb6
+
+PKGNAME=runawk-0.14.3
+
+PKGNAME=emacs-22.1nb6
+
+PKGNAME=pkg_summary-utils-0.18.1
+
+PKGNAME=libungif-4.1.4nb1
+
+PKGNAME=tiff-3.8.2nb4
+
+PKGNAME=x11-links-0.38
+
+PKGNAME=perl-5.8.8nb8
+
+PKGNAME=libltdl-1.5.24
+
+PKGNAME=dict-client-1.10.11nb2
+
+PKGNAME=pipestatus-0.4.0
+
+PKGNAME=awk-pkgsrc-dewey-0.5.6
+
+PKGNAME=png-1.2.32beta01
+
+PKGNAME=netcat-1.10nb2
+
+PKGNAME=pkg-config-0.23
+
+PKGNAME=jpeg-6bnb4
+
+PKGNAME=ap22-vhost-ldap-1.2.0nb1
+
+PKGNAME=ap2-vhost-ldap-1.2.0nb1
+
+'
+
+runtest pkg_grep_summary -f PKGNAME -e EXFIELD < src_summary.txt | \
+cmp 'pkg_grep_summary #7.2' \
+'PKGNAME=dictem-0.82
+
+PKGNAME=pkg_online-0.5.0nb2
+
+PKGNAME=dict-server-1.10.11nb2
+
+PKGNAME=pkg_online-server-0.5.0
+
+PKGNAME=dict-client-1.9.15nb2
+
+PKGNAME=pkg_online-client-0.5.0
+
+PKGNAME=libmaa-1.0.1nb1
+
+PKGNAME=gmake-3.81
+
+PKGNAME=paexec-0.10.0nb1
+
+PKGNAME=libtool-base-1.5.24nb6
+
+PKGNAME=runawk-0.14.3
+
+PKGNAME=emacs-22.1nb6
+
+PKGNAME=pkg_summary-utils-0.18.1
+
+PKGNAME=libungif-4.1.4nb1
+
+PKGNAME=tiff-3.8.2nb4
+
+PKGNAME=x11-links-0.38
+
+PKGNAME=perl-5.8.8nb8
+
+PKGNAME=libltdl-1.5.24
+
+PKGNAME=dict-client-1.10.11nb2
+
+PKGNAME=pipestatus-0.4.0
+
+PKGNAME=awk-pkgsrc-dewey-0.5.6
+
+PKGNAME=png-1.2.32beta01
+
+PKGNAME=netcat-1.10nb2
+
+PKGNAME=pkg-config-0.23
+
+PKGNAME=jpeg-6bnb4
+
+PKGNAME=ap22-vhost-ldap-1.2.0nb1
+
+PKGNAME=ap2-vhost-ldap-1.2.0nb1
+
+'
+
+runtest pkg_grep_summary -f PKGNAME -E EXFIELD < src_summary.txt | \
+cmp 'pkg_grep_summary #7.3' \
+'PKGNAME=distbb-0.22.0
+
+PKGNAME=checkperms-1.10
+
+'
+
+runtest pkg_grep_summary -f PKGNAME -ve EXFIELD < src_summary.txt | \
+cmp 'pkg_grep_summary #7.4' \
+'PKGNAME=distbb-0.22.0
+
+PKGNAME=checkperms-1.10
+
+'
+
 runtest pkg_grep_summary -m MAINTAINER 'cheusov|vle@gmx.net' < src_summary.txt |
     grep -E 'PKGNAME|PKGPATH|^$|MAINTAINER|COMMENT' |
 cmp 'pkg_grep_summary #8' \
@@ -1232,7 +1364,7 @@ exit status: 2
 
 runtest pkg_grep_summary -T |
 cmp 'pkg_grep_summary #53' \
-'exact prefix suffix substring word first last re strfile strlist awk empty kw
+'exact prefix suffix substring word first last re strfile strlist awk empty nonempty kw
 '
 
 runtest pkg_grep_summary -TT |
@@ -1249,6 +1381,7 @@ strfile	Match the words from file
 strlist	Match the specified words
 awk	Match using AWK expression
 empty	Match an empty string
+nonempty	Match any non-empty string
 kw	"keyword" match
 '
 

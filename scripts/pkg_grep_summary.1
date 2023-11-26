@@ -1,6 +1,6 @@
 .\"	$NetBSD$
 .\"
-.\" Copyright (c) 2008-2011 by Aleksey Cheusov (vle@gmx.net)
+.\" Copyright (c) 2008-2023 by Aleksey Cheusov (vle@gmx.net)
 .\" Absolutely no warranty.
 .\"
 .\" ------------------------------------------------------------------
@@ -14,7 +14,7 @@
 .fi
 ..
 .\" ------------------------------------------------------------------
-.TH PKG_GREP_SUMMARY 1 "Nov 9, 2011" "" ""
+.TH PKG_GREP_SUMMARY 1 "Nov 26, 2023" "" ""
 .SH NAME
 pkg_grep_summary \- tool for grepping pkgsrc summary file
 .SH SYNOPSIS
@@ -105,6 +105,11 @@ outputs summaries in which
 .I "field"
 is either empty or absent.
 .TP
+.BI "-E" " field"
+outputs summaries in which
+.I "field"
+is no empty.
+.TP
 .BI "-m" " field regexp"
 outputs summary if
 .I "regexp"
@@ -129,12 +134,12 @@ outputs summary if
 .I condition
 matches
 .I field
-according to search strategy
+according to search
 .IR strategy .
 Available search strategies are:
 .IR exact ", " prefix ", " suffix ", " substring ", " word ", "
 .IR first ", " last ", " re ", " strfile ", " strlist ", " awk ", " kw
-.RI " (" keywords ") and " empty .
+.RI " (" keywords "), " nonempty " and " empty .
 Search strategy 
 .I re
 is for matching using regexp (ERE).
@@ -169,6 +174,8 @@ will show search strategies with their descriptions separated by TAB character.
 .IR "-t awk <field> <awk_expr>" " and " "<field> <awk_expr>" " are equivalents"
 .br
 .IR "-t empty <field> ''" " and " "-e <field>" " are equivalents"
+.br
+.IR "-t nonempty <field> ''" " and " "-E <field>" " are equivalents"
 .SH EXIT STATUS
 If unexpected failure happened, an exit status is more than 1.
 If matches were not found and option
