@@ -21,4 +21,4 @@ AWK          ?=	/usr/bin/awk
 PKG_INFO_CMD ?=	${PKG_TOOLS_BIN}/pkg_info -K ${PKG_DBDIR}
 
 # NetBSD make is required for pkgsrc
-BMAKE        ?=	/usr/bin/make
+BMAKE        ?=	bmake
