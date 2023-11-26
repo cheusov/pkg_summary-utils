@@ -1,6 +1,6 @@
 #!/usr/bin/env runawk
 
-# Copyright (c) 2010-2015, Aleksey Cheusov <vle@gmx.net>
+# Copyright (c) 2010-2023, Aleksey Cheusov <vle@gmx.net>
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -35,6 +35,7 @@
 #use "shquote.awk"
 #use "xclose.awk"
 #use "xgetline.awk"
+#use "xsystem.awk"
 #use "psu_funcs.awk"
 
 ############################################################
@@ -44,9 +45,13 @@
 # usage: pkg_summary2leaves [OPTIONS] file1 <file2...>
 # OPTIONS:
 #   -h    display this help
-#   -r    select leaf packages recursively, implies -a
+#
 #   -a    output only automatically installed leaves,
 #         a field 'automatic' is expected on input
+#   -u    output only user-installed leaves,
+#         a field 'automatic' is expected on input
+#
+#   -r    select leaf packages recursively, implies -a
 #   -p    output PKGPATHs instead of summaries
 #   -v    PKGPATHs or summaries of non-leaf packages are output
 #.end-str
@@ -60,6 +65,7 @@ BEGIN {
 
 	rec       = getarg("r")
 	auto_only = getarg("a") || rec
+	user_only = getarg("u")
 	invert    = getarg("v")
 	out_pkgs  = getarg("p")
 
@@ -76,7 +82,7 @@ BEGIN {
 # build dependency graph
 BEGIN {
 	deps_fn = tmpfile()
-	system("pkg_summary2deps -dpnra " files " 2>/dev/null > " deps_fn)
+	xsystem("pkg_summary2deps -dpnra " files " 2>/dev/null > " deps_fn)
 }
 
 # obtaining automatically installed packages
@@ -92,7 +98,7 @@ BEGIN {
 			pkgpath = pkgname = ""
 		}
 	}
-	close(pipe)
+	xclose(pipe)
 }
 
 # read dependency graph
@@ -117,8 +123,15 @@ BEGIN {
 	for (pkg in chld_cnt){
 #		print pkg, chld_cnt [pkg]
 		if (!chld_cnt [pkg]){
-			if (!auto_only || (pkg in auto))
+			if (auto_only) {
+				if (pkg in auto)
+					queue [head++] = pkg
+			} else if (user_only) {
+				if (! (pkg in auto))
+					queue [head++] = pkg
+			} else {
 				queue [head++] = pkg
+			}
 		}
 	}
 

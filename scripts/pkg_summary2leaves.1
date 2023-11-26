@@ -1,6 +1,6 @@
 .\"	$NetBSD$
 .\"
-.\" Copyright (c) 2010-2012 by Aleksey Cheusov (vle@gmx.net)
+.\" Copyright (c) 2010-2023 by Aleksey Cheusov (vle@gmx.net)
 .\" Absolutely no warranty.
 .\"
 .\" ------------------------------------------------------------------
@@ -14,7 +14,7 @@
 .fi
 ..
 .\" ------------------------------------------------------------------
-.TH PKG_SUMMARY2LEAVES 1 "Dec 25, 2012" "" ""
+.TH PKG_SUMMARY2LEAVES 1 "Nov 26, 2023" "" ""
 .SH NAME
 .B pkg_summary2leaves
 output leaf packages
@@ -33,8 +33,12 @@ Display help message.
 Select leaf packages recursively, implies -a.
 .TP
 .B "-a"
-Output automatically installed leaves only,
-a field 'automatic' is expected on input.
+Output only automatically installed leaf packages.
+Field 'automatic' is expected on input (pkg_bin_summary -a automatic).
+.TP
+.B "-u"
+Output only leaf packages installed by user.
+Field 'automatic' is expected on input (pkg_bin_summary -a automatic).
 .TP
 .B "-p"
 Output PKGPATHs instead of summaries.
