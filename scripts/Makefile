@@ -17,6 +17,7 @@ INSCRIPTS +=	pkg_summary2deps pkg_lint_summary
 INSCRIPTS +=	pkg_subgraph_deps pkg_bin_summary
 INSCRIPTS +=	pkg_digger_summary pkg_digger_installed pkg_digger
 INSCRIPTS +=	makefiles2deps pkg_summary2leaves pkg_cksum2summary
+INSCRIPTS +=	rpmdb2summary
 
 SCRIPTS    =	${INSCRIPTS}
 
@@ -38,6 +39,7 @@ MAN +=		pkg_summary2deps.1 pkg_lint_summary.1
 MAN +=		pkg_subgraph_deps.1 pkg_bin_summary.1
 MAN +=		pkg_digger_summary.1 pkg_digger_installed.1 pkg_digger.1
 MAN +=		makefiles2deps.1 pkg_summary2leaves.1 pkg_cksum2summary.1
+MAN +=		rpmdb2summary.1
 
 FILES  =	pkg_grep_summary.awk pkg_src_summary.mk psu_funcs.awk
 FILES +=	pkgsrc-dewey.awk pkg_digger.conf

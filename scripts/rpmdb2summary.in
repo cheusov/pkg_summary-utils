@@ -1,0 +1,126 @@
+#!@SH@
+#-*-mode:  sh -*-
+
+# Copyright (c) 2023, Aleksey Cheusov <vle@gmx.net>
+# All rights reserved.
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions are
+# met:
+#
+#     * Redistributions of source code must retain the above copyright
+#       notice, this list of conditions and the following disclaimer.
+#     * Redistributions in binary form must reproduce the above
+#       copyright notice, this list of conditions and the following
+#       disclaimer in the documentation and/or other materials provided
+#       with the distribution.
+#
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+# "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+# LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+# A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+# HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+# SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+# LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+# DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+# THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+# (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+# OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+export LC_ALL=C
+set -e
+
+. pipestatus
+
+############################################################
+usage (){
+    cat 1>&2 <<EOF
+rpmdb2summary - prints rpmdb(8) content in pkg_summary(5) format
+
+usage:
+  cvs_checksum [OPTIONS] [cvsdirs ...]
+OPTIONS:
+  -h       display this help message
+  -A       print summary for all installed packages
+  -a       print summary for auto-installed packages
+  -u       print summary for user-installed packages
+EOF
+}
+
+while getopts aAhu f; do
+    case "$f" in
+	a)    auto_installed=1;;
+	A)    rpm_opts="$rpm_opts -a";;
+	h)    usage; exit 0;;
+	u)    user_installed=1;;
+	?)    printf "Run cvs_checksum -h for details\n"; exit 2;;
+    esac
+done
+shift `expr $OPTIND - 1`
+
+############################################################
+pairs() {
+    cat <<EOF
+  PKGBASE=%{name}\n
+  PKGNAME=%{nevr}\n
+  PKGPATH=%{vendor}\n
+  COMMENT=%{summary}\n
+  GROUP=%{group}\n
+  MAINTAINER=%{packager}\n
+  SIZE_PKG=%{size}\n
+  DIST_TAG=%{DistTag}\n
+  BUILD_HOST=%{BuildHost}\n
+  BUILD_DATE=%{BuildTime:date}\n
+  LICENSE=%{license}\n
+  SRPM=%{SourceRPM}\n
+  URL=%{url}\n
+  MACHINE_ARCH=%{arch}\n
+  AUTOMATIC=%{autoinstalled}\n
+  DESCRIPTION=%{description}\n
+  [PROVIDES=%{provides}\n]
+  [REQUIRES=%{requires}\n]
+  [PLIST=%{filenames}\n]
+EOF
+}
+# ARCHIVESIZE
+# EPOCH
+# REQUIRENAME
+
+run_rpm() {
+    if test -n "$auto_installed"; then
+	runpipe0 rpm -qa --qf '%{autoinstalled} %{nevr}\n' '|' \
+	    sed -n 's/^1 //p' '|' \
+	    xargs rpm -q --qf "$all\n" "$@"
+    elif test -n "$user_installed"; then
+	runpipe0 rpm -qa --qf '%{autoinstalled} %{nevr}\n' '|' \
+	    sed -n 's/^0 //p' '|' \
+	    xargs rpm -q --qf "$all\n" "$@"
+    elif test -n "$rpm_opts" -o $# -gt 0; then
+	rpm -q $rpm_opts --qf "$all\n" "$@"
+    fi
+}
+
+fix_DESCRIPTION(){
+    awk -F= '
+/^[A-Z_]+=/ {
+    field = $1
+    print $0
+    next
+}
+
+field == "DESCRIPTION" {
+    print "DESCRIPTION=" $0
+    next
+}
+
+{
+    print $0
+}
+' "$@"
+}
+
+for pair in `pairs`; do
+    all="$all$pair"
+done
+
+runpipe0 run_rpm "$@" '|' fix_DESCRIPTION
