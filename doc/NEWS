@@ -1,4 +1,11 @@
 ----------------------------------------------------------------------
+Version 0.68.0, by Aleksey Cheusov, Tue, 14 May 2024 22:27:06 +0400
+
+  pkg_src_summary:
+    - add environment variables PSS_ENVIRON for passing environment
+      to remote/slave subprocesses.
+
+----------------------------------------------------------------------
 Version 0.67.0, by Aleksey Cheusov, Mon, 27 Nov 2023 02:15:55 +0400
 
   pkg_summary2leaves:
