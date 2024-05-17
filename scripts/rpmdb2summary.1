@@ -1,0 +1,48 @@
+.\"	$NetBSD$
+.\"
+.\" Copyright (c) 2023 by Aleksey Cheusov (vle@gmx.net)
+.\" Absolutely no warranty.
+.\"
+.\" ------------------------------------------------------------------
+.de VB \" Verbatim Begin
+.ft CW
+.nf
+.ne \\$1
+..
+.de VE \" Verbatim End
+.ft R
+.fi
+..
+.\" ------------------------------------------------------------------
+.TH RPMDB2SUMMARY 1 "Dec 13, 2023" "" ""
+.SH NAME
+.B rpmdb2summary
+prints rpmdb(8) content in pkg_summary(5) format.
+.SH SYNOPSIS
+.BI rpmdb2summary " [OPTIONS] [packages...]"
+.SH DESCRIPTION
+.B rpmdb2summary
+reads rpmdb(8) content on rpm-based system and print information
+about packages in pkg_summary(5) format.
+.SH OPTIONS
+.TP
+.B "-h"
+Display help message.
+.TP
+.B "-A"
+Print information about all installed packages.
+.TP
+.B "-a"
+Print information about auto-installed packages.
+.TP
+.B "-u"
+Print information about user-installed packages.
+.SH EXAMPLES
+.VB
+   pkgdb2summary -A
+   pkgdb2summary gawk bmake
+.VE
+.SH SEE ALSO
+.BR pkg_summary(5) ,
+.SH AUTHOR
+Aleksey Cheusov <vle@gmx.net>
