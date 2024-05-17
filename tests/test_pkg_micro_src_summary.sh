@@ -8,66 +8,38 @@ grep_pss_stderr (){
     grep -E 'Bad package| ----------' "$@"
 }
 
+summary_to_oneline() {
+    awk '
+/^PKGNAME=/ {printf "%s", substr($0,9)}
+/^PKGPATH=/ {printf ":%s\n", substr($0,9)}
+' "$@"
+}
+
 # pkg_micro_src_summary
 pkgs="`sed -n 's/^PKGPATH=//p' src_summary.txt`"
 pkg_micro_src_summary $pkgs 2>"$tmpfn4" |
 tee "$objdir"/summary_micro.txt |
 normalize_version |
+summary_to_oneline |
+sort |
 cmp 'pkg_micro_src_summary #1' \
-'PKGNAME=checkperms-X
-PKGPATH=sysutils/checkperms
-
-PKGNAME=dict-client-X
-PKGPATH=textproc/dict-client
-
-PKGNAME=libmaa-X
-PKGPATH=devel/libmaa
-
-PKGNAME=gmake-X
-PKGPATH=devel/gmake
-
-PKGNAME=libtool-base-X
-PKGPATH=devel/libtool-base
-
-PKGNAME=pkg_summary-utils-X
-PKGPATH=wip/pkg_summary-utils
-
-PKGNAME=tiff-X
-PKGPATH=graphics/tiff
-
-PKGNAME=x11-links-X
-PKGPATH=pkgtools/x11-links
-
-PKGNAME=perl-X
-PKGPATH=lang/perl5
-
-PKGNAME=libltdl-X
-PKGPATH=devel/libltdl
-
-PKGNAME=pipestatus-X
-PKGPATH=devel/pipestatus
-
-PKGNAME=png-X
-PKGPATH=graphics/png
-
-PKGNAME=netcat-X
-PKGPATH=net/netcat
-
-PKGNAME=pkg-config-X
-PKGPATH=devel/pkg-config
-
-PKGNAME=jpeg-X
-PKGPATH=graphics/jpeg
-
-PKGNAME=dictem-X
-PKGPATH=textproc/dictem
-
-PKGNAME=emacs-X
-PKGPATH=editors/emacs
-
-PKGNAME=ap22-vhost-ldap-X
-PKGPATH=www/ap22-vhost-ldap
-
+'checkperms-X:sysutils/checkperms
+dict-client-X:textproc/dict-client
+dictem-X:textproc/dictem
+emacs-X:editors/emacs
+gmake-X:devel/gmake
+jpeg-X:graphics/jpeg
+libltdl-X:devel/libltdl
+libmaa-X:devel/libmaa
+libtool-base-X:devel/libtool-base
+netcat-X:net/netcat
+perl-X:lang/perl5
+pipestatus-X:devel/pipestatus
+pkg-config-X:devel/pkg-config
+pkg_summary-utils-X:wip/pkg_summary-utils
+png-X:graphics/png
+tiff-X:graphics/tiff
+x11-links-X:pkgtools/x11-links
 '
 
 grep_pss_stderr "$tmpfn4" |
@@ -92,6 +64,8 @@ Bad package graphics/libungif, skipped
 Bad package wip/dict-client, skipped
  ------------------
 Bad package wip/awk-pkgsrc-dewey, skipped
+ ------------------
+Bad package www/ap22-vhost-ldap, skipped
  ------------------
 Bad package www/ap2-vhost-ldap:PKG_APACHE=apache2, skipped
 "

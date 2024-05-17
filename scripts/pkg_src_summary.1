@@ -98,6 +98,10 @@ pkgsrc root directory
 .B BMAKE
 path to pkgsrc friendly make utility
 .TP
+.B PSS_ENVIRON
+List of environment variable assignments passed to slaves when
+.IR PSS_TRANSPORT " and " PSS_SLAVES " are set ."
+.TP
 .B PSS_SLAVES
 Space separated list of remote hosts or +<Number> for distributed
 summary generation. If case of +<Number>, <Number> local processes
@@ -127,7 +131,8 @@ processes running on slave hosts.
 .VB
 pkg_src_summary wip/dict-server wip/dict-mueller7 wip/dict-client
 printf 'wip/dict-server\\nwip/dict-client\\n' | pkg_src_summary
-env BMAKE=/usr/pkg/bin/bmake \\ 
+env BMAKE=/usr/bin/make \\
+   PSS_ENVIRON='LD_PRELOAD=/usr/pkg/lib/libkver.so LIBKVER_OSRELEASE=10.0 \\'
    PSS_SLAVES='host1 host2' \\ 
    PSS_TRANSPORT=/usr/bin/ssh \\ 
    /usr/pkg/bin/pkg_src_summary \\ 
