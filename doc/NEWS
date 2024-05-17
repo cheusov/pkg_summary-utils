@@ -5,6 +5,11 @@ Version 0.68.0, by Aleksey Cheusov, Tue, 14 May 2024 22:27:06 +0400
     - add environment variables PSS_ENVIRON for passing environment
       to remote/slave subprocesses.
 
+  New tool rpmdb2summary for converting rpmdb content to
+  pkg_summary(5) format.
+
+  Tests updated for pkg_micro_src_summary.
+
 ----------------------------------------------------------------------
 Version 0.67.0, by Aleksey Cheusov, Mon, 27 Nov 2023 02:15:55 +0400
 
