@@ -38,7 +38,7 @@ usage (){
 rpmdb2summary - prints rpmdb(8) content in pkg_summary(5) format
 
 usage:
-  cvs_checksum [OPTIONS] [cvsdirs ...]
+  rpmdb2summary [OPTIONS] [packages ...]
 OPTIONS:
   -h       display this help message
   -A       print summary for all installed packages
