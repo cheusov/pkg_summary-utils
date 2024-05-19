@@ -1,6 +1,6 @@
 : ${PKGSRCDIR:=/usr/pkgsrc}
 
-if ! test -d PKGSRCDIR; then
+if ! test -d $PKGSRCDIR; then
     echo "Directory $PKGSRCDIR does not exit, skipping tests for pkg_src_fetch_var" 1>&2
 else
 
