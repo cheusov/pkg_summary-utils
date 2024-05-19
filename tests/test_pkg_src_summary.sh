@@ -14,33 +14,23 @@ hide_distfile_size (){
 
 pkg_src_summary -f PKGNAME,PKGPATH -A databases/sqlite3 |
 pkg_grep_summary -v -t strlist PKGBASE 'readline ncurses pkg_install-info' |
-hide_distfile_size | normalize_version | grep -vE 'DEPENDS=' |
+hide_distfile_size | normalize_version | grep -vE 'DEPENDS=' | summary2oneline |
 cmp 'pkg_src_summary #27.1' \
-'PKGNAME=sqlite3-X
-PKGPATH=databases/sqlite3
-
-PKGNAME=cwrappers-X
-PKGPATH=pkgtools/cwrappers
-
+'PKGNAME=editline-X;PKGPATH=devel/editline
+PKGNAME=sqlite3-X;PKGPATH=databases/sqlite3
 '
 
 pkg_src_summary -f PKGNAME,PKGPATH -At databases/sqlite3 |
 pkg_grep_summary -v -s PKGBASE gmake |
 pkg_grep_summary -v -t strlist PKGBASE 'readline ncurses pkg_install-info nbpatch' |
-hide_distfile_size | normalize_version | grep -vE 'DEPENDS=' |
+hide_distfile_size | normalize_version | grep -vE 'DEPENDS=' | summary2oneline |
 cmp 'pkg_src_summary #27.2' \
-'PKGNAME=sqlite3-X
-PKGPATH=databases/sqlite3
-
-PKGNAME=checkperms-X
-PKGPATH=sysutils/checkperms
-
-PKGNAME=libtool-base-X
-PKGPATH=devel/libtool-base
-
-PKGNAME=cwrappers-X
-PKGPATH=pkgtools/cwrappers
-
+'PKGNAME=checkperms-X;PKGPATH=sysutils/checkperms
+PKGNAME=cwrappers-X;PKGPATH=pkgtools/cwrappers
+PKGNAME=editline-X;PKGPATH=devel/editline
+PKGNAME=libtool-base-X;PKGPATH=devel/libtool-base
+PKGNAME=mktools-X;PKGPATH=pkgtools/mktools
+PKGNAME=sqlite3-X;PKGPATH=databases/sqlite3
 '
 
 #pkg_src_summary -f PKGNAME,PKGPATH -Atb databases/sqlite3 |
@@ -92,468 +82,79 @@ TOOL_DEPENDS
 
 pkg_src_summary -m -f PKGNAME,PKGPATH \
     devel/subversion:PYTHON_VERSION_REQD=27 |
-normalize_version |
+normalize_version | summary2oneline |
 cmp 'pkg_src_summary #23.8' \
-'PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-ASSIGNMENTS=RUBY_VERSION_REQD=23
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-ASSIGNMENTS=RUBY_VERSION_REQD=21
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-ASSIGNMENTS=PKG_APACHE=apache24
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-ASSIGNMENTS=PKG_APACHE=apache24,RUBY_VERSION_REQD=23
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-ASSIGNMENTS=PKG_APACHE=apache24,RUBY_VERSION_REQD=21
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
+'ASSIGNMENTS=PYTHON_VERSION_REQD=27,RUBY_VERSION_REQD=31;PKGNAME=subversion-X;PKGPATH=devel/subversion
+ASSIGNMENTS=PYTHON_VERSION_REQD=27,RUBY_VERSION_REQD=33;PKGNAME=subversion-X;PKGPATH=devel/subversion
+ASSIGNMENTS=PYTHON_VERSION_REQD=27;PKGNAME=subversion-X;PKGPATH=devel/subversion
 '
 
 pkg_src_summary -m -f PKGNAME,PKGPATH \
-    devel/subversion:PYTHON_VERSION_REQD=27 |
-normalize_version |
+    devel/subversion:PYTHON_VERSION_REQD=31 |
+normalize_version | summary2oneline |
 cmp 'pkg_src_summary #23.7' \
-'PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-ASSIGNMENTS=RUBY_VERSION_REQD=23
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-ASSIGNMENTS=RUBY_VERSION_REQD=21
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-ASSIGNMENTS=PKG_APACHE=apache24
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-ASSIGNMENTS=PKG_APACHE=apache24,RUBY_VERSION_REQD=23
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-ASSIGNMENTS=PKG_APACHE=apache24,RUBY_VERSION_REQD=21
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-'
-
-pkg_src_summary -m -f PKGNAME,PKGPATH devel/subversion:PYTHON_VERSION_REQD=27 |
-normalize_version |
-cmp 'pkg_src_summary #23.6' \
-'PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-ASSIGNMENTS=RUBY_VERSION_REQD=23
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-ASSIGNMENTS=RUBY_VERSION_REQD=21
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-ASSIGNMENTS=PKG_APACHE=apache24
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-ASSIGNMENTS=PKG_APACHE=apache24,RUBY_VERSION_REQD=23
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-ASSIGNMENTS=PKG_APACHE=apache24,RUBY_VERSION_REQD=21
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
+'ASSIGNMENTS=RUBY_VERSION_REQD=31;PKGNAME=subversion-X;PKGPATH=devel/subversion
+ASSIGNMENTS=RUBY_VERSION_REQD=33;PKGNAME=subversion-X;PKGPATH=devel/subversion
+PKGNAME=subversion-X;PKGPATH=devel/subversion
 '
 
 pkg_src_summary -m -f PKGNAME,PKGPATH \
-    devel/subversion:PKG_APACHE=apache22 |
-normalize_version |
+    devel/subversion:PYTHON_VERSION_REQD=312 |
+normalize_version | summary2oneline |
+cmp 'pkg_src_summary #23.6' \
+'ASSIGNMENTS=PYTHON_VERSION_REQD=312,RUBY_VERSION_REQD=31;PKGNAME=subversion-X;PKGPATH=devel/subversion
+ASSIGNMENTS=PYTHON_VERSION_REQD=312,RUBY_VERSION_REQD=33;PKGNAME=subversion-X;PKGPATH=devel/subversion
+ASSIGNMENTS=PYTHON_VERSION_REQD=312;PKGNAME=subversion-X;PKGPATH=devel/subversion
+'
+
+pkg_src_summary -m -f PKGNAME,PKGPATH \
+    devel/subversion:PKG_APACHE=apache24 |
+normalize_version | summary2oneline |
 cmp 'pkg_src_summary #23.5' \
-'ASSIGNMENTS=PYTHON_VERSION_REQD=36
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-ASSIGNMENTS=PYTHON_VERSION_REQD=36,RUBY_VERSION_REQD=23
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-ASSIGNMENTS=PYTHON_VERSION_REQD=36,RUBY_VERSION_REQD=21
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-ASSIGNMENTS=PYTHON_VERSION_REQD=35
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-ASSIGNMENTS=PYTHON_VERSION_REQD=35,RUBY_VERSION_REQD=23
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-ASSIGNMENTS=PYTHON_VERSION_REQD=35,RUBY_VERSION_REQD=21
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-ASSIGNMENTS=PYTHON_VERSION_REQD=34
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-ASSIGNMENTS=PYTHON_VERSION_REQD=34,RUBY_VERSION_REQD=23
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-ASSIGNMENTS=PYTHON_VERSION_REQD=34,RUBY_VERSION_REQD=21
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-ASSIGNMENTS=RUBY_VERSION_REQD=23
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-ASSIGNMENTS=RUBY_VERSION_REQD=21
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-'
-
-pkg_src_summary -m -f PKGNAME,PKGPATH devel/subversion:PYTHON_VERSION_REQD=27 |
-normalize_version |
-cmp 'pkg_src_summary #23.4' \
-'PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-ASSIGNMENTS=RUBY_VERSION_REQD=23
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-ASSIGNMENTS=RUBY_VERSION_REQD=21
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-ASSIGNMENTS=PKG_APACHE=apache24
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-ASSIGNMENTS=PKG_APACHE=apache24,RUBY_VERSION_REQD=23
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-ASSIGNMENTS=PKG_APACHE=apache24,RUBY_VERSION_REQD=21
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
+'ASSIGNMENTS=PYTHON_VERSION_REQD=27,RUBY_VERSION_REQD=31;PKGNAME=subversion-X;PKGPATH=devel/subversion
+ASSIGNMENTS=PYTHON_VERSION_REQD=27,RUBY_VERSION_REQD=33;PKGNAME=subversion-X;PKGPATH=devel/subversion
+ASSIGNMENTS=PYTHON_VERSION_REQD=27;PKGNAME=subversion-X;PKGPATH=devel/subversion
+ASSIGNMENTS=PYTHON_VERSION_REQD=310,RUBY_VERSION_REQD=31;PKGNAME=subversion-X;PKGPATH=devel/subversion
+ASSIGNMENTS=PYTHON_VERSION_REQD=310,RUBY_VERSION_REQD=33;PKGNAME=subversion-X;PKGPATH=devel/subversion
+ASSIGNMENTS=PYTHON_VERSION_REQD=310;PKGNAME=subversion-X;PKGPATH=devel/subversion
+ASSIGNMENTS=PYTHON_VERSION_REQD=312,RUBY_VERSION_REQD=31;PKGNAME=subversion-X;PKGPATH=devel/subversion
+ASSIGNMENTS=PYTHON_VERSION_REQD=312,RUBY_VERSION_REQD=33;PKGNAME=subversion-X;PKGPATH=devel/subversion
+ASSIGNMENTS=PYTHON_VERSION_REQD=312;PKGNAME=subversion-X;PKGPATH=devel/subversion
+ASSIGNMENTS=PYTHON_VERSION_REQD=38,RUBY_VERSION_REQD=31;PKGNAME=subversion-X;PKGPATH=devel/subversion
+ASSIGNMENTS=PYTHON_VERSION_REQD=38,RUBY_VERSION_REQD=33;PKGNAME=subversion-X;PKGPATH=devel/subversion
+ASSIGNMENTS=PYTHON_VERSION_REQD=38;PKGNAME=subversion-X;PKGPATH=devel/subversion
+ASSIGNMENTS=PYTHON_VERSION_REQD=39,RUBY_VERSION_REQD=31;PKGNAME=subversion-X;PKGPATH=devel/subversion
+ASSIGNMENTS=PYTHON_VERSION_REQD=39,RUBY_VERSION_REQD=33;PKGNAME=subversion-X;PKGPATH=devel/subversion
+ASSIGNMENTS=PYTHON_VERSION_REQD=39;PKGNAME=subversion-X;PKGPATH=devel/subversion
+ASSIGNMENTS=RUBY_VERSION_REQD=31;PKGNAME=subversion-X;PKGPATH=devel/subversion
+ASSIGNMENTS=RUBY_VERSION_REQD=33;PKGNAME=subversion-X;PKGPATH=devel/subversion
+PKGNAME=subversion-X;PKGPATH=devel/subversion
 '
 
 pkg_src_summary -m -f PKGNAME,PKGPATH devel/subversion |
-normalize_version |
+normalize_version | summary2oneline |
 cmp 'pkg_src_summary #23.3' \
-'ASSIGNMENTS=PYTHON_VERSION_REQD=36
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-ASSIGNMENTS=PYTHON_VERSION_REQD=36,RUBY_VERSION_REQD=23
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-ASSIGNMENTS=PYTHON_VERSION_REQD=36,RUBY_VERSION_REQD=21
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-ASSIGNMENTS=PYTHON_VERSION_REQD=35
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-ASSIGNMENTS=PYTHON_VERSION_REQD=35,RUBY_VERSION_REQD=23
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-ASSIGNMENTS=PYTHON_VERSION_REQD=35,RUBY_VERSION_REQD=21
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-ASSIGNMENTS=PYTHON_VERSION_REQD=34
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-ASSIGNMENTS=PYTHON_VERSION_REQD=34,RUBY_VERSION_REQD=23
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-ASSIGNMENTS=PYTHON_VERSION_REQD=34,RUBY_VERSION_REQD=21
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-ASSIGNMENTS=RUBY_VERSION_REQD=23
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-ASSIGNMENTS=RUBY_VERSION_REQD=21
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-ASSIGNMENTS=PKG_APACHE=apache24,PYTHON_VERSION_REQD=36
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-ASSIGNMENTS=PKG_APACHE=apache24,PYTHON_VERSION_REQD=36,RUBY_VERSION_REQD=23
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-ASSIGNMENTS=PKG_APACHE=apache24,PYTHON_VERSION_REQD=36,RUBY_VERSION_REQD=21
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-ASSIGNMENTS=PKG_APACHE=apache24,PYTHON_VERSION_REQD=35
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-ASSIGNMENTS=PKG_APACHE=apache24,PYTHON_VERSION_REQD=35,RUBY_VERSION_REQD=23
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-ASSIGNMENTS=PKG_APACHE=apache24,PYTHON_VERSION_REQD=35,RUBY_VERSION_REQD=21
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-ASSIGNMENTS=PKG_APACHE=apache24,PYTHON_VERSION_REQD=34
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-ASSIGNMENTS=PKG_APACHE=apache24,PYTHON_VERSION_REQD=34,RUBY_VERSION_REQD=23
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-ASSIGNMENTS=PKG_APACHE=apache24,PYTHON_VERSION_REQD=34,RUBY_VERSION_REQD=21
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-ASSIGNMENTS=PKG_APACHE=apache24
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-ASSIGNMENTS=PKG_APACHE=apache24,RUBY_VERSION_REQD=23
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-ASSIGNMENTS=PKG_APACHE=apache24,RUBY_VERSION_REQD=21
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
+'ASSIGNMENTS=PYTHON_VERSION_REQD=27,RUBY_VERSION_REQD=31;PKGNAME=subversion-X;PKGPATH=devel/subversion
+ASSIGNMENTS=PYTHON_VERSION_REQD=27,RUBY_VERSION_REQD=33;PKGNAME=subversion-X;PKGPATH=devel/subversion
+ASSIGNMENTS=PYTHON_VERSION_REQD=27;PKGNAME=subversion-X;PKGPATH=devel/subversion
+ASSIGNMENTS=PYTHON_VERSION_REQD=310,RUBY_VERSION_REQD=31;PKGNAME=subversion-X;PKGPATH=devel/subversion
+ASSIGNMENTS=PYTHON_VERSION_REQD=310,RUBY_VERSION_REQD=33;PKGNAME=subversion-X;PKGPATH=devel/subversion
+ASSIGNMENTS=PYTHON_VERSION_REQD=310;PKGNAME=subversion-X;PKGPATH=devel/subversion
+ASSIGNMENTS=PYTHON_VERSION_REQD=312,RUBY_VERSION_REQD=31;PKGNAME=subversion-X;PKGPATH=devel/subversion
+ASSIGNMENTS=PYTHON_VERSION_REQD=312,RUBY_VERSION_REQD=33;PKGNAME=subversion-X;PKGPATH=devel/subversion
+ASSIGNMENTS=PYTHON_VERSION_REQD=312;PKGNAME=subversion-X;PKGPATH=devel/subversion
+ASSIGNMENTS=PYTHON_VERSION_REQD=38,RUBY_VERSION_REQD=31;PKGNAME=subversion-X;PKGPATH=devel/subversion
+ASSIGNMENTS=PYTHON_VERSION_REQD=38,RUBY_VERSION_REQD=33;PKGNAME=subversion-X;PKGPATH=devel/subversion
+ASSIGNMENTS=PYTHON_VERSION_REQD=38;PKGNAME=subversion-X;PKGPATH=devel/subversion
+ASSIGNMENTS=PYTHON_VERSION_REQD=39,RUBY_VERSION_REQD=31;PKGNAME=subversion-X;PKGPATH=devel/subversion
+ASSIGNMENTS=PYTHON_VERSION_REQD=39,RUBY_VERSION_REQD=33;PKGNAME=subversion-X;PKGPATH=devel/subversion
+ASSIGNMENTS=PYTHON_VERSION_REQD=39;PKGNAME=subversion-X;PKGPATH=devel/subversion
+ASSIGNMENTS=RUBY_VERSION_REQD=31;PKGNAME=subversion-X;PKGPATH=devel/subversion
+ASSIGNMENTS=RUBY_VERSION_REQD=33;PKGNAME=subversion-X;PKGPATH=devel/subversion
+PKGNAME=subversion-X;PKGPATH=devel/subversion
 '
 
-pkg_src_summary -m -f PKGNAME,PKGPATH devel/subversion:PKG_APACHE=apache22 |
-normalize_version |
-cmp 'pkg_src_summary #23.2' \
-'ASSIGNMENTS=PYTHON_VERSION_REQD=36
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-ASSIGNMENTS=PYTHON_VERSION_REQD=36,RUBY_VERSION_REQD=23
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-ASSIGNMENTS=PYTHON_VERSION_REQD=36,RUBY_VERSION_REQD=21
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-ASSIGNMENTS=PYTHON_VERSION_REQD=35
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-ASSIGNMENTS=PYTHON_VERSION_REQD=35,RUBY_VERSION_REQD=23
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-ASSIGNMENTS=PYTHON_VERSION_REQD=35,RUBY_VERSION_REQD=21
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-ASSIGNMENTS=PYTHON_VERSION_REQD=34
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-ASSIGNMENTS=PYTHON_VERSION_REQD=34,RUBY_VERSION_REQD=23
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-ASSIGNMENTS=PYTHON_VERSION_REQD=34,RUBY_VERSION_REQD=21
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-ASSIGNMENTS=RUBY_VERSION_REQD=23
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-ASSIGNMENTS=RUBY_VERSION_REQD=21
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-'
-
-pkg_src_summary -m -f PKGNAME,PKGPATH devel/subversion |
-normalize_version |
-cmp 'pkg_src_summary #23.1' \
-'ASSIGNMENTS=PYTHON_VERSION_REQD=36
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-ASSIGNMENTS=PYTHON_VERSION_REQD=36,RUBY_VERSION_REQD=23
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-ASSIGNMENTS=PYTHON_VERSION_REQD=36,RUBY_VERSION_REQD=21
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-ASSIGNMENTS=PYTHON_VERSION_REQD=35
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-ASSIGNMENTS=PYTHON_VERSION_REQD=35,RUBY_VERSION_REQD=23
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-ASSIGNMENTS=PYTHON_VERSION_REQD=35,RUBY_VERSION_REQD=21
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-ASSIGNMENTS=PYTHON_VERSION_REQD=34
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-ASSIGNMENTS=PYTHON_VERSION_REQD=34,RUBY_VERSION_REQD=23
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-ASSIGNMENTS=PYTHON_VERSION_REQD=34,RUBY_VERSION_REQD=21
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-ASSIGNMENTS=RUBY_VERSION_REQD=23
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-ASSIGNMENTS=RUBY_VERSION_REQD=21
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-ASSIGNMENTS=PKG_APACHE=apache24,PYTHON_VERSION_REQD=36
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-ASSIGNMENTS=PKG_APACHE=apache24,PYTHON_VERSION_REQD=36,RUBY_VERSION_REQD=23
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-ASSIGNMENTS=PKG_APACHE=apache24,PYTHON_VERSION_REQD=36,RUBY_VERSION_REQD=21
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-ASSIGNMENTS=PKG_APACHE=apache24,PYTHON_VERSION_REQD=35
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-ASSIGNMENTS=PKG_APACHE=apache24,PYTHON_VERSION_REQD=35,RUBY_VERSION_REQD=23
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-ASSIGNMENTS=PKG_APACHE=apache24,PYTHON_VERSION_REQD=35,RUBY_VERSION_REQD=21
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-ASSIGNMENTS=PKG_APACHE=apache24,PYTHON_VERSION_REQD=34
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-ASSIGNMENTS=PKG_APACHE=apache24,PYTHON_VERSION_REQD=34,RUBY_VERSION_REQD=23
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-ASSIGNMENTS=PKG_APACHE=apache24,PYTHON_VERSION_REQD=34,RUBY_VERSION_REQD=21
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-ASSIGNMENTS=PKG_APACHE=apache24
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-ASSIGNMENTS=PKG_APACHE=apache24,RUBY_VERSION_REQD=23
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-ASSIGNMENTS=PKG_APACHE=apache24,RUBY_VERSION_REQD=21
-PKGNAME=subversion-X
-PKGPATH=devel/subversion
-
-'
-
-pkg_src_summary -m -f PKGNAME,PKGPATH www/ap-php:PKG_APACHE=apache22 |
-normalize_version |
-cmp 'pkg_src_summary #22.2' \
-'PKGNAME=ap22-php56-X
-PKGPATH=www/ap-php
-
-ASSIGNMENTS=PHP_VERSION_REQD=70
-PKGNAME=ap22-php70-X
-PKGPATH=www/ap-php
-
-ASSIGNMENTS=PHP_VERSION_REQD=71
-PKGNAME=ap22-php71-X
-PKGPATH=www/ap-php
-
-'
-
-pkg_src_summary -m -f PKGNAME,PKGPATH www/ap-php |
-normalize_version |
-cmp 'pkg_src_summary #22.1' \
-'PKGNAME=ap22-php56-X
-PKGPATH=www/ap-php
-
-ASSIGNMENTS=PHP_VERSION_REQD=70
-PKGNAME=ap22-php70-X
-PKGPATH=www/ap-php
-
-ASSIGNMENTS=PHP_VERSION_REQD=71
-PKGNAME=ap22-php71-X
-PKGPATH=www/ap-php
-
-ASSIGNMENTS=PKG_APACHE=apache24
-PKGNAME=ap24-php56-X
-PKGPATH=www/ap-php
-
-ASSIGNMENTS=PKG_APACHE=apache24,PHP_VERSION_REQD=70
-PKGNAME=ap24-php70-X
-PKGPATH=www/ap-php
-
-ASSIGNMENTS=PKG_APACHE=apache24,PHP_VERSION_REQD=71
-PKGNAME=ap24-php71-X
-PKGPATH=www/ap-php
-
-'
-
-pkg_src_summary -A -f PKGNAME,PKGPATH lang/ruby18 > "$tmpfn1"
+pkg_src_summary -A -f PKGNAME,PKGPATH lang/ruby > "$tmpfn1"
 pkg_summary2deps -pnrA2 "$tmpfn1" 2>&1 > /dev/null |
 cmp 'pkg_src_summary #21' \
 ''
@@ -658,62 +259,25 @@ PLIST=man/man1/xxkb.1
 pkgs="`sed -n 's/^PKGPATH=//p' src_summary.txt`"
 pkg_src_summary -f PKGNAME,PKGPATH $pkgs 2>"$tmpfn4" |
 tee "$objdir"/summary_full.txt |
-normalize_version |
+normalize_version | summary2oneline |
 cmp 'pkg_src_summary #1' \
-'PKGNAME=dictem-X
-PKGPATH=textproc/dictem
-
-PKGNAME=checkperms-X
-PKGPATH=sysutils/checkperms
-
-PKGNAME=dict-client-X
-PKGPATH=textproc/dict-client
-
-PKGNAME=libmaa-X
-PKGPATH=devel/libmaa
-
-PKGNAME=gmake-X
-PKGPATH=devel/gmake
-
-PKGNAME=libtool-base-X
-PKGPATH=devel/libtool-base
-
-PKGNAME=emacs-X
-PKGPATH=editors/emacs
-
-PKGNAME=pkg_summary-utils-X
-PKGPATH=wip/pkg_summary-utils
-
-PKGNAME=tiff-X
-PKGPATH=graphics/tiff
-
-PKGNAME=x11-links-X
-PKGPATH=pkgtools/x11-links
-
-PKGNAME=perl-X
-PKGPATH=lang/perl5
-
-PKGNAME=libltdl-X
-PKGPATH=devel/libltdl
-
-PKGNAME=pipestatus-X
-PKGPATH=devel/pipestatus
-
-PKGNAME=png-X
-PKGPATH=graphics/png
-
-PKGNAME=netcat-X
-PKGPATH=net/netcat
-
-PKGNAME=pkg-config-X
-PKGPATH=devel/pkg-config
-
-PKGNAME=jpeg-X
-PKGPATH=graphics/jpeg
-
-PKGNAME=ap22-vhost-ldap-X
-PKGPATH=www/ap22-vhost-ldap
-
+'PKGNAME=checkperms-X;PKGPATH=sysutils/checkperms
+PKGNAME=dict-client-X;PKGPATH=textproc/dict-client
+PKGNAME=dictem-X;PKGPATH=textproc/dictem
+PKGNAME=emacs-X;PKGPATH=editors/emacs
+PKGNAME=gmake-X;PKGPATH=devel/gmake
+PKGNAME=jpeg-X;PKGPATH=graphics/jpeg
+PKGNAME=libltdl-X;PKGPATH=devel/libltdl
+PKGNAME=libmaa-X;PKGPATH=devel/libmaa
+PKGNAME=libtool-base-X;PKGPATH=devel/libtool-base
+PKGNAME=netcat-X;PKGPATH=net/netcat
+PKGNAME=perl-X;PKGPATH=lang/perl5
+PKGNAME=pipestatus-X;PKGPATH=devel/pipestatus
+PKGNAME=pkg-config-X;PKGPATH=devel/pkg-config
+PKGNAME=pkg_summary-utils-X;PKGPATH=wip/pkg_summary-utils
+PKGNAME=png-X;PKGPATH=graphics/png
+PKGNAME=tiff-X;PKGPATH=graphics/tiff
+PKGNAME=x11-links-X;PKGPATH=pkgtools/x11-links
 '
 
 grep_pss_stderr "$tmpfn4" |
@@ -739,169 +303,90 @@ Bad package wip/dict-client, skipped
  ------------------
 Bad package wip/awk-pkgsrc-dewey, skipped
  ------------------
+Bad package www/ap22-vhost-ldap, skipped
+ ------------------
 Bad package www/ap2-vhost-ldap:PKG_APACHE=apache2, skipped
 "
 
 pkg_src_summary -m -fPKGNAME,PKGPATH www/ap2-python |
 normalize_version |
-grep -v DEPENDS |
+grep -v DEPENDS | summary2oneline |
 cmp 'pkg_src_summary #2' \
-'ASSIGNMENTS=PYTHON_VERSION_REQD=36
-PKGNAME=ap22-py36-python-X
-PKGPATH=www/ap2-python
-
-ASSIGNMENTS=PYTHON_VERSION_REQD=35
-PKGNAME=ap22-py35-python-X
-PKGPATH=www/ap2-python
-
-ASSIGNMENTS=PYTHON_VERSION_REQD=34
-PKGNAME=ap22-py34-python-X
-PKGPATH=www/ap2-python
-
-PKGNAME=ap22-py27-python-X
-PKGPATH=www/ap2-python
-
-ASSIGNMENTS=PKG_APACHE=apache24,PYTHON_VERSION_REQD=36
-PKGNAME=ap24-py36-python-X
-PKGPATH=www/ap2-python
-
-ASSIGNMENTS=PKG_APACHE=apache24,PYTHON_VERSION_REQD=35
-PKGNAME=ap24-py35-python-X
-PKGPATH=www/ap2-python
-
-ASSIGNMENTS=PKG_APACHE=apache24,PYTHON_VERSION_REQD=34
-PKGNAME=ap24-py34-python-X
-PKGPATH=www/ap2-python
-
-ASSIGNMENTS=PKG_APACHE=apache24
-PKGNAME=ap24-py27-python-X
-PKGPATH=www/ap2-python
-
+'ASSIGNMENTS=PYTHON_VERSION_REQD=27;PKGNAME=ap24-py27-python-X;PKGPATH=www/ap2-python
+ASSIGNMENTS=PYTHON_VERSION_REQD=310;PKGNAME=ap24-py310-python-X;PKGPATH=www/ap2-python
+ASSIGNMENTS=PYTHON_VERSION_REQD=312;PKGNAME=ap24-py312-python-X;PKGPATH=www/ap2-python
+ASSIGNMENTS=PYTHON_VERSION_REQD=38;PKGNAME=ap24-py38-python-X;PKGPATH=www/ap2-python
+ASSIGNMENTS=PYTHON_VERSION_REQD=39;PKGNAME=ap24-py39-python-X;PKGPATH=www/ap2-python
+PKGNAME=ap24-py311-python-X;PKGPATH=www/ap2-python
 '
 
-pkg_src_summary -m --fields PKGNAME,PKGPATH www/ap2-python:PKG_APACHE=apache22 |
+pkg_src_summary -m --fields PKGNAME,PKGPATH www/ap2-python:PKG_APACHE=apache24 |
 normalize_version |
-grep -v DEPENDS |
+grep -v DEPENDS | summary2oneline |
 cmp 'pkg_src_summary #3' \
-'ASSIGNMENTS=PYTHON_VERSION_REQD=36
-PKGNAME=ap22-py36-python-X
-PKGPATH=www/ap2-python
-
-ASSIGNMENTS=PYTHON_VERSION_REQD=35
-PKGNAME=ap22-py35-python-X
-PKGPATH=www/ap2-python
-
-ASSIGNMENTS=PYTHON_VERSION_REQD=34
-PKGNAME=ap22-py34-python-X
-PKGPATH=www/ap2-python
-
-PKGNAME=ap22-py27-python-X
-PKGPATH=www/ap2-python
-
-'
-
-pkg_src_summary -m --fields PKGNAME,PKGPATH www/ap2-python:PKG_APACHE=apache22 |
-normalize_version |
-grep -v DEPENDS |
-cmp 'pkg_src_summary #3.1' \
-'ASSIGNMENTS=PYTHON_VERSION_REQD=36
-PKGNAME=ap22-py36-python-X
-PKGPATH=www/ap2-python
-
-ASSIGNMENTS=PYTHON_VERSION_REQD=35
-PKGNAME=ap22-py35-python-X
-PKGPATH=www/ap2-python
-
-ASSIGNMENTS=PYTHON_VERSION_REQD=34
-PKGNAME=ap22-py34-python-X
-PKGPATH=www/ap2-python
-
-PKGNAME=ap22-py27-python-X
-PKGPATH=www/ap2-python
-
+'ASSIGNMENTS=PYTHON_VERSION_REQD=27;PKGNAME=ap24-py27-python-X;PKGPATH=www/ap2-python
+ASSIGNMENTS=PYTHON_VERSION_REQD=310;PKGNAME=ap24-py310-python-X;PKGPATH=www/ap2-python
+ASSIGNMENTS=PYTHON_VERSION_REQD=312;PKGNAME=ap24-py312-python-X;PKGPATH=www/ap2-python
+ASSIGNMENTS=PYTHON_VERSION_REQD=38;PKGNAME=ap24-py38-python-X;PKGPATH=www/ap2-python
+ASSIGNMENTS=PYTHON_VERSION_REQD=39;PKGNAME=ap24-py39-python-X;PKGPATH=www/ap2-python
+PKGNAME=ap24-py311-python-X;PKGPATH=www/ap2-python
 '
 
 pkg_src_summary -m --fields='PKGNAME PKGPATH' www/ap2-python:PYTHON_VERSION_REQD=27 |
 normalize_version |
-grep -v DEPENDS |
+grep -v DEPENDS | summary2oneline |
 cmp 'pkg_src_summary #4' \
-'PKGNAME=ap22-py27-python-X
-PKGPATH=www/ap2-python
-
-ASSIGNMENTS=PKG_APACHE=apache24
-PKGNAME=ap24-py27-python-X
-PKGPATH=www/ap2-python
-
-'
-
-pkg_src_summary -m --fields='PKGNAME PKGPATH' www/ap2-python:PYTHON_VERSION_REQD=27 |
-normalize_version |
-grep -v DEPENDS |
-cmp 'pkg_src_summary #4.1' \
-'PKGNAME=ap22-py27-python-X
-PKGPATH=www/ap2-python
-
-ASSIGNMENTS=PKG_APACHE=apache24
-PKGNAME=ap24-py27-python-X
-PKGPATH=www/ap2-python
-
+'ASSIGNMENTS=PYTHON_VERSION_REQD=27;PKGNAME=ap24-py27-python-X;PKGPATH=www/ap2-python
 '
 
 pkg_src_summary -m -f'PKGNAME PKGPATH' \
-   www/ap2-python:PYTHON_VERSION_REQD=27,PKG_APACHE=apache22 |
+   www/ap2-python:PYTHON_VERSION_REQD=27,PKG_APACHE=apache24 |
 normalize_version |
-grep -v DEPENDS |
+grep -v DEPENDS | summary2oneline |
 cmp 'pkg_src_summary #5' \
-'PKGNAME=ap22-py27-python-X
-PKGPATH=www/ap2-python
-
+'ASSIGNMENTS=PYTHON_VERSION_REQD=27;PKGNAME=ap24-py27-python-X;PKGPATH=www/ap2-python
 '
 
 pkg_src_summary -Af PKGNAME,PKGPATH \
-   graphics/py-cairo:PYTHON_VERSION_REQD=27 |
-pkg_grep_summary -s PKGBASE 'python27' |
-awk -F= '$1 !~ /DEPENDS/' |
-normalize_version |
+   graphics/py-cairo:PYTHON_VERSION_REQD=312 |
+pkg_grep_summary -s PKGBASE 'python312' |
+grep -v DEPENDS |
+normalize_version | summary2oneline |
 cmp 'pkg_src_summary #6' \
-'PKGNAME=python27-X
-PKGPATH=lang/python27
-
+'PKGNAME=python312-X;PKGPATH=lang/python312
 '
 
 pkg_src_summary -A -fPKGNAME,PKGPATH \
-   graphics/py-cairo:PYTHON_VERSION_REQD=27 |
-pkg_grep_summary -s PKGBASE 'python27' |
-awk -F= '$1 !~ /DEPENDS/' |
-normalize_version |
+   graphics/py-cairo:PYTHON_VERSION_REQD=312 |
+pkg_grep_summary -s PKGBASE 'python312' |
+grep -v DEPENDS |
+normalize_version | summary2oneline |
 cmp 'pkg_src_summary #7' \
-'PKGNAME=python27-X
-PKGPATH=lang/python27
-
+'PKGNAME=python312-X;PKGPATH=lang/python312
 '
 
 pkg_src_summary -mA -f PKGNAME,PKGPATH graphics/py-cairo |
-pkg_grep_summary -m PKGPATH '/python|cairo' |
-awk -F= '$1 !~ /DEPENDS/' |
-normalize_version |
+pkg_grep_summary -m PKGPATH 'python|cairo' |
+grep -v 'DEPENDS' |
+normalize_version | summary2oneline |
 cmp 'pkg_src_summary #8' \
-'PKGNAME=py27-cairo-X
-PKGPATH=graphics/py-cairo
-
-PKGNAME=cairo-X
-PKGPATH=graphics/cairo
-
-PKGNAME=python27-X
-PKGPATH=lang/python27
-
-PKGNAME=python36-X
-PKGPATH=lang/python36
-
-PKGNAME=python35-X
-PKGPATH=lang/python35
-
-PKGNAME=python34-X
-PKGPATH=lang/python34
-
+'ASSIGNMENTS=PYTHON_VERSION_REQD=27;PKGNAME=cairo-X;PKGPATH=graphics/cairo
+ASSIGNMENTS=PYTHON_VERSION_REQD=310;PKGNAME=cairo-X;PKGPATH=graphics/cairo
+ASSIGNMENTS=PYTHON_VERSION_REQD=310;PKGNAME=py310-cairo-X;PKGPATH=graphics/py-cairo
+ASSIGNMENTS=PYTHON_VERSION_REQD=312;PKGNAME=cairo-X;PKGPATH=graphics/cairo
+ASSIGNMENTS=PYTHON_VERSION_REQD=312;PKGNAME=py312-cairo-X;PKGPATH=graphics/py-cairo
+ASSIGNMENTS=PYTHON_VERSION_REQD=38;PKGNAME=cairo-X;PKGPATH=graphics/cairo
+ASSIGNMENTS=PYTHON_VERSION_REQD=38;PKGNAME=py38-cairo-X;PKGPATH=graphics/py-cairo
+ASSIGNMENTS=PYTHON_VERSION_REQD=39;PKGNAME=cairo-X;PKGPATH=graphics/cairo
+ASSIGNMENTS=PYTHON_VERSION_REQD=39;PKGNAME=py39-cairo-X;PKGPATH=graphics/py-cairo
+PKGNAME=cairo-X;PKGPATH=graphics/cairo
+PKGNAME=py-cairo-shared-X;PKGPATH=graphics/py-cairo-shared
+PKGNAME=py311-cairo-X;PKGPATH=graphics/py-cairo
+PKGNAME=python310-X;PKGPATH=lang/python310
+PKGNAME=python311-X;PKGPATH=lang/python311
+PKGNAME=python312-X;PKGPATH=lang/python312
+PKGNAME=python38-X;PKGPATH=lang/python38
+PKGNAME=python39-X;PKGPATH=lang/python39
 '
 
 pkg_src_summary -f PKGNAME --add-fields 'PKGPATH MAINTAINER' x11/xxkb |
@@ -939,8 +424,6 @@ PKGPATH=x11/xxkb
 MAINTAINER=cheusov@NetBSD.org
 
 '
-
-
 
 # pkg_src_summary
 pkg_src_summary -f PKGNAME,PKGPATH,COMMENT --rem-fields 'PKGPATH MAINTAINER' x11/xxkb |

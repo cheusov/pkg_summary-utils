@@ -73,6 +73,20 @@ cmp (){
     fi
 }
 
+summary2oneline() {
+    awk -v first=1 '
+	NF == 0 {
+	    printf "\n"
+	    first=1
+	    next
+	}
+	{
+	    if (!first) printf ";"
+	    printf "%s", $0
+	    first=0
+	}' "$@" | sort
+}
+
 # real tests
 tests='
 pkg_cksum2summary
