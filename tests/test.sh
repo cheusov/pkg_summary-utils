@@ -74,6 +74,7 @@ cmp (){
 }
 
 summary2oneline() {
+    # $1 -- no-empty string for no sorting
     awk -v first=1 '
 	NF == 0 {
 	    printf "\n"
@@ -84,7 +85,12 @@ summary2oneline() {
 	    if (!first) printf ";"
 	    printf "%s", $0
 	    first=0
-	}' "$@" | sort
+	}' |
+	if test -z "$1"; then
+	    sort
+	else
+	    cat
+	fi
 }
 
 # real tests
