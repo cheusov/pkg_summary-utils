@@ -25,10 +25,10 @@ _VAR2ACCEPTEDVARNAME.${_PBULK_MULTI_VAR.${i}}=${_PBULK_MULTI_LIST.${i}}
 #   _VAR2ACCEPTEDVALUE.PKG_APACHE.13        = 1
 #   _VAR2ACCEPTEDVALUE.PKG_APACHE.2         = 1
 #   _VAR2ACCEPTEDVALUE.PKG_APACHE.22        = 1
-.for j in ${${_PBULK_MULTI_LIST.${i}}}
+. for j in ${${_PBULK_MULTI_LIST.${i}}}
 _VAR2ACCEPTEDVALUE.${_PBULK_MULTI_VAR.${i}}.${j}=1
-.endfor
-.endfor
+. endfor # j
+.endfor # i
 
 .for _SINGLE_ASSIGN in ${_ASSIGNMENTS:S/,/ /g}
 _varname=			${_SINGLE_ASSIGN:C/=.*$//1}
@@ -37,19 +37,19 @@ _value=				${_SINGLE_ASSIGN:C/^[^=]*=//1}
 #   _varname    = PYTHON_VERSION_REQD
 #   _value      = 24
 _VAR_ASSIGNED.${_varname}=	1
-.if !defined(_VAR2DEFAULT.${_varname})
+. if !defined(_VAR2DEFAULT.${_varname})
 _ASSIGN2+=		${_SINGLE_ASSIGN}
-.elif !defined(${_VAR2ACCEPTEDVARNAME.${_varname}})
+. elif !defined(${_VAR2ACCEPTEDVARNAME.${_varname}})
 __INHER_ASSIGNS_REJ+=	${_SINGLE_ASSIGN}
-.elif !defined(_VAR2ACCEPTEDVALUE.${_varname}.${_value})
+. elif !defined(_VAR2ACCEPTEDVALUE.${_varname}.${_value})
 __INHER_ASSIGNS_BAD+=	${_SINGLE_ASSIGN}
-.elif "${_VAR2DEFAULT.${_varname}}" != "${_value}"
+. elif "${_VAR2DEFAULT.${_varname}}" != "${_value}"
 _ASSIGN2+=		${_SINGLE_ASSIGN}
 __INHER_ASSIGNS+=	${_SINGLE_ASSIGN}
-.else
+. else
 __INHER_ASSIGNS_REJ+=	${_SINGLE_ASSIGN}
-.endif
-.endfor
+. endif # !defined(_VAR2DEFAULT.${_varname})
+.endfor # _SINGLE_ASSIGN
 
 # ASSIGNMENTS contains everything included in _INHER_ASSIGNS and
 # assignment to other variables, i.e. not PKG_APACHE,
@@ -87,19 +87,19 @@ _VARIANTS+=	${_PBULK_MULTI_VAR.${i}}=${${_PBULK_MULTI_DEFAULT.${i}}},${${_PBULK_
 _VARIANTS+=	${_PBULK_MULTI_VAR.${i}}=${${_PBULK_MULTI_LIST.${i}}:ts,}
 .  endif
 . endif
-.endfor
+.endfor # i
 
 #####################################################################
 # pkg_src_summary -l
 .ifdef with_libdeps
 BUILD_DEPENDS+=	${_BLNK_ADD_TO.DEPENDS}
-.endif
+.endif # with_libdeps
 
 #####################################################################
 .PHONY: my-show-vars
 my-show-vars:
 .for VARNAME in ${VARNAMES}
-.if !empty(${VARNAME})
+. if !empty(${VARNAME})
 	@${ECHO} ${VARNAME}=${${VARNAME}:Q}
-.endif
-.endfor
+. endif # !empty(${VARNAME})
+.endfor # VARNAME
