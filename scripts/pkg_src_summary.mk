@@ -74,15 +74,19 @@ _INHER_ASSIGNS_BAD=	${__INHER_ASSIGNS_BAD:ts,}
 #####################################################################
 # for multivariant packages
 
-# Ex: 
+# Ex:
 #    PKGNAME=ap22-py26-python-3.3.1
 #    PKGPATH=www/ap2-python
 #    _VARIANTS=PKG_APACHE=apache2,apache22 PYTHON_VERSION_REQD=26,25,24
 #    ...
 .for i in ${_PBULK_MULTI}
-.if defined(${_PBULK_MULTI_LIST.${i}}) && !defined(_VAR_ASSIGNED.${_PBULK_MULTI_VAR.${i}})
+. if defined(${_PBULK_MULTI_LIST.${i}}) && !defined(_VAR_ASSIGNED.${_PBULK_MULTI_VAR.${i}})
+.  if ${${_PBULK_MULTI_DEFAULT.${i}}} != ${${_PBULK_MULTI_LIST.${i}}}
+_VARIANTS+=	${_PBULK_MULTI_VAR.${i}}=${${_PBULK_MULTI_DEFAULT.${i}}},${${_PBULK_MULTI_LIST.${i}}:N${${_PBULK_MULTI_DEFAULT.${i}}}:ts,}
+.  else
 _VARIANTS+=	${_PBULK_MULTI_VAR.${i}}=${${_PBULK_MULTI_LIST.${i}}:ts,}
-.endif
+.  endif
+. endif
 .endfor
 
 #####################################################################
