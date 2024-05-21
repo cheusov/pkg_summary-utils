@@ -212,18 +212,18 @@ on_exit () {
 	# Stupid test for stupid Solaris
 	if test -n "$tmp_dir"; then rm -rf $tmp_dir; fi
 }
-. ${LIBEXECDIR}/sig_handler.sh
+. "${LIBEXECDIR}/sig_handler.sh"
 
 tmp_dir=`mktemp -d ${TMPDIR-/tmp}/pkg_src_summary.XXXXXX`
 test -n "$tmp_dir" || exit 1
 
-tmpfn=$tmp_dir/pkgdirs2info.txt
-errsfn=$tmp_dir/errors.txt
-summaryfn=$tmp_dir/summary.txt
-real_plistfn=$tmp_dir/real_plist.txt
-multi_pkgs_fn=$tmp_dir/multi_pkgs.txt
-multi_vars_fn=$tmp_dir/multi_vars.txt
-normal_pkgs_fn=$tmp_dir/normal_pkgs.txt
+tmpfn="$tmp_dir/pkgdirs2info.txt"
+errsfn="$tmp_dir/errors.txt"
+summaryfn="$tmp_dir/summary.txt"
+real_plistfn="$tmp_dir/real_plist.txt"
+multi_pkgs_fn="$tmp_dir/multi_pkgs.txt"
+multi_vars_fn="$tmp_dir/multi_vars.txt"
+normal_pkgs_fn="$tmp_dir/normal_pkgs.txt"
 
 ############################################################
 pkgpath2multivar_opts (){
@@ -335,7 +335,7 @@ process_one_by_one (){
     while read pkgpaths; do
 	for pkgpath in $pkgpaths; do
 	    generate_summary "$pkgpath" |
-	    $LIBEXECDIR/enrich_summary $with_bootstrap $with_tool_depends
+	    "$LIBEXECDIR/enrich_summary" $with_bootstrap $with_tool_depends
 	done
 
 	if test "$slave"; then
@@ -348,10 +348,10 @@ process_one_by_one (){
 
 ############################################################
 # direct packages
-partial_summary_fn=$tmp_dir/partial_summary.txt
+partial_summary_fn="$tmp_dir/partial_summary.txt"
 
 if test "$slave"; then
-    cd $PKGSRCDIR
+    cd "$PKGSRCDIR"
     process_one_by_one
     exit 0
 fi
@@ -374,7 +374,7 @@ do_src_summary (){
 		paexec_reorder -yg '|' \
 	    sed '/^success$/ d'
     else
-	cd $PKGSRCDIR
+	cd "$PKGSRCDIR"
 
 	runpipe0 \
 	    packages2stdout $pkgpaths '|' \
@@ -406,34 +406,34 @@ fi
 if test "$multi_var"; then
     if test -n "$debug"; then
 	echo '===== partial_summary.txt: =========' 1>&2
-	cat $partial_summary_fn 1>&2
+	cat "$partial_summary_fn" 1>&2
     fi
 
     pkg_grep_summary -f PKGPATH,_VARIANTS,_INHER_ASSIGNS,_INHER_ASSIGNS_REJ \
-	-v -e _VARIANTS < $partial_summary_fn >$multi_pkgs_fn
+	-v -e _VARIANTS < "$partial_summary_fn" >"$multi_pkgs_fn"
 
     if test -n "$debug"; then
 	echo '===== multi_pkgs.txt: =========' 1>&2
-	cat $multi_pkgs_fn 1>&2
+	cat "$multi_pkgs_fn" 1>&2
     fi
 
-    if test -s $multi_pkgs_fn; then
+    if test -s "$multi_pkgs_fn"; then
 	pkg_grep_summary -e _VARIANTS \
-	    < $partial_summary_fn >$normal_pkgs_fn
+	    < "$partial_summary_fn" >"$normal_pkgs_fn"
 	if test -n "$debug"; then
 	    echo '===== normal_pkgs.txt: =========' 1>&2
-	    cat $normal_pkgs_fn 1>&2
+	    cat "$normal_pkgs_fn" 1>&2
 	fi
-	mv $normal_pkgs_fn $partial_summary_fn
+	mv "$normal_pkgs_fn" "$partial_summary_fn"
 
-	$LIBEXECDIR/summary2multi_variants < $multi_pkgs_fn > $multi_vars_fn
+	"$LIBEXECDIR/summary2multi_variants" < "$multi_pkgs_fn" > "$multi_vars_fn"
 	if test -n "$debug"; then
 	    echo '===== multi_vars.txt: =========' 1>&2
-	    cat $multi_vars_fn 1>&2
+	    cat "$multi_vars_fn" 1>&2
 	fi
 
 	runpipe0 \
-	    env _PSS_RECURS=1 $0 $with_xxx $make_plist < $multi_vars_fn '|' \
+	    env _PSS_RECURS=1 $0 $with_xxx $make_plist < "$multi_vars_fn" '|' \
 	    move_ASSIGNMENTS_to_PKGPATH |
 	    if test -n "$uniq_pkgname"; then
 		pkg_uniq_summary -Fn
@@ -446,13 +446,13 @@ fi
 ############################################################
 # dependencies
 
-extra_deps_fn=$tmp_dir/extra_deps.txt
+extra_deps_fn="$tmp_dir/extra_deps.txt"
 
-processed_pkgs_fn=$tmp_dir/processed_pkgs.txt
+processed_pkgs_fn="$tmp_dir/processed_pkgs.txt"
 
-$LIBEXECDIR/get_processed_pkgs < "$partial_summary_fn" > "$processed_pkgs_fn"
+"$LIBEXECDIR/get_processed_pkgs" < "$partial_summary_fn" > "$processed_pkgs_fn"
 
-deps1_all_fn=$tmp_dir/level1_all_deps.txt
+deps1_all_fn="$tmp_dir/level1_all_deps.txt"
 
 while test -n "${with_dep}${with_bdep}"; do
     if test -n "$debug"; then
@@ -466,7 +466,7 @@ while test -n "${with_dep}${with_bdep}"; do
     fi
 
     ##
-    $LIBEXECDIR/direct_deps $with_dep $with_bdep -p "$processed_pkgs_fn" \
+    "$LIBEXECDIR/direct_deps" $with_dep $with_bdep -p "$processed_pkgs_fn" \
 	"$partial_summary_fn" > "$extra_deps_fn"
 
     if test -n "$debug"; then
@@ -495,7 +495,7 @@ while test -n "${with_dep}${with_bdep}"; do
     pkg_uniq_summary "$partial_summary_fn" > "$partial_summary_fn".tmp
     mv "$partial_summary_fn".tmp "$partial_summary_fn"
 
-    $LIBEXECDIR/get_processed_pkgs "$deps1_all_fn" >> "$processed_pkgs_fn"
+    "$LIBEXECDIR/get_processed_pkgs" "$deps1_all_fn" >> "$processed_pkgs_fn"
     cat "$extra_deps_fn" >> "$processed_pkgs_fn"
     sort -u "$processed_pkgs_fn" > "$processed_pkgs_fn".tmp
     mv "$processed_pkgs_fn".tmp "$processed_pkgs_fn"
