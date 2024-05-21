@@ -243,11 +243,6 @@ cd_and_print_summary (){
 	var_assignments="_ASSIGNMENTS='$(echo $1 | sed 's,^[^:]*:,,')'"
     fi
 
-    extra_mk=''
-    if test -f mk/pbulk/pbulk-index.mk; then
-	extra_mk='-f ../../mk/pbulk/pbulk-index.mk'
-    fi
-
     # PLIST pre
     if test -n "$make_plist"; then
 	rm -f "$real_plistfn"
@@ -255,7 +250,7 @@ cd_and_print_summary (){
     fi
 
     # INHER_ASSIGNS must be before DEPENDS and BUILD_DEPENDS, see below
-    ( cd "$real_pkgpath" && eval ${BMAKE} -f ./Makefile $extra_mk \
+    ( cd "$real_pkgpath" && eval ${BMAKE} -f ./Makefile -f ../../mk/pbulk/pbulk-index.mk \
 	-f "$PSS_MKSCRIPTSDIR"/pkg_src_summary.mk my-show-vars \
 	VARNAMES="'_INHER_ASSIGNS _INHER_ASSIGNS_REJ _INHER_ASSIGNS_BAD ASSIGNMENTS $varnames'" \
 	$var_assignments $var_assigns ) > "$summaryfn" || return 1
