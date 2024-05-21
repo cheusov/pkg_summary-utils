@@ -305,6 +305,11 @@ generate_summary (){
 
 	    echo '' # empty line - separator
 	fi
+	if test -s "$errsfn"; then
+	    printf ' ------------------\n' 1>&2
+	    printf "Package %s\n" "$1" 1>&2
+	    cat "$errsfn" 1>&2
+	fi
     else
 	printf ' ------------------\n' 1>&2
 	printf "Bad package %s, skipped\n" "$1" 1>&2
