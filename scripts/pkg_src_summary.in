@@ -81,6 +81,7 @@ OPTIONS:
   -D              also generates summary for dependancies (BUILD_DEPENDS)
   -A              implies -d and -D
   -m              generate ASSIGNMENTS field for multi-variant packages
+  -u              leave only one summary per PKGNAME
   -M              implies -m and move/add ASSIGNMENTS to PKGPATH field
   -F              output fields (one per line) to generate and exit
   -G              for debugging
@@ -145,6 +146,7 @@ process_options (){
 	                 with_dep=-d; with_bdep=-D' \
 	m                multi_var=1   \
 	M                multi_var=2   \
+	u                uniq_pkgname=1   \
 	F                output_fields=1   \
 	'i installed'    installed_pkgs=1 \
 	G                debug=1 \
@@ -432,7 +434,12 @@ if test "$multi_var"; then
 
 	runpipe0 \
 	    env _PSS_RECURS=1 $0 $with_xxx $make_plist < $multi_vars_fn '|' \
-	    move_ASSIGNMENTS_to_PKGPATH >> "$partial_summary_fn"
+	    move_ASSIGNMENTS_to_PKGPATH |
+	    if test -n "$uniq_pkgname"; then
+		pkg_uniq_summary -Fn
+	    else
+		cat
+	    fi >> "$partial_summary_fn"
     fi
 fi
 

@@ -85,6 +85,13 @@ Summary for package with default Python, PHP etc. are output before others.
 .B "-M"
 Implies -m and moves/adds ASSIGNMENTS field to PKGPATH.
 .TP
+.B "-u"
+Leave only one package per PKGNAME. This option is helpful in
+combination with
+.I -m
+for excluding non-default multi-variant packages, for example,
+textproc/csvtomd or devel/subversion.
+.TP
 .B "-i"
 Generate src_summary for the installed packages only,
 do not read list of packages from stdin and from pkgpathN arguments.
@@ -146,6 +153,7 @@ pkg_src_summary -r LICENSE,PLIST,DESCR x11/xxkb wip/distbb
 pkg_src_summary -m lang/lua www/php-apc www/ap2-python
 pkg_src_summary -i
 pkg_src_summary -l -b textproc/dict-server
+pkg_src_summary -mu -rPLIST textproc/csvtomd devel/py-test
 .VE
 .SH ENVIRONMENT
 .TP

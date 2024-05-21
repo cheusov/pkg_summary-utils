@@ -110,6 +110,13 @@ ASSIGNMENTS=RUBY_VERSION_REQD=33,PYTHON_VERSION_REQD=38;PKGNAME=subversion-X;PKG
 ASSIGNMENTS=RUBY_VERSION_REQD=33,PYTHON_VERSION_REQD=27;PKGNAME=subversion-X;PKGPATH=devel/subversion
 '
 
+pkg_src_summary -mu -f PKGNAME,PKGPATH \
+    devel/subversion:PKG_APACHE=apache24 |
+normalize_version | summary2oneline nosort |
+cmp 'pkg_src_summary #23.5.0' \
+'PKGNAME=subversion-X;PKGPATH=devel/subversion
+'
+
 pkg_src_summary -m -f PKGNAME,PKGPATH \
     devel/subversion:PKG_APACHE=apache24 |
 normalize_version | summary2oneline nosort |
