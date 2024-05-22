@@ -335,7 +335,7 @@ process_one_by_one (){
     while read pkgpaths; do
 	for pkgpath in $pkgpaths; do
 	    generate_summary "$pkgpath" |
-	    "$LIBEXECDIR/enrich_summary" $with_bootstrap $with_tool_depends
+	    pkg_enrich_summary $with_bootstrap $with_tool_depends
 	done
 
 	if test "$slave"; then

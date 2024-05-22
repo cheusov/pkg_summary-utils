@@ -30,11 +30,11 @@
 #use "power_getopt.awk"
 
 #.begin-str help
-# enrich_summary converts PLIST_SRC, DISTINFO_FILE and DESCR_SRC
+# pkg_enrich_summary converts PLIST_SRC, DISTINFO_FILE and DESCR_SRC
 # given on input to PLIST, ALLDISTFILES and DESCRIPTION and
 # optionally adds BOOTSTRAP_DEPENDS and TOOL_DEPENDS to BUILD_DEPENDS
 #
-# usage: enrich_summary [options] [files...]
+# usage: pkg_enrich_summary [options] [files...]
 # options:
 #   -h         display help message
 #   -b         add BOOTSTRAP_DEPENDS to BUILD_DEPENDS

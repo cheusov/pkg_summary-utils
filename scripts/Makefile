@@ -1,7 +1,7 @@
 #############################################################
 
 LIBEXECSCRIPTS =	direct_deps XB2bin_summary get_processed_pkgs \
-	summary2multi_variants enrich_summary
+	summary2multi_variants
 
 INSCRIPTS  =	${LIBEXECSCRIPTS}
 INSCRIPTS +=	pkg_cmp_summary pkg_list_all_pkgs
@@ -17,7 +17,7 @@ INSCRIPTS +=	pkg_summary2deps pkg_lint_summary
 INSCRIPTS +=	pkg_subgraph_deps pkg_bin_summary
 INSCRIPTS +=	pkg_digger_summary pkg_digger_installed pkg_digger
 INSCRIPTS +=	makefiles2deps pkg_summary2leaves pkg_cksum2summary
-INSCRIPTS +=	rpmdb2summary
+INSCRIPTS +=	rpmdb2summary pkg_enrich_summary
 
 SCRIPTS    =	${INSCRIPTS}
 

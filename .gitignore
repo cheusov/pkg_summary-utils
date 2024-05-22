@@ -2,7 +2,6 @@ grep_summary/grep_summary
 scripts/XB2bin_summary
 scripts/cvs_checksum
 scripts/direct_deps
-scripts/enrich_summary
 scripts/get_processed_pkgs
 scripts/makefiles2deps
 scripts/pkg_assignments2pkgpath
@@ -12,6 +11,7 @@ scripts/pkg_cmp_summary
 scripts/pkg_digger
 scripts/pkg_digger_installed
 scripts/pkg_digger_summary
+scripts/pkg_enrich_summary
 scripts/pkg_grep_summary
 scripts/pkg_lint_summary
 scripts/pkg_list_all_pkgs
