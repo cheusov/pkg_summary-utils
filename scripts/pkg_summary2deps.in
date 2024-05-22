@@ -41,7 +41,7 @@
 ############################################################
 #.begin-str help
 # pkg_summary2deps - converts pkg_summary to the dependency graph
-#   by analysing pkgname:../../pkg/path and 
+#   by analysing pkgname:../../pkg/path and
 #   {alter,native}:../../pkg/path entries
 #   in DEPENDS and BUILD_DEPENDS fields.
 # Format of the output:
