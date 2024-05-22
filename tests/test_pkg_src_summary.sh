@@ -12,6 +12,17 @@ hide_distfile_size (){
     sed 's/:[0-9]*/:NNN/g' "$@"
 }
 
+pkg_src_summary -f PKGNAME,PKGPATH -fPKGNAME,PKGPATH -btmu lang/php56 lang/php74 lang/php80 lang/php82 lang/php83 |
+pkg_grep_summary -v -t strlist PKGBASE 'readline ncurses pkg_install-info' |
+hide_distfile_size | normalize_version | grep -vE 'DEPENDS=' | summary2oneline |
+cmp 'pkg_src_summary #28.1' \
+'ASSIGNMENTS=PHP_VERSION_REQD=56;PKGNAME=php-X;PKGPATH=lang/php56
+ASSIGNMENTS=PHP_VERSION_REQD=74;PKGNAME=php-X;PKGPATH=lang/php74
+ASSIGNMENTS=PHP_VERSION_REQD=80;PKGNAME=php-X;PKGPATH=lang/php80
+ASSIGNMENTS=PHP_VERSION_REQD=83;PKGNAME=php-X;PKGPATH=lang/php83
+PKGNAME=php-X;PKGPATH=lang/php82
+'
+
 pkg_src_summary -f PKGNAME,PKGPATH -A databases/sqlite3 |
 pkg_grep_summary -v -t strlist PKGBASE 'readline ncurses pkg_install-info' |
 hide_distfile_size | normalize_version | grep -vE 'DEPENDS=' | summary2oneline |
