@@ -383,7 +383,7 @@ do_src_summary (){
 }
 
 if test -z "${with_dep}${with_bdep}${multi_var}"; then
-    runpipe0 do_src_summary '|' pkg_uniq_summary
+    do_src_summary
     exit $?
 else
     do_src_summary > "$partial_summary_fn"
