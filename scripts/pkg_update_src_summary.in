@@ -78,7 +78,10 @@ while getopts hf:i:d:Gv f; do
 	i)  PSS_OPTIONS="$PSS_OPTIONS -f $OPTARG";;
 	d)  datadir="$OPTARG";;
 	G)  debug=1;;
-	v)  verbose=1; _count_packages=count_packages;;
+	v)
+	    verbose=1
+	    pkg_src_summary_ops="$pkg_src_summary_ops -v"
+	    _count_packages=count_packages;;
 	?)  printf "Run pkg_update_src_summary -h for details\n"; exit 2;;
     esac
 done
@@ -214,7 +217,7 @@ if test -s "$updated_pkgs_fn"; then
 	< "$new_summary" > "$new_summary.tmp"
     mv "$new_summary.tmp" "$new_summary"
 
-    pkg_src_summary < "$updated_pkgs_fn" 2>/dev/null |
+    pkg_src_summary $pkg_src_summary_ops < "$updated_pkgs_fn" 2>/dev/null |
     $_count_packages > "$new_summaries_fn"
 
     pkg_summary2bb_pkgs "$new_summaries_fn" > "$new_summaries_fn".tmp
