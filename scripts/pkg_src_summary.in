@@ -212,7 +212,9 @@ fi
 ############################################################
 on_exit () {
 	# Stupid test for stupid Solaris
-	if test -n "$tmp_dir"; then rm -rf $tmp_dir; fi
+    if test -n "$tmp_dir"; then
+	rm -rf $tmp_dir || true
+    fi
 }
 . "${LIBEXECDIR}/sig_handler.sh"
 
@@ -362,7 +364,7 @@ show_progress ()(
     echo ''
 )
 
-if test "$slave"; then
+if test -n "$slave"; then
     cd "$PKGSRCDIR"
     process_one_by_one
     exit 0
