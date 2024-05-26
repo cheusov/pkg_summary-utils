@@ -85,6 +85,7 @@ OPTIONS:
   -M              implies -m and move/add ASSIGNMENTS to PKGPATH field
   -F              output fields (one per line) to generate and exit
   -G              for debugging
+  -v              verbose output
 EOF
 }
 
@@ -150,6 +151,7 @@ process_options (){
 	F                output_fields=1   \
 	'i installed'    installed_pkgs=1 \
 	G                debug=1 \
+	v                verbose=1 \
 	-- "$@"
 }
 cmds=`process_options -c $PSS_OPTIONS`
@@ -349,11 +351,24 @@ process_one_by_one (){
 ############################################################
 # direct packages
 partial_summary_fn="$tmp_dir/partial_summary.txt"
+printf '' > "$partial_summary_fn"
+
+show_progress ()(
+    while test -f "$partial_summary_fn"; do
+	printf '\rProcessed packages: ' 1>&2
+	awk 'NF == 0 {++cnt} END {printf "%d", cnt}' "$partial_summary_fn" 1>&2 2>/dev/null
+	sleep 1
+    done
+    echo ''
+)
 
 if test "$slave"; then
     cd "$PKGSRCDIR"
     process_one_by_one
     exit 0
+elif test -n "$verbose"; then
+    show_progress &
+    show_progress_pid="$!"
 fi
 
 do_src_summary (){
@@ -382,11 +397,15 @@ do_src_summary (){
     fi
 }
 
-if test -z "${with_dep}${with_bdep}${multi_var}"; then
-    do_src_summary
+if test -n "${with_dep}${with_bdep}${multi_var}"; then
+    do_src_summary > "$partial_summary_fn"
+elif test -n "$verbose"; then
+    do_src_summary > "$partial_summary_fn"
+    cat "$partial_summary_fn"
     exit $?
 else
-    do_src_summary > "$partial_summary_fn"
+    do_src_summary
+    exit $?
 fi
 
 ############################################################
