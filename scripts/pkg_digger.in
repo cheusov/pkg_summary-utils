@@ -230,7 +230,7 @@ run_backend__fallbacks (){
 }
 
 run_backend (){
-    if printf '%s\n' "$1" | grep '^[^:]*:[^:]*:[^:]*$' > /dev/null; then
+    if printf '%s\n' "$1" | grep -q '^[^:]*:[^:]*:[^:]*$'; then
 	run_backend__fsq "$1"
     else
 	query=''
@@ -245,7 +245,7 @@ run_backend (){
 cnt_with=0
 touch $tmp_dir/without.txt $tmp_dir/with_0.txt
 for q in "$@"; do
-    if printf '%s\n' "$q" | grep '^[!-]' > /dev/null; then
+    if printf '%s\n' "$q" | grep -q '^[!-]'; then
 	res_fn=$tmp_dir/without.txt
     else
 	res_fn=$tmp_dir/with_$cnt_with.txt

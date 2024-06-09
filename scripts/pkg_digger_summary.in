@@ -145,7 +145,7 @@ case "$stype" in
 
 	cnt=1
 	for i in "$@"; do
-	    if printf '%s\n' "$i" | grep ':.*:' > /dev/null; then
+	    if printf '%s\n' "$i" | grep -q ':.*:'; then
 		:
 	    else
 		echo "Invalid search pattern: '$i'," 1>&2

@@ -186,16 +186,16 @@ if test -n "$with_Bdep"; then
     add_fields BOOTSTRAP_DEPENDS
 fi
 
-if echo "$PSS_FIELDS" | grep DESCRIPTION > /dev/null; then
+if echo "$PSS_FIELDS" | grep -q DESCRIPTION; then
     field_descr=1
 fi
-if echo "$PSS_FIELDS" | grep PLIST > /dev/null; then
+if echo "$PSS_FIELDS" | grep -q PLIST; then
     field_plist=1
 fi
-if echo "$PSS_FIELDS" | grep ALLDISTFILES > /dev/null; then
+if echo "$PSS_FIELDS" | grep -q ALLDISTFILES; then
     field_alldistfiles=1
 fi
-if echo "$PSS_FIELDS" | grep CVS_CHECKSUM > /dev/null; then
+if echo "$PSS_FIELDS" | grep -q CVS_CHECKSUM; then
     field_cvs_checksum=1
 fi
 if test -n "$output_fields"; then
