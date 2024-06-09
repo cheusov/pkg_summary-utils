@@ -38,6 +38,7 @@
 #    -h               display this screen
 #    -d               generate summary for dependancies (DEPENDS)
 #    -D               generate summary for build dependancies (BUILD_DEPENDS)
+#    -t               generate summary for build dependancies (TOOL_DEPENDS)
 #    =p <filename>    already processed packages
 #.end-str
 
@@ -56,6 +57,7 @@ BEGIN {
 
 	with_dep          = getarg("d")
 	with_bdep         = getarg("D")
+	with_tdep         = getarg("t")
 	processed_pkgs_fn = getarg("p")
 
 	assert(processed_pkgs_fn != "")
@@ -90,7 +92,7 @@ NF == 0 {
 	next
 }
 
-(with_dep && /^DEPENDS=/) || (with_bdep && /^BUILD_DEPENDS=/)  {
+(with_dep && /^DEPENDS=/) || (with_bdep && /^BUILD_DEPENDS=/) || (with_tdep && /^TOOL_DEPENDS=/) {
 	sub(/^[^=]*=/, "")
 	for (i=1; i <= NF; ++i){
 		if ($i ~ /[{]/){

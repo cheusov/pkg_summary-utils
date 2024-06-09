@@ -23,7 +23,7 @@ ASSIGNMENTS=PHP_VERSION_REQD=83;PKGNAME=php-X;PKGPATH=lang/php83
 PKGNAME=php-X;PKGPATH=lang/php82
 '
 
-pkg_src_summary -f PKGNAME,PKGPATH -A databases/sqlite3 |
+pkg_src_summary -f PKGNAME,PKGPATH -dD databases/sqlite3 |
 pkg_grep_summary -v -t strlist PKGBASE 'readline ncurses pkg_install-info' |
 hide_distfile_size | normalize_version | grep -vE 'DEPENDS=' | summary2oneline |
 cmp 'pkg_src_summary #27.1' \
@@ -31,18 +31,19 @@ cmp 'pkg_src_summary #27.1' \
 PKGNAME=sqlite3-X;PKGPATH=databases/sqlite3
 '
 
-pkg_src_summary -f PKGNAME,PKGPATH -At databases/sqlite3 |
-pkg_grep_summary -v -s PKGBASE gmake |
-pkg_grep_summary -v -t strlist PKGBASE 'readline ncurses pkg_install-info nbpatch' |
-hide_distfile_size | normalize_version | grep -vE 'DEPENDS=' | summary2oneline |
-cmp 'pkg_src_summary #27.2' \
+for opts in -dDt -A; do
+    pkg_src_summary -f PKGNAME,PKGPATH $opts databases/sqlite3 |
+	pkg_grep_summary -v -t strlist PKGBASE 'nbpatch editline readline ncurses pkg_install-info' |
+	hide_distfile_size | normalize_version | grep -vE 'DEPENDS=' | summary2oneline |
+	cmp 'pkg_src_summary #27.3' \
 'PKGNAME=checkperms-X;PKGPATH=sysutils/checkperms
 PKGNAME=cwrappers-X;PKGPATH=pkgtools/cwrappers
-PKGNAME=editline-X;PKGPATH=devel/editline
 PKGNAME=libtool-base-X;PKGPATH=devel/libtool-base
 PKGNAME=mktools-X;PKGPATH=pkgtools/mktools
+PKGNAME=pkgconf-X;PKGPATH=devel/pkgconf
 PKGNAME=sqlite3-X;PKGPATH=databases/sqlite3
 '
+done
 
 #pkg_src_summary -f PKGNAME,PKGPATH -Atb databases/sqlite3 |
 #hide_distfile_size | normalize_version | grep -E 'checkperms-X|gmake-X' |
