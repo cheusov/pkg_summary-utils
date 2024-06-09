@@ -79,8 +79,9 @@ OPTIONS:
   -l              add library dependencies (bl3.mk) to BUILD_DEPENDS
   -d              also generates summary for dependancies (DEPENDS)
   -D              also generates summary for dependancies (BUILD_DEPENDS)
+  -B              also generates summary for dependancies (BOOTSTRAP_DEPENDS)
   -T              also generates summary for dependancies (TOOL_DEPENDS)
-  -A              implies -d, -D and -T
+  -A              implies -d, -B, -D and -T
   -m              generate ASSIGNMENTS field for multi-variant packages
   -u              leave only one summary per PKGNAME
   -M              implies -m and move/add ASSIGNMENTS to PKGPATH field
@@ -145,8 +146,9 @@ process_options (){
 	'd with-deps'    with_dep=-d   \
 	'D with-bdeps'   with_bdep=-D  \
 	'T with-tdeps'   with_tdep=-t  \
-	'A with-alldeps' 'add_fields DEPENDS BUILD_DEPENDS TOOL_DEPENDS;
-	                 with_dep=-d; with_bdep=-D with_tdep=-t' \
+	'B with-Bdeps'   with_Bdep=-b  \
+	'A with-alldeps' 'add_fields DEPENDS BUILD_DEPENDS TOOL_DEPENDS BOOTSTRAP_DEPENDS;
+	                 with_dep=-d; with_bdep=-D with_tdep=-t with_Bdep=-b' \
 	m                multi_var=1   \
 	M                multi_var=2   \
 	u                uniq_pkgname=1   \
@@ -179,6 +181,9 @@ if test -n "$with_bdep"; then
 fi
 if test -n "$with_tdep"; then
     add_fields TOOL_DEPENDS
+fi
+if test -n "$with_Bdep"; then
+    add_fields BOOTSTRAP_DEPENDS
 fi
 
 if echo "$PSS_FIELDS" | grep DESCRIPTION > /dev/null; then
@@ -404,7 +409,7 @@ do_src_summary (){
     fi
 }
 
-if test -n "${with_dep}${with_bdep}${with_tdep}${multi_var}"; then
+if test -n "${with_dep}${with_bdep}${with_tdep}${with_Bdep}${multi_var}"; then
     do_src_summary > "$partial_summary_fn"
 elif test -n "$verbose"; then
     do_src_summary > "$partial_summary_fn"
@@ -480,7 +485,7 @@ processed_pkgs_fn="$tmp_dir/processed_pkgs.txt"
 
 deps1_all_fn="$tmp_dir/level1_all_deps.txt"
 
-while test -n "${with_dep}${with_bdep}${with_tdep}"; do
+while test -n "${with_dep}${with_bdep}${with_tdep}${with_Bdep}"; do
     if test -n "$debug"; then
 	echo '===== partial_summary: =========' 1>&2
 	cat "$partial_summary_fn" 1>&2
@@ -492,7 +497,7 @@ while test -n "${with_dep}${with_bdep}${with_tdep}"; do
     fi
 
     ##
-    "$LIBEXECDIR/direct_deps" $with_dep $with_bdep $with_tdep -p "$processed_pkgs_fn" \
+    "$LIBEXECDIR/direct_deps" $with_dep $with_bdep $with_tdep $with_Bdep -p "$processed_pkgs_fn" \
 	"$partial_summary_fn" > "$extra_deps_fn"
 
     if test -n "$debug"; then

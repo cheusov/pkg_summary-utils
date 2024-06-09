@@ -12,6 +12,14 @@ hide_distfile_size (){
     sed 's/:[0-9]*/:NNN/g' "$@"
 }
 
+pkg_src_summary -f PKGNAME,PKGPATH -dB devel/bmake |
+pkg_grep_summary -v -t strlist PKGBASE 'readline ncurses pkg_install-info' |
+hide_distfile_size | normalize_version | grep -vE 'DEPENDS=' | summary2oneline |
+cmp 'pkg_src_summary #29.1' \
+'PKGNAME=bmake-X;PKGPATH=devel/bmake
+PKGNAME=bootstrap-mk-files-X;PKGPATH=pkgtools/bootstrap-mk-files
+'
+
 pkg_src_summary -f PKGNAME,PKGPATH -fPKGNAME,PKGPATH -btmu lang/php56 lang/php74 lang/php82 lang/php83 |
 pkg_grep_summary -v -t strlist PKGBASE 'readline ncurses pkg_install-info' |
 hide_distfile_size | normalize_version | grep -vE 'DEPENDS=' | summary2oneline |
@@ -30,13 +38,14 @@ cmp 'pkg_src_summary #27.1' \
 PKGNAME=sqlite3-X;PKGPATH=databases/sqlite3
 '
 
-for opts in -dDt -A; do
+for opts in -dDtB -A; do
     pkg_src_summary -f PKGNAME,PKGPATH $opts databases/sqlite3 |
 	pkg_grep_summary -v -t strlist PKGBASE 'nbpatch editline readline ncurses pkg_install-info' |
 	hide_distfile_size | normalize_version | grep -vE 'DEPENDS=' | summary2oneline |
 	cmp 'pkg_src_summary #27.3' \
 'PKGNAME=checkperms-X;PKGPATH=sysutils/checkperms
 PKGNAME=cwrappers-X;PKGPATH=pkgtools/cwrappers
+PKGNAME=digest-X;PKGPATH=pkgtools/digest
 PKGNAME=libtool-base-X;PKGPATH=devel/libtool-base
 PKGNAME=mktools-X;PKGPATH=pkgtools/mktools
 PKGNAME=pkgconf-X;PKGPATH=devel/pkgconf
