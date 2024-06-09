@@ -12,13 +12,12 @@ hide_distfile_size (){
     sed 's/:[0-9]*/:NNN/g' "$@"
 }
 
-pkg_src_summary -f PKGNAME,PKGPATH -fPKGNAME,PKGPATH -btmu lang/php56 lang/php74 lang/php80 lang/php82 lang/php83 |
+pkg_src_summary -f PKGNAME,PKGPATH -fPKGNAME,PKGPATH -btmu lang/php56 lang/php74 lang/php82 lang/php83 |
 pkg_grep_summary -v -t strlist PKGBASE 'readline ncurses pkg_install-info' |
 hide_distfile_size | normalize_version | grep -vE 'DEPENDS=' | summary2oneline |
 cmp 'pkg_src_summary #28.1' \
 'ASSIGNMENTS=PHP_VERSION_REQD=56;PKGNAME=php-X;PKGPATH=lang/php56
 ASSIGNMENTS=PHP_VERSION_REQD=74;PKGNAME=php-X;PKGPATH=lang/php74
-ASSIGNMENTS=PHP_VERSION_REQD=80;PKGNAME=php-X;PKGPATH=lang/php80
 ASSIGNMENTS=PHP_VERSION_REQD=83;PKGNAME=php-X;PKGPATH=lang/php83
 PKGNAME=php-X;PKGPATH=lang/php82
 '
@@ -344,6 +343,7 @@ PKGNAME=netcat-X;PKGPATH=net/netcat
 PKGNAME=perl-X;PKGPATH=lang/perl5
 PKGNAME=pipestatus-X;PKGPATH=devel/pipestatus
 PKGNAME=pkg-config-X;PKGPATH=devel/pkg-config
+PKGNAME=pkg_online-client-X;PKGPATH=wip/pkg_online-client
 PKGNAME=pkg_summary-utils-X;PKGPATH=wip/pkg_summary-utils
 PKGNAME=png-X;PKGPATH=graphics/png
 PKGNAME=tiff-X;PKGPATH=graphics/tiff
@@ -360,8 +360,6 @@ Bad package wip/pkg_online, skipped
 Bad package wip/dict-server, skipped
  ------------------
 Bad package wip/pkg_online-server, skipped
- ------------------
-Bad package wip/pkg_online-client, skipped
  ------------------
 Bad package wip/paexec, skipped
  ------------------
@@ -452,6 +450,7 @@ ASSIGNMENTS=PYTHON_VERSION_REQD=39;PKGNAME=py39-cairo-X;PKGPATH=graphics/py-cair
 PKGNAME=cairo-X;PKGPATH=graphics/cairo
 PKGNAME=py-cairo-shared-X;PKGPATH=graphics/py-cairo-shared
 PKGNAME=py311-cairo-X;PKGPATH=graphics/py-cairo
+PKGNAME=python27-X;PKGPATH=lang/python27
 PKGNAME=python310-X;PKGPATH=lang/python310
 PKGNAME=python311-X;PKGPATH=lang/python311
 PKGNAME=python312-X;PKGPATH=lang/python312
