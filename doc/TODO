@@ -1,4 +1,15 @@
+============================================================
+pkg_src_summary:
+   Use PKGVERSION instead of PKGNAME
+
+============================================================
+pkg_bin_summary:
+   support for MULTI field from pkg_info -B
+
 TODO list and thoughts
+
+pkg_update_src_summary:
+ - progress message with special option
 
 pkg_src_summary:
  - replace -D with "deps" for building|deps for buildiing recursively
