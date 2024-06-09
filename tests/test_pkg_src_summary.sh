@@ -20,6 +20,13 @@ cmp 'pkg_src_summary #29.1' \
 PKGNAME=bootstrap-mk-files-X;PKGPATH=pkgtools/bootstrap-mk-files
 '
 
+pkg_src_summary -f PKGNAME,PKGPATH -B sysutils/checkperms |
+hide_distfile_size | normalize_version | grep -vE 'DEPENDS=' | summary2oneline |
+cmp 'pkg_src_summary #29.2' \
+'PKGNAME=checkperms-X;PKGPATH=sysutils/checkperms
+PKGNAME=digest-X;PKGPATH=pkgtools/digest
+'
+
 pkg_src_summary -f PKGNAME,PKGPATH -fPKGNAME,PKGPATH -btmu lang/php56 lang/php74 lang/php82 lang/php83 |
 pkg_grep_summary -v -t strlist PKGBASE 'readline ncurses pkg_install-info' |
 hide_distfile_size | normalize_version | grep -vE 'DEPENDS=' | summary2oneline |
