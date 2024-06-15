@@ -1,4 +1,25 @@
 ----------------------------------------------------------------------
+Version 0.69.0, by Aleksey Cheusov, Sat, 15 Jun 2024 13:21:54 +0400
+
+  Fixes and additions to tests
+
+  pkg_src_summary:
+    - add option -T for gathering summaries for TOOL_DEPENDS; -A implies it
+    - add option -B for gathering summaries for BOOTSTRAP_DEPENDS; -A implies it
+    - add option -v for verbose/progress output
+    - add option -u
+    - with option -m place multi-variant with default python, ruby
+      etc. before others
+    - do not hide stderr even if bmake succeeded
+    - use ../../mk/pbulk/pbulk-index.mk file unconditionally
+    - do not pkg_uniq_summary summaries for normal packages
+    - reorder output of paexec in memory explicitely
+
+  Move libexec/enrich_summary to bin/pkg_enrich_summary
+
+  pkg_update_src_summary -v passes option -v to pkg_src_summary
+
+----------------------------------------------------------------------
 Version 0.68.0, by Aleksey Cheusov, Tue, 14 May 2024 22:27:06 +0400
 
   pkg_src_summary:
