@@ -1,7 +1,7 @@
 #!@SH@
 #-*-mode:  sh -*-
 
-# Copyright (c) 2007-2015, Aleksey Cheusov <vle@gmx.net>
+# Copyright (c) 2007-2024, Aleksey Cheusov <vle@gmx.net>
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -336,7 +336,7 @@ packages2stdout (){
 	installed_packages2stdout
     elif test $# -eq 0; then
 	# processing stdin
-	awk '{for (i=1; i <= NF; ++i) {print $i}}' "$@"
+	cat
     else
 	# processing arguments
 	for pkgpath in "$@"; do
@@ -347,7 +347,7 @@ packages2stdout (){
 
 process_one_by_one (){
     while read pkgpaths; do
-	for pkgpath in $pkgpaths; do
+	for pkgpath in $(echo "$pkgpaths" | tr ';' ' '); do
 	    generate_summary "$pkgpath" |
 	    pkg_enrich_summary $with_bootstrap $with_tool_depends
 	done

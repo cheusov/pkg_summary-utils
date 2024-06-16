@@ -107,7 +107,7 @@ PLIST
 TOOL_DEPENDS
 '
 
-pkg_src_summary -m -f PKGNAME,PKGPATH \
+env PSS_SLAVES=+7 pkg_src_summary -m -f PKGNAME,PKGPATH \
     devel/subversion:PYTHON_VERSION_REQD=27 |
 normalize_version | summary2oneline nosort |
 cmp 'pkg_src_summary #23.8' \
@@ -116,7 +116,7 @@ ASSIGNMENTS=PYTHON_VERSION_REQD=27,RUBY_VERSION_REQD=31;PKGNAME=subversion-X;PKG
 ASSIGNMENTS=PYTHON_VERSION_REQD=27,RUBY_VERSION_REQD=33;PKGNAME=subversion-X;PKGPATH=devel/subversion
 '
 
-pkg_src_summary -m -f PKGNAME,PKGPATH \
+env PSS_SLAVES=+7 pkg_src_summary -m -f PKGNAME,PKGPATH \
     devel/subversion:PYTHON_VERSION_REQD=311 |
 normalize_version | summary2oneline nosort |
 cmp 'pkg_src_summary #23.7' \
@@ -125,7 +125,7 @@ ASSIGNMENTS=RUBY_VERSION_REQD=31;PKGNAME=subversion-X;PKGPATH=devel/subversion
 ASSIGNMENTS=RUBY_VERSION_REQD=33;PKGNAME=subversion-X;PKGPATH=devel/subversion
 '
 
-pkg_src_summary -m -f PKGNAME,PKGPATH \
+env PSS_SLAVES=+7 pkg_src_summary -m -f PKGNAME,PKGPATH \
     devel/subversion:RUBY_VERSION_REQD=33 |
 normalize_version | summary2oneline nosort |
 cmp 'pkg_src_summary #23.6' \
@@ -137,14 +137,14 @@ ASSIGNMENTS=RUBY_VERSION_REQD=33,PYTHON_VERSION_REQD=38;PKGNAME=subversion-X;PKG
 ASSIGNMENTS=RUBY_VERSION_REQD=33,PYTHON_VERSION_REQD=27;PKGNAME=subversion-X;PKGPATH=devel/subversion
 '
 
-pkg_src_summary -mu -f PKGNAME,PKGPATH \
+env PSS_SLAVES=+7 pkg_src_summary -mu -f PKGNAME,PKGPATH \
     devel/subversion:PKG_APACHE=apache24 |
 normalize_version | summary2oneline nosort |
 cmp 'pkg_src_summary #23.5.0' \
 'PKGNAME=subversion-X;PKGPATH=devel/subversion
 '
 
-pkg_src_summary -m -f PKGNAME,PKGPATH \
+env PSS_SLAVES=+7 pkg_src_summary -m -f PKGNAME,PKGPATH \
     devel/subversion:PKG_APACHE=apache24 |
 normalize_version | summary2oneline nosort |
 cmp 'pkg_src_summary #23.5.1' \
@@ -168,7 +168,7 @@ ASSIGNMENTS=PYTHON_VERSION_REQD=27,RUBY_VERSION_REQD=31;PKGNAME=subversion-X;PKG
 ASSIGNMENTS=PYTHON_VERSION_REQD=27,RUBY_VERSION_REQD=33;PKGNAME=subversion-X;PKGPATH=devel/subversion
 '
 
-pkg_src_summary -m -f PKGNAME,PKGPATH \
+env PSS_SLAVES=+7 pkg_src_summary -m -f PKGNAME,PKGPATH \
     devel/subversion:RUBY_VERSION_REQD=33 |
 normalize_version | summary2oneline nosort |
 cmp 'pkg_src_summary #23.5.2' \
@@ -180,7 +180,7 @@ ASSIGNMENTS=RUBY_VERSION_REQD=33,PYTHON_VERSION_REQD=38;PKGNAME=subversion-X;PKG
 ASSIGNMENTS=RUBY_VERSION_REQD=33,PYTHON_VERSION_REQD=27;PKGNAME=subversion-X;PKGPATH=devel/subversion
 '
 
-pkg_src_summary -m -f PKGNAME,PKGPATH \
+env PSS_SLAVES=+7 pkg_src_summary -m -f PKGNAME,PKGPATH \
     devel/subversion:RUBY_VERSION_REQD=32 |
 normalize_version | summary2oneline nosort |
 cmp 'pkg_src_summary #23.5.3' \
@@ -192,21 +192,21 @@ ASSIGNMENTS=PYTHON_VERSION_REQD=38;PKGNAME=subversion-X;PKGPATH=devel/subversion
 ASSIGNMENTS=PYTHON_VERSION_REQD=27;PKGNAME=subversion-X;PKGPATH=devel/subversion
 '
 
-pkg_src_summary -m -f PKGNAME,PKGPATH \
+env PSS_SLAVES=+7 pkg_src_summary -m -f PKGNAME,PKGPATH \
     devel/subversion:RUBY_VERSION_REQD=32,PYTHON_VERSION_REQD=310 |
 normalize_version | summary2oneline nosort |
 cmp 'pkg_src_summary #23.5.4' \
 'ASSIGNMENTS=PYTHON_VERSION_REQD=310;PKGNAME=subversion-X;PKGPATH=devel/subversion
 '
 
-pkg_src_summary -m -f PKGNAME,PKGPATH \
+env PSS_SLAVES=+7 pkg_src_summary -m -f PKGNAME,PKGPATH \
     devel/subversion:RUBY_VERSION_REQD=32,PYTHON_VERSION_REQD=311 |
 normalize_version | summary2oneline nosort |
 cmp 'pkg_src_summary #23.5.5' \
 'PKGNAME=subversion-X;PKGPATH=devel/subversion
 '
 
-pkg_src_summary -m -f PKGNAME,PKGPATH devel/subversion |
+env PSS_SLAVES=+7 pkg_src_summary -m -f PKGNAME,PKGPATH devel/subversion |
 normalize_version | summary2oneline nosort |
 cmp 'pkg_src_summary #23.3' \
 'PKGNAME=subversion-X;PKGPATH=devel/subversion
@@ -229,7 +229,7 @@ ASSIGNMENTS=PYTHON_VERSION_REQD=27,RUBY_VERSION_REQD=31;PKGNAME=subversion-X;PKG
 ASSIGNMENTS=PYTHON_VERSION_REQD=27,RUBY_VERSION_REQD=33;PKGNAME=subversion-X;PKGPATH=devel/subversion
 '
 
-pkg_src_summary -m -f PKGNAME,PKGPATH textproc/csvtomd |
+env PSS_SLAVES=+7 pkg_src_summary -m -f PKGNAME,PKGPATH textproc/csvtomd |
 normalize_version | summary2oneline nosort |
 cmp 'pkg_src_summary #23.2' \
 'PKGNAME=csvtomd-X;PKGPATH=textproc/csvtomd
