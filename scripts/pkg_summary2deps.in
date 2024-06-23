@@ -56,6 +56,8 @@
 #   -n    output PKGNAME
 #   -d    analyse DEPENDS
 #   -D    analyse BUILD_DEPENDS
+#   -T    analyse TOOL_DEPENDS
+#   -b    analyse BOOTSTRAP_DEPENDS
 #   -A    analyse both DEPENDS and BUILD_DEPENDS
 #   -a    output all matched dependencies separated by `|' symbol,
 #         not only the first one
@@ -141,8 +143,11 @@ BEGIN {
 	mode_strict = getarg("s")
 	mode_lint   = getarg("l")
 
-	dep_depends   = getarg("d")
-	dep_builddep  = getarg("D")
+	dep_depends       = getarg("d")
+	dep_builddep      = getarg("D")
+	dep_tooldep       = getarg("T")
+	dep_bootstrapdep  = getarg("b")
+
 	opt_conflicts = getarg("c")
 
 	show_all_deps = getarg("a")
@@ -190,7 +195,7 @@ BEGIN {
 	}
 
 	if (getarg("A")){
-		dep_builddep = dep_depends = 1
+		dep_builddep = dep_depends = dep_tooldep = dep_bootstrapdep = 1
 	}
 
 	if (!opt_conflicts){
@@ -199,8 +204,8 @@ BEGIN {
 			exit 1
 		}
 	}
-	if (!dep_depends && !dep_builddep && !opt_conflicts){
-		print "Either -d, -D, -c or -A must be applied" > "/dev/stderr"
+	if (!dep_depends && !dep_builddep && !dep_tooldep && !dep_bootstrapdep && !opt_conflicts){
+		print "Either -d, -D, -T, -b, -c or -A must be applied" > "/dev/stderr"
 		exit 1
 	}
 }
@@ -228,6 +233,16 @@ dep_depends && /^DEPENDS=/ {
 
 dep_builddep && /^BUILD_DEPENDS=/ {
 	build_depends = build_depends " " substr($0, 15)
+	next
+}
+
+dep_tooldep && /^TOOL_DEPENDS=/ {
+	tool_depends = tool_depends " " substr($0, 14)
+	next
+}
+
+dep_bootstrapdep && /^BOOTSTRAP_DEPENDS=/ {
+	bootstrap_depends = bootstrap_depends " " substr($0, 19)
 	next
 }
 
@@ -273,9 +288,15 @@ NF == 0 {
 
 		$0 = conflicts
 		process_deps(3)
+
+		$0 = tool_depends
+		process_deps(4)
+
+		$0 = bootstrap_depends
+		process_deps(5)
 	}
 
-	conflicts = depends = build_depends = ""
+	conflicts = depends = build_depends = tool_depends = bootstrap_depends = ""
 	assigns = pkgpath = pkgbase = pkgname = ""
 	next
 }
@@ -339,8 +360,7 @@ function pkgmatch_all (pair, matched_pkg, id,
 		if (deps ~ /[|]/)
 			continue
 
-		if (pkgname2pkgbase(matched_pkg)		\
-			!= pkgname2pkgbase(deps))
+		if (pkgname2pkgbase(matched_pkg) != pkgname2pkgbase(deps))
 			continue
 
 		if (!pkgmatch(matched_pkg, deps))
@@ -425,7 +445,7 @@ END {
 	for (pair in g_pair2name){
 		path = pair2path(pair)
 		name = g_pair2name [pair]
-		for (id=1; id <= 3; ++id){
+		for (id=1; id <= 5; ++id){
 			depscnt = g_paircnt2namedeps_cnt [pair, id]
 			for (i=1; i <= depscnt; ++i){
 				deps = g_paircnt2namedeps [pair, id, i]
@@ -512,6 +532,8 @@ END {
 		if (diff_deps){
 			if (id == 1) prepand = "DEPENDS "
 			else if (id == 2) prepand = "BUILD_DEPENDS "
+			else if (id == 4) prepand = "TOOL_DEPENDS "
+			else if (id == 5) prepand = "BOOTSTRAP_DEPENDS "
 			else abort("bad id")
 		}
 
@@ -541,7 +563,7 @@ END {
 	}
 
 	# printing packages with no dependencies
-	if (dep_builddep || dep_depends){
+	if (dep_builddep || dep_depends || dep_tooldep || dep_bootstrapdep){
 		for (pair in g_pair2name){
 			path = pair2path(pair)
 

@@ -59,12 +59,18 @@ output as altdep1|altdep2|...|altdepN. The same is applied for
 .B "-D"
 analyse BUILD_DEPENDS.
 .TP
+.B "-T"
+analyse TOOL_DEPENDS.
+.TP
+.B "-b"
+analyse BOOTSTRAP_DEPENDS.
+.TP
 .B "-c"
 analyse CONFLICTS and output problems to stderr.
 Versions in CONFLICTS are always checked (see "-s").
 .TP
 .B "-A"
-analyse both DEPENDS and BUILD_DEPENDS.
+.RB "implies " -d ", " -D ", " -T ", and " -b .
 .TP
 .B "-a"
 output all matched dependencies separated by `|' symbol.

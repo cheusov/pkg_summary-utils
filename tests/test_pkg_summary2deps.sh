@@ -76,6 +76,74 @@ www/ap2-vhost-ldap:PKG_APACHE=apache2
 www/ap22-vhost-ldap:PKG_APACHE=apache22
 '
 
+pkg_summary2deps -Apa src_summary23.txt | sort |
+cmp 'pkg_summary2deps #1.0.1' \
+'archivers/pax devel/mk-configure
+devel/bmake devel/mk-configure
+devel/bmkdep devel/mk-configure
+devel/libmaa parallel/paexec
+devel/mk-configure devel/libmaa
+devel/mk-configure lang/runawk
+devel/mk-configure parallel/paexec
+devel/mk-configure pkgtools/distbb
+devel/mk-configure pkgtools/pkg_summary-utils
+devel/pipestatus pkgtools/distbb
+devel/pipestatus pkgtools/pkg_summary-utils
+lang/runawk parallel/paexec
+lang/runawk pkgtools/distbb
+lang/runawk pkgtools/pkg_summary-utils
+parallel/paexec pkgtools/distbb
+parallel/paexec pkgtools/pkg_summary-utils
+pkgtools/bootstrap-mk-files devel/bmake
+pkgtools/cwrappers archivers/pax
+pkgtools/cwrappers devel/bmake
+pkgtools/cwrappers devel/bmkdep
+pkgtools/cwrappers devel/libmaa
+pkgtools/cwrappers devel/mk-configure
+pkgtools/cwrappers devel/pipestatus
+pkgtools/cwrappers lang/runawk
+pkgtools/cwrappers parallel/paexec
+pkgtools/cwrappers pkgtools/bootstrap-mk-files
+pkgtools/cwrappers pkgtools/digest
+pkgtools/cwrappers pkgtools/distbb
+pkgtools/cwrappers pkgtools/mktools
+pkgtools/cwrappers pkgtools/pkg_summary-utils
+pkgtools/cwrappers sysutils/checkperms
+pkgtools/digest devel/bmkdep
+pkgtools/digest devel/libmaa
+pkgtools/digest devel/mk-configure
+pkgtools/digest devel/pipestatus
+pkgtools/digest lang/runawk
+pkgtools/digest parallel/paexec
+pkgtools/digest pkgtools/distbb
+pkgtools/digest pkgtools/pkg_summary-utils
+pkgtools/digest sysutils/checkperms
+pkgtools/mktools archivers/pax
+pkgtools/mktools devel/bmake
+pkgtools/mktools devel/bmkdep
+pkgtools/mktools devel/libmaa
+pkgtools/mktools devel/mk-configure
+pkgtools/mktools devel/pipestatus
+pkgtools/mktools lang/runawk
+pkgtools/mktools parallel/paexec
+pkgtools/mktools pkgtools/bootstrap-mk-files
+pkgtools/mktools pkgtools/digest
+pkgtools/mktools pkgtools/distbb
+pkgtools/mktools pkgtools/pkg_summary-utils
+pkgtools/mktools sysutils/checkperms
+pkgtools/pkg_summary-utils pkgtools/distbb
+sysutils/checkperms devel/bmake
+sysutils/checkperms devel/bmkdep
+sysutils/checkperms devel/libmaa
+sysutils/checkperms devel/mk-configure
+sysutils/checkperms devel/pipestatus
+sysutils/checkperms lang/runawk
+sysutils/checkperms parallel/paexec
+sysutils/checkperms pkgtools/bootstrap-mk-files
+sysutils/checkperms pkgtools/distbb
+sysutils/checkperms pkgtools/pkg_summary-utils
+'
+
 # pkg_summary2deps -Ap
 pkg_summary2deps -Apa -2 src_summary.txt | sort |
 cmp 'pkg_summary2deps #1.1' \
@@ -152,6 +220,231 @@ DEPENDS wip/runawk wip/distbb
 DEPENDS wip/runawk wip/pkg_summary-utils
 www/ap2-vhost-ldap:PKG_APACHE=apache2
 www/ap22-vhost-ldap:PKG_APACHE=apache22
+'
+
+pkg_summary2deps -dDTbpa -2 src_summary23.txt | sort |
+cmp 'pkg_summary2deps #1.1.1' \
+'BOOTSTRAP_DEPENDS pkgtools/digest devel/bmkdep
+BOOTSTRAP_DEPENDS pkgtools/digest devel/libmaa
+BOOTSTRAP_DEPENDS pkgtools/digest devel/mk-configure
+BOOTSTRAP_DEPENDS pkgtools/digest devel/pipestatus
+BOOTSTRAP_DEPENDS pkgtools/digest lang/runawk
+BOOTSTRAP_DEPENDS pkgtools/digest parallel/paexec
+BOOTSTRAP_DEPENDS pkgtools/digest pkgtools/distbb
+BOOTSTRAP_DEPENDS pkgtools/digest pkgtools/pkg_summary-utils
+BOOTSTRAP_DEPENDS pkgtools/digest sysutils/checkperms
+BUILD_DEPENDS devel/mk-configure devel/libmaa
+BUILD_DEPENDS devel/mk-configure lang/runawk
+BUILD_DEPENDS devel/mk-configure parallel/paexec
+BUILD_DEPENDS devel/mk-configure pkgtools/distbb
+BUILD_DEPENDS devel/mk-configure pkgtools/pkg_summary-utils
+DEPENDS devel/bmake devel/mk-configure
+DEPENDS devel/bmkdep devel/mk-configure
+DEPENDS devel/libmaa parallel/paexec
+DEPENDS devel/pipestatus pkgtools/distbb
+DEPENDS devel/pipestatus pkgtools/pkg_summary-utils
+DEPENDS lang/runawk parallel/paexec
+DEPENDS lang/runawk pkgtools/distbb
+DEPENDS lang/runawk pkgtools/pkg_summary-utils
+DEPENDS parallel/paexec pkgtools/distbb
+DEPENDS parallel/paexec pkgtools/pkg_summary-utils
+DEPENDS pkgtools/bootstrap-mk-files devel/bmake
+DEPENDS pkgtools/digest pkgtools/distbb
+DEPENDS pkgtools/digest pkgtools/pkg_summary-utils
+DEPENDS pkgtools/pkg_summary-utils pkgtools/distbb
+TOOL_DEPENDS archivers/pax devel/mk-configure
+TOOL_DEPENDS devel/mk-configure devel/libmaa
+TOOL_DEPENDS devel/mk-configure lang/runawk
+TOOL_DEPENDS devel/mk-configure parallel/paexec
+TOOL_DEPENDS devel/mk-configure pkgtools/distbb
+TOOL_DEPENDS devel/mk-configure pkgtools/pkg_summary-utils
+TOOL_DEPENDS pkgtools/cwrappers archivers/pax
+TOOL_DEPENDS pkgtools/cwrappers devel/bmake
+TOOL_DEPENDS pkgtools/cwrappers devel/bmkdep
+TOOL_DEPENDS pkgtools/cwrappers devel/libmaa
+TOOL_DEPENDS pkgtools/cwrappers devel/mk-configure
+TOOL_DEPENDS pkgtools/cwrappers devel/pipestatus
+TOOL_DEPENDS pkgtools/cwrappers lang/runawk
+TOOL_DEPENDS pkgtools/cwrappers parallel/paexec
+TOOL_DEPENDS pkgtools/cwrappers pkgtools/bootstrap-mk-files
+TOOL_DEPENDS pkgtools/cwrappers pkgtools/digest
+TOOL_DEPENDS pkgtools/cwrappers pkgtools/distbb
+TOOL_DEPENDS pkgtools/cwrappers pkgtools/mktools
+TOOL_DEPENDS pkgtools/cwrappers pkgtools/pkg_summary-utils
+TOOL_DEPENDS pkgtools/cwrappers sysutils/checkperms
+TOOL_DEPENDS pkgtools/mktools archivers/pax
+TOOL_DEPENDS pkgtools/mktools devel/bmake
+TOOL_DEPENDS pkgtools/mktools devel/bmkdep
+TOOL_DEPENDS pkgtools/mktools devel/libmaa
+TOOL_DEPENDS pkgtools/mktools devel/mk-configure
+TOOL_DEPENDS pkgtools/mktools devel/pipestatus
+TOOL_DEPENDS pkgtools/mktools lang/runawk
+TOOL_DEPENDS pkgtools/mktools parallel/paexec
+TOOL_DEPENDS pkgtools/mktools pkgtools/bootstrap-mk-files
+TOOL_DEPENDS pkgtools/mktools pkgtools/digest
+TOOL_DEPENDS pkgtools/mktools pkgtools/distbb
+TOOL_DEPENDS pkgtools/mktools pkgtools/pkg_summary-utils
+TOOL_DEPENDS pkgtools/mktools sysutils/checkperms
+TOOL_DEPENDS sysutils/checkperms devel/bmake
+TOOL_DEPENDS sysutils/checkperms devel/bmkdep
+TOOL_DEPENDS sysutils/checkperms devel/libmaa
+TOOL_DEPENDS sysutils/checkperms devel/mk-configure
+TOOL_DEPENDS sysutils/checkperms devel/pipestatus
+TOOL_DEPENDS sysutils/checkperms lang/runawk
+TOOL_DEPENDS sysutils/checkperms parallel/paexec
+TOOL_DEPENDS sysutils/checkperms pkgtools/bootstrap-mk-files
+TOOL_DEPENDS sysutils/checkperms pkgtools/distbb
+TOOL_DEPENDS sysutils/checkperms pkgtools/pkg_summary-utils
+'
+
+pkg_summary2deps -dDbpa -2 src_summary23.txt | sort |
+cmp 'pkg_summary2deps #1.1.2' \
+'BOOTSTRAP_DEPENDS pkgtools/digest devel/bmkdep
+BOOTSTRAP_DEPENDS pkgtools/digest devel/libmaa
+BOOTSTRAP_DEPENDS pkgtools/digest devel/mk-configure
+BOOTSTRAP_DEPENDS pkgtools/digest devel/pipestatus
+BOOTSTRAP_DEPENDS pkgtools/digest lang/runawk
+BOOTSTRAP_DEPENDS pkgtools/digest parallel/paexec
+BOOTSTRAP_DEPENDS pkgtools/digest pkgtools/distbb
+BOOTSTRAP_DEPENDS pkgtools/digest pkgtools/pkg_summary-utils
+BOOTSTRAP_DEPENDS pkgtools/digest sysutils/checkperms
+BUILD_DEPENDS devel/mk-configure devel/libmaa
+BUILD_DEPENDS devel/mk-configure lang/runawk
+BUILD_DEPENDS devel/mk-configure parallel/paexec
+BUILD_DEPENDS devel/mk-configure pkgtools/distbb
+BUILD_DEPENDS devel/mk-configure pkgtools/pkg_summary-utils
+DEPENDS devel/bmake devel/mk-configure
+DEPENDS devel/bmkdep devel/mk-configure
+DEPENDS devel/libmaa parallel/paexec
+DEPENDS devel/pipestatus pkgtools/distbb
+DEPENDS devel/pipestatus pkgtools/pkg_summary-utils
+DEPENDS lang/runawk parallel/paexec
+DEPENDS lang/runawk pkgtools/distbb
+DEPENDS lang/runawk pkgtools/pkg_summary-utils
+DEPENDS parallel/paexec pkgtools/distbb
+DEPENDS parallel/paexec pkgtools/pkg_summary-utils
+DEPENDS pkgtools/bootstrap-mk-files devel/bmake
+DEPENDS pkgtools/digest pkgtools/distbb
+DEPENDS pkgtools/digest pkgtools/pkg_summary-utils
+DEPENDS pkgtools/pkg_summary-utils pkgtools/distbb
+archivers/pax
+pkgtools/cwrappers
+pkgtools/mktools
+'
+
+pkg_summary2deps -dDTpa -2 src_summary23.txt | sort |
+cmp 'pkg_summary2deps #1.1.3' \
+'BUILD_DEPENDS devel/mk-configure devel/libmaa
+BUILD_DEPENDS devel/mk-configure lang/runawk
+BUILD_DEPENDS devel/mk-configure parallel/paexec
+BUILD_DEPENDS devel/mk-configure pkgtools/distbb
+BUILD_DEPENDS devel/mk-configure pkgtools/pkg_summary-utils
+DEPENDS devel/bmake devel/mk-configure
+DEPENDS devel/bmkdep devel/mk-configure
+DEPENDS devel/libmaa parallel/paexec
+DEPENDS devel/pipestatus pkgtools/distbb
+DEPENDS devel/pipestatus pkgtools/pkg_summary-utils
+DEPENDS lang/runawk parallel/paexec
+DEPENDS lang/runawk pkgtools/distbb
+DEPENDS lang/runawk pkgtools/pkg_summary-utils
+DEPENDS parallel/paexec pkgtools/distbb
+DEPENDS parallel/paexec pkgtools/pkg_summary-utils
+DEPENDS pkgtools/bootstrap-mk-files devel/bmake
+DEPENDS pkgtools/digest pkgtools/distbb
+DEPENDS pkgtools/digest pkgtools/pkg_summary-utils
+DEPENDS pkgtools/pkg_summary-utils pkgtools/distbb
+TOOL_DEPENDS archivers/pax devel/mk-configure
+TOOL_DEPENDS devel/mk-configure devel/libmaa
+TOOL_DEPENDS devel/mk-configure lang/runawk
+TOOL_DEPENDS devel/mk-configure parallel/paexec
+TOOL_DEPENDS devel/mk-configure pkgtools/distbb
+TOOL_DEPENDS devel/mk-configure pkgtools/pkg_summary-utils
+TOOL_DEPENDS pkgtools/cwrappers archivers/pax
+TOOL_DEPENDS pkgtools/cwrappers devel/bmake
+TOOL_DEPENDS pkgtools/cwrappers devel/bmkdep
+TOOL_DEPENDS pkgtools/cwrappers devel/libmaa
+TOOL_DEPENDS pkgtools/cwrappers devel/mk-configure
+TOOL_DEPENDS pkgtools/cwrappers devel/pipestatus
+TOOL_DEPENDS pkgtools/cwrappers lang/runawk
+TOOL_DEPENDS pkgtools/cwrappers parallel/paexec
+TOOL_DEPENDS pkgtools/cwrappers pkgtools/bootstrap-mk-files
+TOOL_DEPENDS pkgtools/cwrappers pkgtools/digest
+TOOL_DEPENDS pkgtools/cwrappers pkgtools/distbb
+TOOL_DEPENDS pkgtools/cwrappers pkgtools/mktools
+TOOL_DEPENDS pkgtools/cwrappers pkgtools/pkg_summary-utils
+TOOL_DEPENDS pkgtools/cwrappers sysutils/checkperms
+TOOL_DEPENDS pkgtools/mktools archivers/pax
+TOOL_DEPENDS pkgtools/mktools devel/bmake
+TOOL_DEPENDS pkgtools/mktools devel/bmkdep
+TOOL_DEPENDS pkgtools/mktools devel/libmaa
+TOOL_DEPENDS pkgtools/mktools devel/mk-configure
+TOOL_DEPENDS pkgtools/mktools devel/pipestatus
+TOOL_DEPENDS pkgtools/mktools lang/runawk
+TOOL_DEPENDS pkgtools/mktools parallel/paexec
+TOOL_DEPENDS pkgtools/mktools pkgtools/bootstrap-mk-files
+TOOL_DEPENDS pkgtools/mktools pkgtools/digest
+TOOL_DEPENDS pkgtools/mktools pkgtools/distbb
+TOOL_DEPENDS pkgtools/mktools pkgtools/pkg_summary-utils
+TOOL_DEPENDS pkgtools/mktools sysutils/checkperms
+TOOL_DEPENDS sysutils/checkperms devel/bmake
+TOOL_DEPENDS sysutils/checkperms devel/bmkdep
+TOOL_DEPENDS sysutils/checkperms devel/libmaa
+TOOL_DEPENDS sysutils/checkperms devel/mk-configure
+TOOL_DEPENDS sysutils/checkperms devel/pipestatus
+TOOL_DEPENDS sysutils/checkperms lang/runawk
+TOOL_DEPENDS sysutils/checkperms parallel/paexec
+TOOL_DEPENDS sysutils/checkperms pkgtools/bootstrap-mk-files
+TOOL_DEPENDS sysutils/checkperms pkgtools/distbb
+TOOL_DEPENDS sysutils/checkperms pkgtools/pkg_summary-utils
+'
+
+pkg_summary2deps -dDpa -2 src_summary23.txt | sort |
+cmp 'pkg_summary2deps #1.1.4' \
+'BUILD_DEPENDS devel/mk-configure devel/libmaa
+BUILD_DEPENDS devel/mk-configure lang/runawk
+BUILD_DEPENDS devel/mk-configure parallel/paexec
+BUILD_DEPENDS devel/mk-configure pkgtools/distbb
+BUILD_DEPENDS devel/mk-configure pkgtools/pkg_summary-utils
+DEPENDS devel/bmake devel/mk-configure
+DEPENDS devel/bmkdep devel/mk-configure
+DEPENDS devel/libmaa parallel/paexec
+DEPENDS devel/pipestatus pkgtools/distbb
+DEPENDS devel/pipestatus pkgtools/pkg_summary-utils
+DEPENDS lang/runawk parallel/paexec
+DEPENDS lang/runawk pkgtools/distbb
+DEPENDS lang/runawk pkgtools/pkg_summary-utils
+DEPENDS parallel/paexec pkgtools/distbb
+DEPENDS parallel/paexec pkgtools/pkg_summary-utils
+DEPENDS pkgtools/bootstrap-mk-files devel/bmake
+DEPENDS pkgtools/digest pkgtools/distbb
+DEPENDS pkgtools/digest pkgtools/pkg_summary-utils
+DEPENDS pkgtools/pkg_summary-utils pkgtools/distbb
+archivers/pax
+pkgtools/cwrappers
+pkgtools/mktools
+sysutils/checkperms
+'
+
+pkg_summary2deps -dpa -2 src_summary23.txt | sort |
+cmp 'pkg_summary2deps #1.1.5' \
+'DEPENDS devel/bmake devel/mk-configure
+DEPENDS devel/bmkdep devel/mk-configure
+DEPENDS devel/libmaa parallel/paexec
+DEPENDS devel/pipestatus pkgtools/distbb
+DEPENDS devel/pipestatus pkgtools/pkg_summary-utils
+DEPENDS lang/runawk parallel/paexec
+DEPENDS lang/runawk pkgtools/distbb
+DEPENDS lang/runawk pkgtools/pkg_summary-utils
+DEPENDS parallel/paexec pkgtools/distbb
+DEPENDS parallel/paexec pkgtools/pkg_summary-utils
+DEPENDS pkgtools/bootstrap-mk-files devel/bmake
+DEPENDS pkgtools/digest pkgtools/distbb
+DEPENDS pkgtools/digest pkgtools/pkg_summary-utils
+DEPENDS pkgtools/pkg_summary-utils pkgtools/distbb
+archivers/pax
+pkgtools/cwrappers
+pkgtools/mktools
+sysutils/checkperms
 '
 
 pkg_summary2deps -Ap -s src_summary.txt 2>&1 >/dev/null | sort |
