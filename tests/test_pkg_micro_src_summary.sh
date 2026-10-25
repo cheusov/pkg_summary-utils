@@ -25,8 +25,8 @@ sort |
 cmp 'pkg_micro_src_summary #1' \
 'checkperms-X:sysutils/checkperms
 dict-client-X:textproc/dict-client
-dictem-X:textproc/dictem
 emacs-X:editors/emacs
+emacs30-dictem-X:textproc/dictem
 gmake-X:devel/gmake
 jpeg-X:graphics/jpeg
 libltdl-X:devel/libltdl
@@ -36,7 +36,6 @@ netcat-X:net/netcat
 perl-X:lang/perl5
 pipestatus-X:devel/pipestatus
 pkg-config-X:devel/pkg-config
-pkg_summary-utils-X:wip/pkg_summary-utils
 png-X:graphics/png
 tiff-X:graphics/tiff
 x11-links-X:pkgtools/x11-links
@@ -58,6 +57,8 @@ Bad package wip/pkg_online-client, skipped
 Bad package wip/paexec, skipped
  ------------------
 Bad package wip/runawk, skipped
+ ------------------
+Bad package wip/pkg_summary-utils, skipped
  ------------------
 Bad package graphics/libungif, skipped
  ------------------

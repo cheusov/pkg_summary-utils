@@ -123,6 +123,10 @@ pkg_cleanup_packages
 pkg_src_summary
 '
 
+# pkg_bin_summary
+# pkg_digger_installed
+# summary2multi_variants
+
 normalize_version (){
      awk '
     /^PKGNAME[=:]/ {
