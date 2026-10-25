@@ -1,7 +1,7 @@
 PROJECTNAME =	pkg_summary-utils
 BIRTHDATE   =	2008-04-06
 
-SUBPRJ_DFLT =	scripts grep_summary
+SUBPRJ_DFLT =	scripts grep_summary pkg_cmp_summary pkg_cksum2summary
 SUBPRJ =	${SUBPRJ_DFLT} doc scripts:tests
 
 SHRTOUT     =	yes
