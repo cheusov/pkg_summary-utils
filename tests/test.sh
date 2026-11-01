@@ -6,26 +6,6 @@ export LC_ALL
 : ${DIFF_PROG:=diff -U20}
 
 #
-srcdir="`pwd`/../scripts"
-objdir=${OBJDIR_scripts}
-
-#
-if test -z "$BMAKE"; then
-    BMAKE=/usr/bin/make
-fi
-
-AWKPATH="$srcdir:$OBJDIR_scripts"
-PATH=$OBJDIR_scripts:$PATH
-
-PSS_MKSCRIPTSDIR="${srcdir}"
-LIBEXECDIR="${OBJDIR_scripts}"
-GREP_LIBEXECDIR="${OBJDIR_grep_summary}"
-PKGDIG_SYSCONFDIR="${OBJDIR_scripts}"
-
-export BMAKE AWKPATH PATH PSS_MKSCRIPTSDIR AWKPATH
-export GREP_LIBEXECDIR LIBEXECDIR PKGDIG_SYSCONFDIR
-
-#
 print_args (){
     for i in "$@"; do
 	printf " '%s'" "$i"
@@ -33,7 +13,7 @@ print_args (){
 }
 
 runtest (){
-    prog="$objdir/$1"
+    prog="$1"
     shift
 
     "$prog" "$@" 2>&1
@@ -93,51 +73,18 @@ summary2oneline() {
 	fi
 }
 
-# real tests
-tests='
-pkg_cksum2summary
-makefiles2deps
-pkgsrc-dewey
-pkg_summary2leaves
-pkg_grep_summary
-pkg_list_all_pkgs
-pkg_refresh_summary
-pkg_summary4view
-pkg_uniq_summary
-pkg_assignments2pkgpath
-pkg_src_fetch_var
-pkg_cmp_summary
-pkg_summary2deps
-pkg_lint_summary
-pkg_subgraph_deps
-pkg_bin_summary
-pkg_digger_summary
-pkg_digger_installed
-pkg_digger
-pkg_micro_src_summary
-summary2multi_variants
-pkg_summary2bb_pkgs
-pkg_cleanup_dir
-pkg_cleanup_distdir
-pkg_cleanup_packages
-pkg_src_summary
-'
-
-# pkg_bin_summary
-# pkg_digger_installed
-# summary2multi_variants
-
 normalize_version (){
      awk '
     /^PKGNAME[=:]/ {
         gsub(/(nb|alpha|beta|pre|rc|pl)[0-9]+$/, "")
         gsub(/[a-zA-Z]$/, "")
         gsub(/-[^-]*$/, "-X")
+	gsub(/emacs[0-9]+/, "emacsX")
     }
     {  print $0  }' "$@"
 }
 
-for t in ${TESTS-$tests}; do
+for t in ${TESTS}; do
     . ./test_$t.sh
 done
 

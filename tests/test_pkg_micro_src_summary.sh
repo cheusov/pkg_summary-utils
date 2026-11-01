@@ -18,7 +18,6 @@ summary_to_oneline() {
 # pkg_micro_src_summary
 pkgs="`sed -n 's/^PKGPATH=//p' src_summary.txt`"
 pkg_micro_src_summary $pkgs 2>"$tmpfn4" |
-tee "$objdir"/summary_micro.txt |
 normalize_version |
 summary_to_oneline |
 sort |
@@ -26,7 +25,7 @@ cmp 'pkg_micro_src_summary #1' \
 'checkperms-X:sysutils/checkperms
 dict-client-X:textproc/dict-client
 emacs-X:editors/emacs
-emacs30-dictem-X:textproc/dictem
+emacsX-dictem-X:textproc/dictem
 gmake-X:devel/gmake
 jpeg-X:graphics/jpeg
 libltdl-X:devel/libltdl

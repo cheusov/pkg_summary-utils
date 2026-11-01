@@ -31,10 +31,10 @@ pkg_src_summary -f PKGNAME,PKGPATH -fPKGNAME,PKGPATH -btmu lang/php56 lang/php74
 pkg_grep_summary -v -t strlist PKGBASE 'readline ncurses pkg_install-info' |
 hide_distfile_size | normalize_version | grep -vE 'DEPENDS=' | summary2oneline |
 cmp 'pkg_src_summary #28.1' \
-'ASSIGNMENTS=PHP_VERSION_REQD=56;PKGNAME=php-X;PKGPATH=lang/php56
-ASSIGNMENTS=PHP_VERSION_REQD=74;PKGNAME=php-X;PKGPATH=lang/php74
-ASSIGNMENTS=PHP_VERSION_REQD=83;PKGNAME=php-X;PKGPATH=lang/php83
-PKGNAME=php-X;PKGPATH=lang/php82
+'ASSIGNMENTS=PHP_VERSION_REQD=56;PKGNAME=php56-X;PKGPATH=lang/php56
+ASSIGNMENTS=PHP_VERSION_REQD=74;PKGNAME=php74-X;PKGPATH=lang/php74
+ASSIGNMENTS=PHP_VERSION_REQD=82;PKGNAME=php82-X;PKGPATH=lang/php82
+ASSIGNMENTS=PHP_VERSION_REQD=83;PKGNAME=php83-X;PKGPATH=lang/php83
 '
 
 pkg_src_summary -f PKGNAME,PKGPATH -dD databases/sqlite3 |
@@ -51,6 +51,7 @@ for opts in -dDtB -A; do
 	cmp 'pkg_src_summary #27.3' \
 'PKGNAME=cwrappers-X;PKGPATH=pkgtools/cwrappers
 PKGNAME=digest-X;PKGPATH=pkgtools/digest
+PKGNAME=libnbcompat-X;PKGPATH=pkgtools/libnbcompat
 PKGNAME=libtool-base-X;PKGPATH=devel/libtool-base
 PKGNAME=mktools-X;PKGPATH=pkgtools/mktools
 PKGNAME=pkgconf-X;PKGPATH=devel/pkgconf
@@ -110,17 +111,17 @@ env PSS_SLAVES=+7 pkg_src_summary -m -f PKGNAME,PKGPATH \
 normalize_version | summary2oneline nosort |
 cmp 'pkg_src_summary #23.8' \
 'ASSIGNMENTS=PYTHON_VERSION_REQD=312;PKGNAME=subversion-X;PKGPATH=devel/subversion
-ASSIGNMENTS=PYTHON_VERSION_REQD=312,RUBY_VERSION_REQD=31;PKGNAME=subversion-X;PKGPATH=devel/subversion
 ASSIGNMENTS=PYTHON_VERSION_REQD=312,RUBY_VERSION_REQD=33;PKGNAME=subversion-X;PKGPATH=devel/subversion
+ASSIGNMENTS=PYTHON_VERSION_REQD=312,RUBY_VERSION_REQD=40;PKGNAME=subversion-X;PKGPATH=devel/subversion
 '
 
 env PSS_SLAVES=+7 pkg_src_summary -m -f PKGNAME,PKGPATH \
     devel/subversion:PYTHON_VERSION_REQD=311 |
 normalize_version | summary2oneline nosort |
 cmp 'pkg_src_summary #23.7' \
-'PKGNAME=subversion-X;PKGPATH=devel/subversion
-ASSIGNMENTS=RUBY_VERSION_REQD=31;PKGNAME=subversion-X;PKGPATH=devel/subversion
-ASSIGNMENTS=RUBY_VERSION_REQD=33;PKGNAME=subversion-X;PKGPATH=devel/subversion
+'ASSIGNMENTS=PYTHON_VERSION_REQD=311;PKGNAME=subversion-X;PKGPATH=devel/subversion
+ASSIGNMENTS=PYTHON_VERSION_REQD=311,RUBY_VERSION_REQD=33;PKGNAME=subversion-X;PKGPATH=devel/subversion
+ASSIGNMENTS=PYTHON_VERSION_REQD=311,RUBY_VERSION_REQD=40;PKGNAME=subversion-X;PKGPATH=devel/subversion
 '
 
 env PSS_SLAVES=+7 pkg_src_summary -m -f PKGNAME,PKGPATH \
@@ -128,10 +129,10 @@ env PSS_SLAVES=+7 pkg_src_summary -m -f PKGNAME,PKGPATH \
 normalize_version | summary2oneline nosort |
 cmp 'pkg_src_summary #23.6' \
 'ASSIGNMENTS=RUBY_VERSION_REQD=33;PKGNAME=subversion-X;PKGPATH=devel/subversion
+ASSIGNMENTS=RUBY_VERSION_REQD=33,PYTHON_VERSION_REQD=315;PKGNAME=subversion-X;PKGPATH=devel/subversion
+ASSIGNMENTS=RUBY_VERSION_REQD=33,PYTHON_VERSION_REQD=314;PKGNAME=subversion-X;PKGPATH=devel/subversion
 ASSIGNMENTS=RUBY_VERSION_REQD=33,PYTHON_VERSION_REQD=312;PKGNAME=subversion-X;PKGPATH=devel/subversion
-ASSIGNMENTS=RUBY_VERSION_REQD=33,PYTHON_VERSION_REQD=310;PKGNAME=subversion-X;PKGPATH=devel/subversion
-ASSIGNMENTS=RUBY_VERSION_REQD=33,PYTHON_VERSION_REQD=39;PKGNAME=subversion-X;PKGPATH=devel/subversion
-ASSIGNMENTS=RUBY_VERSION_REQD=33,PYTHON_VERSION_REQD=38;PKGNAME=subversion-X;PKGPATH=devel/subversion
+ASSIGNMENTS=RUBY_VERSION_REQD=33,PYTHON_VERSION_REQD=311;PKGNAME=subversion-X;PKGPATH=devel/subversion
 '
 
 env PSS_SLAVES=+7 pkg_src_summary -mu -f PKGNAME,PKGPATH \
@@ -146,20 +147,20 @@ env PSS_SLAVES=+7 pkg_src_summary -m -f PKGNAME,PKGPATH \
 normalize_version | summary2oneline nosort |
 cmp 'pkg_src_summary #23.5.1' \
 'PKGNAME=subversion-X;PKGPATH=devel/subversion
-ASSIGNMENTS=RUBY_VERSION_REQD=31;PKGNAME=subversion-X;PKGPATH=devel/subversion
 ASSIGNMENTS=RUBY_VERSION_REQD=33;PKGNAME=subversion-X;PKGPATH=devel/subversion
+ASSIGNMENTS=RUBY_VERSION_REQD=40;PKGNAME=subversion-X;PKGPATH=devel/subversion
+ASSIGNMENTS=PYTHON_VERSION_REQD=315;PKGNAME=subversion-X;PKGPATH=devel/subversion
+ASSIGNMENTS=PYTHON_VERSION_REQD=315,RUBY_VERSION_REQD=33;PKGNAME=subversion-X;PKGPATH=devel/subversion
+ASSIGNMENTS=PYTHON_VERSION_REQD=315,RUBY_VERSION_REQD=40;PKGNAME=subversion-X;PKGPATH=devel/subversion
+ASSIGNMENTS=PYTHON_VERSION_REQD=314;PKGNAME=subversion-X;PKGPATH=devel/subversion
+ASSIGNMENTS=PYTHON_VERSION_REQD=314,RUBY_VERSION_REQD=33;PKGNAME=subversion-X;PKGPATH=devel/subversion
+ASSIGNMENTS=PYTHON_VERSION_REQD=314,RUBY_VERSION_REQD=40;PKGNAME=subversion-X;PKGPATH=devel/subversion
 ASSIGNMENTS=PYTHON_VERSION_REQD=312;PKGNAME=subversion-X;PKGPATH=devel/subversion
-ASSIGNMENTS=PYTHON_VERSION_REQD=312,RUBY_VERSION_REQD=31;PKGNAME=subversion-X;PKGPATH=devel/subversion
 ASSIGNMENTS=PYTHON_VERSION_REQD=312,RUBY_VERSION_REQD=33;PKGNAME=subversion-X;PKGPATH=devel/subversion
-ASSIGNMENTS=PYTHON_VERSION_REQD=310;PKGNAME=subversion-X;PKGPATH=devel/subversion
-ASSIGNMENTS=PYTHON_VERSION_REQD=310,RUBY_VERSION_REQD=31;PKGNAME=subversion-X;PKGPATH=devel/subversion
-ASSIGNMENTS=PYTHON_VERSION_REQD=310,RUBY_VERSION_REQD=33;PKGNAME=subversion-X;PKGPATH=devel/subversion
-ASSIGNMENTS=PYTHON_VERSION_REQD=39;PKGNAME=subversion-X;PKGPATH=devel/subversion
-ASSIGNMENTS=PYTHON_VERSION_REQD=39,RUBY_VERSION_REQD=31;PKGNAME=subversion-X;PKGPATH=devel/subversion
-ASSIGNMENTS=PYTHON_VERSION_REQD=39,RUBY_VERSION_REQD=33;PKGNAME=subversion-X;PKGPATH=devel/subversion
-ASSIGNMENTS=PYTHON_VERSION_REQD=38;PKGNAME=subversion-X;PKGPATH=devel/subversion
-ASSIGNMENTS=PYTHON_VERSION_REQD=38,RUBY_VERSION_REQD=31;PKGNAME=subversion-X;PKGPATH=devel/subversion
-ASSIGNMENTS=PYTHON_VERSION_REQD=38,RUBY_VERSION_REQD=33;PKGNAME=subversion-X;PKGPATH=devel/subversion
+ASSIGNMENTS=PYTHON_VERSION_REQD=312,RUBY_VERSION_REQD=40;PKGNAME=subversion-X;PKGPATH=devel/subversion
+ASSIGNMENTS=PYTHON_VERSION_REQD=311;PKGNAME=subversion-X;PKGPATH=devel/subversion
+ASSIGNMENTS=PYTHON_VERSION_REQD=311,RUBY_VERSION_REQD=33;PKGNAME=subversion-X;PKGPATH=devel/subversion
+ASSIGNMENTS=PYTHON_VERSION_REQD=311,RUBY_VERSION_REQD=40;PKGNAME=subversion-X;PKGPATH=devel/subversion
 '
 
 env PSS_SLAVES=+7 pkg_src_summary -m -f PKGNAME,PKGPATH \
@@ -167,10 +168,10 @@ env PSS_SLAVES=+7 pkg_src_summary -m -f PKGNAME,PKGPATH \
 normalize_version | summary2oneline nosort |
 cmp 'pkg_src_summary #23.5.2' \
 'ASSIGNMENTS=RUBY_VERSION_REQD=33;PKGNAME=subversion-X;PKGPATH=devel/subversion
+ASSIGNMENTS=RUBY_VERSION_REQD=33,PYTHON_VERSION_REQD=315;PKGNAME=subversion-X;PKGPATH=devel/subversion
+ASSIGNMENTS=RUBY_VERSION_REQD=33,PYTHON_VERSION_REQD=314;PKGNAME=subversion-X;PKGPATH=devel/subversion
 ASSIGNMENTS=RUBY_VERSION_REQD=33,PYTHON_VERSION_REQD=312;PKGNAME=subversion-X;PKGPATH=devel/subversion
-ASSIGNMENTS=RUBY_VERSION_REQD=33,PYTHON_VERSION_REQD=310;PKGNAME=subversion-X;PKGPATH=devel/subversion
-ASSIGNMENTS=RUBY_VERSION_REQD=33,PYTHON_VERSION_REQD=39;PKGNAME=subversion-X;PKGPATH=devel/subversion
-ASSIGNMENTS=RUBY_VERSION_REQD=33,PYTHON_VERSION_REQD=38;PKGNAME=subversion-X;PKGPATH=devel/subversion
+ASSIGNMENTS=RUBY_VERSION_REQD=33,PYTHON_VERSION_REQD=311;PKGNAME=subversion-X;PKGPATH=devel/subversion
 '
 
 env PSS_SLAVES=+7 pkg_src_summary -m -f PKGNAME,PKGPATH \
@@ -178,55 +179,55 @@ env PSS_SLAVES=+7 pkg_src_summary -m -f PKGNAME,PKGPATH \
 normalize_version | summary2oneline nosort |
 cmp 'pkg_src_summary #23.5.3' \
 'PKGNAME=subversion-X;PKGPATH=devel/subversion
+ASSIGNMENTS=PYTHON_VERSION_REQD=315;PKGNAME=subversion-X;PKGPATH=devel/subversion
+ASSIGNMENTS=PYTHON_VERSION_REQD=314;PKGNAME=subversion-X;PKGPATH=devel/subversion
 ASSIGNMENTS=PYTHON_VERSION_REQD=312;PKGNAME=subversion-X;PKGPATH=devel/subversion
-ASSIGNMENTS=PYTHON_VERSION_REQD=310;PKGNAME=subversion-X;PKGPATH=devel/subversion
-ASSIGNMENTS=PYTHON_VERSION_REQD=39;PKGNAME=subversion-X;PKGPATH=devel/subversion
-ASSIGNMENTS=PYTHON_VERSION_REQD=38;PKGNAME=subversion-X;PKGPATH=devel/subversion
+ASSIGNMENTS=PYTHON_VERSION_REQD=311;PKGNAME=subversion-X;PKGPATH=devel/subversion
 '
 
 env PSS_SLAVES=+7 pkg_src_summary -m -f PKGNAME,PKGPATH \
     devel/subversion:RUBY_VERSION_REQD=32,PYTHON_VERSION_REQD=310 |
 normalize_version | summary2oneline nosort |
 cmp 'pkg_src_summary #23.5.4' \
-'ASSIGNMENTS=PYTHON_VERSION_REQD=310;PKGNAME=subversion-X;PKGPATH=devel/subversion
+'PKGNAME=subversion-X;PKGPATH=devel/subversion
 '
 
 env PSS_SLAVES=+7 pkg_src_summary -m -f PKGNAME,PKGPATH \
     devel/subversion:RUBY_VERSION_REQD=32,PYTHON_VERSION_REQD=311 |
 normalize_version | summary2oneline nosort |
 cmp 'pkg_src_summary #23.5.5' \
-'PKGNAME=subversion-X;PKGPATH=devel/subversion
+'ASSIGNMENTS=PYTHON_VERSION_REQD=311;PKGNAME=subversion-X;PKGPATH=devel/subversion
 '
 
 env PSS_SLAVES=+7 pkg_src_summary -m -f PKGNAME,PKGPATH devel/subversion |
 normalize_version | summary2oneline nosort |
 cmp 'pkg_src_summary #23.3' \
 'PKGNAME=subversion-X;PKGPATH=devel/subversion
-ASSIGNMENTS=RUBY_VERSION_REQD=31;PKGNAME=subversion-X;PKGPATH=devel/subversion
 ASSIGNMENTS=RUBY_VERSION_REQD=33;PKGNAME=subversion-X;PKGPATH=devel/subversion
+ASSIGNMENTS=RUBY_VERSION_REQD=40;PKGNAME=subversion-X;PKGPATH=devel/subversion
+ASSIGNMENTS=PYTHON_VERSION_REQD=315;PKGNAME=subversion-X;PKGPATH=devel/subversion
+ASSIGNMENTS=PYTHON_VERSION_REQD=315,RUBY_VERSION_REQD=33;PKGNAME=subversion-X;PKGPATH=devel/subversion
+ASSIGNMENTS=PYTHON_VERSION_REQD=315,RUBY_VERSION_REQD=40;PKGNAME=subversion-X;PKGPATH=devel/subversion
+ASSIGNMENTS=PYTHON_VERSION_REQD=314;PKGNAME=subversion-X;PKGPATH=devel/subversion
+ASSIGNMENTS=PYTHON_VERSION_REQD=314,RUBY_VERSION_REQD=33;PKGNAME=subversion-X;PKGPATH=devel/subversion
+ASSIGNMENTS=PYTHON_VERSION_REQD=314,RUBY_VERSION_REQD=40;PKGNAME=subversion-X;PKGPATH=devel/subversion
 ASSIGNMENTS=PYTHON_VERSION_REQD=312;PKGNAME=subversion-X;PKGPATH=devel/subversion
-ASSIGNMENTS=PYTHON_VERSION_REQD=312,RUBY_VERSION_REQD=31;PKGNAME=subversion-X;PKGPATH=devel/subversion
 ASSIGNMENTS=PYTHON_VERSION_REQD=312,RUBY_VERSION_REQD=33;PKGNAME=subversion-X;PKGPATH=devel/subversion
-ASSIGNMENTS=PYTHON_VERSION_REQD=310;PKGNAME=subversion-X;PKGPATH=devel/subversion
-ASSIGNMENTS=PYTHON_VERSION_REQD=310,RUBY_VERSION_REQD=31;PKGNAME=subversion-X;PKGPATH=devel/subversion
-ASSIGNMENTS=PYTHON_VERSION_REQD=310,RUBY_VERSION_REQD=33;PKGNAME=subversion-X;PKGPATH=devel/subversion
-ASSIGNMENTS=PYTHON_VERSION_REQD=39;PKGNAME=subversion-X;PKGPATH=devel/subversion
-ASSIGNMENTS=PYTHON_VERSION_REQD=39,RUBY_VERSION_REQD=31;PKGNAME=subversion-X;PKGPATH=devel/subversion
-ASSIGNMENTS=PYTHON_VERSION_REQD=39,RUBY_VERSION_REQD=33;PKGNAME=subversion-X;PKGPATH=devel/subversion
-ASSIGNMENTS=PYTHON_VERSION_REQD=38;PKGNAME=subversion-X;PKGPATH=devel/subversion
-ASSIGNMENTS=PYTHON_VERSION_REQD=38,RUBY_VERSION_REQD=31;PKGNAME=subversion-X;PKGPATH=devel/subversion
-ASSIGNMENTS=PYTHON_VERSION_REQD=38,RUBY_VERSION_REQD=33;PKGNAME=subversion-X;PKGPATH=devel/subversion
+ASSIGNMENTS=PYTHON_VERSION_REQD=312,RUBY_VERSION_REQD=40;PKGNAME=subversion-X;PKGPATH=devel/subversion
+ASSIGNMENTS=PYTHON_VERSION_REQD=311;PKGNAME=subversion-X;PKGPATH=devel/subversion
+ASSIGNMENTS=PYTHON_VERSION_REQD=311,RUBY_VERSION_REQD=33;PKGNAME=subversion-X;PKGPATH=devel/subversion
+ASSIGNMENTS=PYTHON_VERSION_REQD=311,RUBY_VERSION_REQD=40;PKGNAME=subversion-X;PKGPATH=devel/subversion
 '
 
-env PSS_SLAVES=+7 pkg_src_summary -m -f PKGNAME,PKGPATH textproc/csvtomd |
-normalize_version | summary2oneline nosort |
-cmp 'pkg_src_summary #23.2' \
-'PKGNAME=csvtomd-X;PKGPATH=textproc/csvtomd
-ASSIGNMENTS=PYTHON_VERSION_REQD=312;PKGNAME=csvtomd-X;PKGPATH=textproc/csvtomd
-ASSIGNMENTS=PYTHON_VERSION_REQD=310;PKGNAME=csvtomd-X;PKGPATH=textproc/csvtomd
-ASSIGNMENTS=PYTHON_VERSION_REQD=39;PKGNAME=csvtomd-X;PKGPATH=textproc/csvtomd
-ASSIGNMENTS=PYTHON_VERSION_REQD=38;PKGNAME=csvtomd-X;PKGPATH=textproc/csvtomd
-'
+# env PSS_SLAVES=+7 pkg_src_summary -m -f PKGNAME,PKGPATH textproc/csvtomd |
+# normalize_version | summary2oneline nosort |
+# cmp 'pkg_src_summary #23.2' \
+# 'PKGNAME=csvtomd-X;PKGPATH=textproc/csvtomd
+# ASSIGNMENTS=PYTHON_VERSION_REQD=312;PKGNAME=csvtomd-X;PKGPATH=textproc/csvtomd
+# ASSIGNMENTS=PYTHON_VERSION_REQD=310;PKGNAME=csvtomd-X;PKGPATH=textproc/csvtomd
+# ASSIGNMENTS=PYTHON_VERSION_REQD=39;PKGNAME=csvtomd-X;PKGPATH=textproc/csvtomd
+# ASSIGNMENTS=PYTHON_VERSION_REQD=38;PKGNAME=csvtomd-X;PKGPATH=textproc/csvtomd
+# '
 
 pkg_src_summary -A -f PKGNAME,PKGPATH lang/ruby > "$tmpfn1"
 pkg_summary2deps -pnrA2 "$tmpfn1" 2>&1 > /dev/null |
@@ -332,13 +333,12 @@ PLIST=man/man1/xxkb.1
 # pkg_src_summary
 pkgs="`sed -n 's/^PKGPATH=//p' src_summary.txt`"
 pkg_src_summary -f PKGNAME,PKGPATH $pkgs 2>"$tmpfn4" |
-tee "$objdir"/summary_full.txt |
 normalize_version | summary2oneline |
 cmp 'pkg_src_summary #1' \
 'PKGNAME=checkperms-X;PKGPATH=sysutils/checkperms
 PKGNAME=dict-client-X;PKGPATH=textproc/dict-client
-PKGNAME=dictem-X;PKGPATH=textproc/dictem
 PKGNAME=emacs-X;PKGPATH=editors/emacs
+PKGNAME=emacsX-dictem-X;PKGPATH=textproc/dictem
 PKGNAME=gmake-X;PKGPATH=devel/gmake
 PKGNAME=jpeg-X;PKGPATH=graphics/jpeg
 PKGNAME=libltdl-X;PKGPATH=devel/libltdl
@@ -348,8 +348,6 @@ PKGNAME=netcat-X;PKGPATH=net/netcat
 PKGNAME=perl-X;PKGPATH=lang/perl5
 PKGNAME=pipestatus-X;PKGPATH=devel/pipestatus
 PKGNAME=pkg-config-X;PKGPATH=devel/pkg-config
-PKGNAME=pkg_online-client-X;PKGPATH=wip/pkg_online-client
-PKGNAME=pkg_summary-utils-X;PKGPATH=wip/pkg_summary-utils
 PKGNAME=png-X;PKGPATH=graphics/png
 PKGNAME=tiff-X;PKGPATH=graphics/tiff
 PKGNAME=x11-links-X;PKGPATH=pkgtools/x11-links
@@ -366,9 +364,13 @@ Bad package wip/dict-server, skipped
  ------------------
 Bad package wip/pkg_online-server, skipped
  ------------------
+Bad package wip/pkg_online-client, skipped
+ ------------------
 Bad package wip/paexec, skipped
  ------------------
 Bad package wip/runawk, skipped
+ ------------------
+Bad package wip/pkg_summary-utils, skipped
  ------------------
 Bad package graphics/libungif, skipped
  ------------------
@@ -385,22 +387,22 @@ pkg_src_summary -m -fPKGNAME,PKGPATH www/ap2-python |
 normalize_version |
 grep -v DEPENDS | summary2oneline |
 cmp 'pkg_src_summary #2' \
-'ASSIGNMENTS=PYTHON_VERSION_REQD=310;PKGNAME=ap24-py310-python-X;PKGPATH=www/ap2-python
+'ASSIGNMENTS=PYTHON_VERSION_REQD=311;PKGNAME=ap24-py311-python-X;PKGPATH=www/ap2-python
 ASSIGNMENTS=PYTHON_VERSION_REQD=312;PKGNAME=ap24-py312-python-X;PKGPATH=www/ap2-python
-ASSIGNMENTS=PYTHON_VERSION_REQD=38;PKGNAME=ap24-py38-python-X;PKGPATH=www/ap2-python
-ASSIGNMENTS=PYTHON_VERSION_REQD=39;PKGNAME=ap24-py39-python-X;PKGPATH=www/ap2-python
-PKGNAME=ap24-py311-python-X;PKGPATH=www/ap2-python
+ASSIGNMENTS=PYTHON_VERSION_REQD=314;PKGNAME=ap24-py314-python-X;PKGPATH=www/ap2-python
+ASSIGNMENTS=PYTHON_VERSION_REQD=315;PKGNAME=ap24-py315-python-X;PKGPATH=www/ap2-python
+PKGNAME=ap24-py313-python-X;PKGPATH=www/ap2-python
 '
 
 pkg_src_summary -m --fields PKGNAME,PKGPATH www/ap2-python:PKG_APACHE=apache24 |
 normalize_version |
 grep -v DEPENDS | summary2oneline |
 cmp 'pkg_src_summary #3' \
-'ASSIGNMENTS=PYTHON_VERSION_REQD=310;PKGNAME=ap24-py310-python-X;PKGPATH=www/ap2-python
+'ASSIGNMENTS=PYTHON_VERSION_REQD=311;PKGNAME=ap24-py311-python-X;PKGPATH=www/ap2-python
 ASSIGNMENTS=PYTHON_VERSION_REQD=312;PKGNAME=ap24-py312-python-X;PKGPATH=www/ap2-python
-ASSIGNMENTS=PYTHON_VERSION_REQD=38;PKGNAME=ap24-py38-python-X;PKGPATH=www/ap2-python
-ASSIGNMENTS=PYTHON_VERSION_REQD=39;PKGNAME=ap24-py39-python-X;PKGPATH=www/ap2-python
-PKGNAME=ap24-py311-python-X;PKGPATH=www/ap2-python
+ASSIGNMENTS=PYTHON_VERSION_REQD=314;PKGNAME=ap24-py314-python-X;PKGPATH=www/ap2-python
+ASSIGNMENTS=PYTHON_VERSION_REQD=315;PKGNAME=ap24-py315-python-X;PKGPATH=www/ap2-python
+PKGNAME=ap24-py313-python-X;PKGPATH=www/ap2-python
 '
 
 pkg_src_summary -m --fields='PKGNAME PKGPATH' www/ap2-python:PYTHON_VERSION_REQD=312 |
@@ -441,23 +443,27 @@ pkg_grep_summary -m PKGPATH 'python|cairo' |
 grep -v 'DEPENDS' |
 normalize_version | summary2oneline |
 cmp 'pkg_src_summary #8' \
-'ASSIGNMENTS=PYTHON_VERSION_REQD=310;PKGNAME=cairo-X;PKGPATH=graphics/cairo
-ASSIGNMENTS=PYTHON_VERSION_REQD=310;PKGNAME=py310-cairo-X;PKGPATH=graphics/py-cairo
+'ASSIGNMENTS=PYTHON_VERSION_REQD=311;PKGNAME=cairo-X;PKGPATH=graphics/cairo
+ASSIGNMENTS=PYTHON_VERSION_REQD=311;PKGNAME=py311-cairo-X;PKGPATH=graphics/py-cairo
+ASSIGNMENTS=PYTHON_VERSION_REQD=311;PKGNAME=py311-meson_python-X;PKGPATH=devel/py-meson_python
 ASSIGNMENTS=PYTHON_VERSION_REQD=312;PKGNAME=cairo-X;PKGPATH=graphics/cairo
 ASSIGNMENTS=PYTHON_VERSION_REQD=312;PKGNAME=py312-cairo-X;PKGPATH=graphics/py-cairo
-ASSIGNMENTS=PYTHON_VERSION_REQD=38;PKGNAME=cairo-X;PKGPATH=graphics/cairo
-ASSIGNMENTS=PYTHON_VERSION_REQD=38;PKGNAME=py38-cairo-X;PKGPATH=graphics/py-cairo
-ASSIGNMENTS=PYTHON_VERSION_REQD=39;PKGNAME=cairo-X;PKGPATH=graphics/cairo
-ASSIGNMENTS=PYTHON_VERSION_REQD=39;PKGNAME=py39-cairo-X;PKGPATH=graphics/py-cairo
+ASSIGNMENTS=PYTHON_VERSION_REQD=312;PKGNAME=py312-meson_python-X;PKGPATH=devel/py-meson_python
+ASSIGNMENTS=PYTHON_VERSION_REQD=314;PKGNAME=cairo-X;PKGPATH=graphics/cairo
+ASSIGNMENTS=PYTHON_VERSION_REQD=314;PKGNAME=py314-cairo-X;PKGPATH=graphics/py-cairo
+ASSIGNMENTS=PYTHON_VERSION_REQD=314;PKGNAME=py314-meson_python-X;PKGPATH=devel/py-meson_python
+ASSIGNMENTS=PYTHON_VERSION_REQD=315;PKGNAME=cairo-X;PKGPATH=graphics/cairo
+ASSIGNMENTS=PYTHON_VERSION_REQD=315;PKGNAME=py315-cairo-X;PKGPATH=graphics/py-cairo
+ASSIGNMENTS=PYTHON_VERSION_REQD=315;PKGNAME=py315-meson_python-X;PKGPATH=devel/py-meson_python
 PKGNAME=cairo-X;PKGPATH=graphics/cairo
 PKGNAME=py-cairo-shared-X;PKGPATH=graphics/py-cairo-shared
-PKGNAME=py311-cairo-X;PKGPATH=graphics/py-cairo
-PKGNAME=python27-X;PKGPATH=lang/python27
-PKGNAME=python310-X;PKGPATH=lang/python310
+PKGNAME=py313-cairo-X;PKGPATH=graphics/py-cairo
+PKGNAME=py313-meson_python-X;PKGPATH=devel/py-meson_python
 PKGNAME=python311-X;PKGPATH=lang/python311
 PKGNAME=python312-X;PKGPATH=lang/python312
-PKGNAME=python38-X;PKGPATH=lang/python38
-PKGNAME=python39-X;PKGPATH=lang/python39
+PKGNAME=python313-X;PKGPATH=lang/python313
+PKGNAME=python314-X;PKGPATH=lang/python314
+PKGNAME=python315-X;PKGPATH=lang/python315
 '
 
 pkg_src_summary -f PKGNAME --add-fields 'PKGPATH MAINTAINER' x11/xxkb |

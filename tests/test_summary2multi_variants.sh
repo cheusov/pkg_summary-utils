@@ -17,14 +17,7 @@ EOF
 
 input_data1 | summary2multi_variants |
 cmp 'summary2multi_variants #1' \
-'www/ap-php:PKG_APACHE=apache13,PHP_VERSION_REQD=53
-www/ap-php:PKG_APACHE=apache13,PHP_VERSION_REQD=54
-www/ap-php:PKG_APACHE=apache2,PHP_VERSION_REQD=53
-www/ap-php:PKG_APACHE=apache2,PHP_VERSION_REQD=54
-www/ap-php:PKG_APACHE=apache22,PHP_VERSION_REQD=53
-www/ap-php:PKG_APACHE=apache22,PHP_VERSION_REQD=54
-www/ap-php:PKG_APACHE=apache24,PHP_VERSION_REQD=53
-www/ap-php:PKG_APACHE=apache24,PHP_VERSION_REQD=54
+'www/ap-php:PKG_APACHE=apache13,PHP_VERSION_REQD=53;www/ap-php:PKG_APACHE=apache13,PHP_VERSION_REQD=54;www/ap-php:PKG_APACHE=apache2,PHP_VERSION_REQD=53;www/ap-php:PKG_APACHE=apache2,PHP_VERSION_REQD=54;www/ap-php:PKG_APACHE=apache22,PHP_VERSION_REQD=53;www/ap-php:PKG_APACHE=apache22,PHP_VERSION_REQD=54;www/ap-php:PKG_APACHE=apache24,PHP_VERSION_REQD=53;www/ap-php:PKG_APACHE=apache24,PHP_VERSION_REQD=54
 '
 
 # 2
@@ -43,8 +36,7 @@ EOF
 
 input_data2 | summary2multi_variants |
 cmp 'summary2multi_variants #2' \
-'www/ap-php:PKG_APACHE=apache2,PHP_VERSION_REQD=53
-www/ap-php:PKG_APACHE=apache2,PHP_VERSION_REQD=54
+'www/ap-php:PKG_APACHE=apache2,PHP_VERSION_REQD=53;www/ap-php:PKG_APACHE=apache2,PHP_VERSION_REQD=54
 '
 
 # 3
@@ -63,7 +55,8 @@ EOF
 
 input_data3 | summary2multi_variants |
 cmp 'summary2multi_variants #3' \
-''
+'
+'
 
 # 4
 input_data4 (){
@@ -74,29 +67,12 @@ _VARIANTS=PKG_APACHE=apache13,apache2,apache22,apache24 PYTHON_VERSION_REQD=27,2
 _INHER_ASSIGNS=
 _INHER_ASSIGNS_REJ=
 PHP_VERSIONS_ACCEPTED=
-
 EOF
 }
 
 input_data4 | summary2multi_variants |
 cmp 'summary2multi_variants #4' \
-'devel/subversion:PKG_APACHE=apache13,PYTHON_VERSION_REQD=27,RUBY_VERSION_REQD=193
-devel/subversion:PKG_APACHE=apache13,PYTHON_VERSION_REQD=27,RUBY_VERSION_REQD=18
-devel/subversion:PKG_APACHE=apache13,PYTHON_VERSION_REQD=26,RUBY_VERSION_REQD=193
-devel/subversion:PKG_APACHE=apache13,PYTHON_VERSION_REQD=26,RUBY_VERSION_REQD=18
-devel/subversion:PKG_APACHE=apache2,PYTHON_VERSION_REQD=27,RUBY_VERSION_REQD=193
-devel/subversion:PKG_APACHE=apache2,PYTHON_VERSION_REQD=27,RUBY_VERSION_REQD=18
-devel/subversion:PKG_APACHE=apache2,PYTHON_VERSION_REQD=26,RUBY_VERSION_REQD=193
-devel/subversion:PKG_APACHE=apache2,PYTHON_VERSION_REQD=26,RUBY_VERSION_REQD=18
-devel/subversion:PKG_APACHE=apache22,PYTHON_VERSION_REQD=27,RUBY_VERSION_REQD=193
-devel/subversion:PKG_APACHE=apache22,PYTHON_VERSION_REQD=27,RUBY_VERSION_REQD=18
-devel/subversion:PKG_APACHE=apache22,PYTHON_VERSION_REQD=26,RUBY_VERSION_REQD=193
-devel/subversion:PKG_APACHE=apache22,PYTHON_VERSION_REQD=26,RUBY_VERSION_REQD=18
-devel/subversion:PKG_APACHE=apache24,PYTHON_VERSION_REQD=27,RUBY_VERSION_REQD=193
-devel/subversion:PKG_APACHE=apache24,PYTHON_VERSION_REQD=27,RUBY_VERSION_REQD=18
-devel/subversion:PKG_APACHE=apache24,PYTHON_VERSION_REQD=26,RUBY_VERSION_REQD=193
-devel/subversion:PKG_APACHE=apache24,PYTHON_VERSION_REQD=26,RUBY_VERSION_REQD=18
-'
+''
 
 # 5
 input_data5 (){
@@ -114,10 +90,7 @@ EOF
 
 input_data5 | summary2multi_variants |
 cmp 'summary2multi_variants #5' \
-'devel/subversion:PKG_APACHE=apache2,PYTHON_VERSION_REQD=27,RUBY_VERSION_REQD=193
-devel/subversion:PKG_APACHE=apache2,PYTHON_VERSION_REQD=27,RUBY_VERSION_REQD=18
-devel/subversion:PKG_APACHE=apache2,PYTHON_VERSION_REQD=26,RUBY_VERSION_REQD=193
-devel/subversion:PKG_APACHE=apache2,PYTHON_VERSION_REQD=26,RUBY_VERSION_REQD=18
+'devel/subversion:PKG_APACHE=apache2,PYTHON_VERSION_REQD=27,RUBY_VERSION_REQD=193;devel/subversion:PKG_APACHE=apache2,PYTHON_VERSION_REQD=27,RUBY_VERSION_REQD=18;devel/subversion:PKG_APACHE=apache2,PYTHON_VERSION_REQD=26,RUBY_VERSION_REQD=193;devel/subversion:PKG_APACHE=apache2,PYTHON_VERSION_REQD=26,RUBY_VERSION_REQD=18
 '
 
 # 6
@@ -136,8 +109,7 @@ EOF
 
 input_data6 | summary2multi_variants |
 cmp 'summary2multi_variants #6' \
-'devel/subversion:PKG_APACHE=apache2,RUBY_VERSION_REQD=193,PYTHON_VERSION_REQD=27
-devel/subversion:PKG_APACHE=apache2,RUBY_VERSION_REQD=193,PYTHON_VERSION_REQD=26
+'devel/subversion:PKG_APACHE=apache2,RUBY_VERSION_REQD=193,PYTHON_VERSION_REQD=27;devel/subversion:PKG_APACHE=apache2,RUBY_VERSION_REQD=193,PYTHON_VERSION_REQD=26
 '
 
 
