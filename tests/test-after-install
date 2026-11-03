@@ -1,0 +1,15 @@
+#!/bin/sh
+
+set -e
+
+# The following variables must be set
+test -n "$PREFIX"
+test -n "$PKGSRCDIR"
+
+
+# code
+export TESTS=`ls -1 test_* | sed -e 's/^test_//' -e 's/[.]sh$//'`
+
+export PATH="$PREFIX/bin:$PREFIX/libexec/psu:$PATH"
+
+./test.sh
