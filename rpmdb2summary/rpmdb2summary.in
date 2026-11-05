@@ -98,17 +98,19 @@ OPTIONS:
   -u            print summary for user-installed packages
   -f <fmt>      format of summary in rpm --qf format
   -r            use field names from rpm -qi
+  -p            Use package file names instead of rpmdb
 EOF
 }
 
-while getopts aAf:hru f; do
+while getopts aAf:hpru f; do
     case "$f" in
 	a)    auto_installed=1;;
 	A)    rpm_opts="$rpm_opts -a";;
-	h)    usage; exit 0;;
-	u)    user_installed=1;;
 	f)    summary_format="$OPTARG";;
+	h)    usage; exit 0;;
+	p)    rpm_opts="$rpm_opts -p";;
 	r)    summary_format="$rpm_format";;
+	u)    user_installed=1;;
 	?)    printf "Run rpmdb2summary -h for details\n"; exit 2;;
     esac
 done
@@ -118,11 +120,11 @@ run_rpm() {
     if test -n "$auto_installed"; then
 	runpipe0 rpm -qa --qf '%{autoinstalled} %{nevr}\n' '|' \
 	    sed -n 's/^1 //p' '|' \
-	    xargs rpm -q --qf "$summary_format\n" "$@"
+	    xargs rpm -q $rpm_opts --qf "$summary_format\n" "$@"
     elif test -n "$user_installed"; then
 	runpipe0 rpm -qa --qf '%{autoinstalled} %{nevr}\n' '|' \
 	    sed -n 's/^0 //p' '|' \
-	    xargs rpm -q --qf "$summary_format\n" "$@"
+	    xargs rpm -q $rpm_opts --qf "$summary_format\n" "$@"
     elif test -n "$rpm_opts" -o $# -gt 0; then
 	rpm -q $rpm_opts --qf "$summary_format\n" "$@"
     fi
