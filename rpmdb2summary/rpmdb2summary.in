@@ -90,7 +90,8 @@ usage (){
 rpmdb2summary - prints rpmdb(8) content in pkg_summary(5) format
 
 usage:
-  rpmdb2summary [OPTIONS] [packages ...]
+  rpmdb2summary -a|-A|-u [OPTIONS]
+  rpmdb2summary          [OPTIONS] [packages ...]
 OPTIONS:
   -h            display this help message
   -A            print summary for all installed packages
@@ -105,7 +106,7 @@ EOF
 while getopts aAf:hpru f; do
     case "$f" in
 	a)    auto_installed=1;;
-	A)    rpm_opts="$rpm_opts -a";;
+	A)    all_installed=1; rpm_opts="$rpm_opts -a";;
 	f)    summary_format="$OPTARG";;
 	h)    usage; exit 0;;
 	p)    rpm_opts="$rpm_opts -p";;
@@ -116,19 +117,32 @@ while getopts aAf:hpru f; do
 done
 shift `expr $OPTIND - 1`
 
-run_rpm() {
+check_free_args(){
+    if test $# -gt 0; then
+	echo 'Free arguments are not allowed with -a' 1>&2
+	return 2
+    fi
+    return 0
+}
+
+run_rpm() (
     if test -n "$auto_installed"; then
+	if ! check_free_args "$@"; then exit 2; fi
 	runpipe0 rpm -qa --qf '%{autoinstalled} %{nevr}\n' '|' \
 	    sed -n 's/^1 //p' '|' \
-	    xargs rpm -q $rpm_opts --qf "$summary_format\n" "$@"
+	    xargs rpm -q $rpm_opts --qf "$summary_format\n"
     elif test -n "$user_installed"; then
+	if ! check_free_args "$@"; then exit 2; fi
 	runpipe0 rpm -qa --qf '%{autoinstalled} %{nevr}\n' '|' \
 	    sed -n 's/^0 //p' '|' \
-	    xargs rpm -q $rpm_opts --qf "$summary_format\n" "$@"
-    elif test -n "$rpm_opts" -o $# -gt 0; then
+	    xargs rpm -q $rpm_opts --qf "$summary_format\n"
+    elif test -n "$all_installed"; then
+	if ! check_free_args "$@"; then exit 2; fi
+	rpm -qa $rpm_opts --qf "$summary_format\n"
+    else
 	rpm -q $rpm_opts --qf "$summary_format\n" "$@"
     fi
-}
+)
 
 fix_DESCRIPTION(){
     runawk -F= -e '

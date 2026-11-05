@@ -1,7 +1,4 @@
 ============================================================
-rpmdb2summary:
-   Either of the following options must be specified: -A, -a, -u
-   Do not rename field names
 pkg_summary4view:
    Output summaries in rpm -i style
    Option for 1-line output with user-specified separators, e.g.

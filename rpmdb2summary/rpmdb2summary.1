@@ -19,7 +19,9 @@
 .B rpmdb2summary
 prints rpmdb(8) content in pkg_summary(5) format.
 .SH SYNOPSIS
-.BI rpmdb2summary " [OPTIONS] [packages...]"
+.BI rpmdb2summary " -a|-A|-u [OPTIONS] [packages...]"
+.br
+.BI rpmdb2summary "          [OPTIONS] [packages...]"
 .SH DESCRIPTION
 .B rpmdb2summary
 reads rpmdb(8) content on rpm-based system and print information
@@ -30,13 +32,13 @@ about packages in pkg_summary(5) format.
 Display help message.
 .TP
 .B "-A"
-Print information about all installed packages.
+Output information about all installed packages.
 .TP
 .B "-a"
-Print information about auto-installed packages.
+Output information about auto-installed packages.
 .TP
 .B "-u"
-Print information about user-installed packages.
+Output information about user-installed packages.
 .TP
 .B "-p"
 Use package file names instead of rpmdb (option -p is passed to
