@@ -33,6 +33,29 @@ set -e
 . pipestatus
 
 ############################################################
+all="\
+PKGBASE=%{name}\n\
+PKGNAME=%{nevr}\n\
+PKGPATH=%{vendor}\n\
+COMMENT=%{summary}\n\
+GROUP=%{group}\n\
+MAINTAINER=%{packager}\n\
+SIZE_PKG=%{size}\n\
+DIST_TAG=%{DistTag}\n\
+BUILD_HOST=%{BuildHost}\n\
+BUILD_DATE=%{BuildTime:date}\n\
+LICENSE=%{license}\n\
+SRPM=%{SourceRPM}\n\
+URL=%{url}\n\
+MACHINE_ARCH=%{arch}\n\
+AUTOMATIC=%{autoinstalled}\n\
+DESCRIPTION=%{description}\n\
+[PROVIDES=%{provides}\n]\
+[REQUIRES=%{requires}\n]\
+[PLIST=%{filenames}\n]\
+"
+
+############################################################
 usage (){
     cat 1>&2 <<EOF
 rpmdb2summary - prints rpmdb(8) content in pkg_summary(5) format
@@ -40,51 +63,25 @@ rpmdb2summary - prints rpmdb(8) content in pkg_summary(5) format
 usage:
   rpmdb2summary [OPTIONS] [packages ...]
 OPTIONS:
-  -h       display this help message
-  -A       print summary for all installed packages
-  -a       print summary for auto-installed packages
-  -u       print summary for user-installed packages
+  -h            display this help message
+  -A            print summary for all installed packages
+  -a            print summary for auto-installed packages
+  -u            print summary for user-installed packages
+  -f <fmt>      format of summary in rpm --qf format
 EOF
 }
 
-while getopts aAhu f; do
+while getopts aAf:hu f; do
     case "$f" in
 	a)    auto_installed=1;;
 	A)    rpm_opts="$rpm_opts -a";;
 	h)    usage; exit 0;;
 	u)    user_installed=1;;
-	?)    printf "Run cvs_checksum -h for details\n"; exit 2;;
+	f)    all="$OPTARG";;
+	?)    printf "Run rpmdb2summary -h for details\n"; exit 2;;
     esac
 done
 shift `expr $OPTIND - 1`
-
-############################################################
-pairs() {
-    cat <<EOF
-  PKGBASE=%{name}\n
-  PKGNAME=%{nevr}\n
-  PKGPATH=%{vendor}\n
-  COMMENT=%{summary}\n
-  GROUP=%{group}\n
-  MAINTAINER=%{packager}\n
-  SIZE_PKG=%{size}\n
-  DIST_TAG=%{DistTag}\n
-  BUILD_HOST=%{BuildHost}\n
-  BUILD_DATE=%{BuildTime:date}\n
-  LICENSE=%{license}\n
-  SRPM=%{SourceRPM}\n
-  URL=%{url}\n
-  MACHINE_ARCH=%{arch}\n
-  AUTOMATIC=%{autoinstalled}\n
-  DESCRIPTION=%{description}\n
-  [PROVIDES=%{provides}\n]
-  [REQUIRES=%{requires}\n]
-  [PLIST=%{filenames}\n]
-EOF
-}
-# ARCHIVESIZE
-# EPOCH
-# REQUIRENAME
 
 run_rpm() {
     if test -n "$auto_installed"; then
@@ -101,26 +98,25 @@ run_rpm() {
 }
 
 fix_DESCRIPTION(){
-    awk -F= '
-/^[A-Z_]+=/ {
+    runawk -F= -e '
+#use "alt_assert.awk"
+
+/^[A-Z_a-z]+=/ {
     field = $1
     print $0
     next
 }
-
+NF == 0 {
+    print $0
+    field = ""
+    next
+}
 field == "DESCRIPTION" {
     print "DESCRIPTION=" $0
     next
 }
-
-{
-    print $0
-}
+{ assert("unexpected input `" $0 "`") }
 ' "$@"
 }
-
-for pair in `pairs`; do
-    all="$all$pair"
-done
 
 runpipe0 run_rpm "$@" '|' fix_DESCRIPTION

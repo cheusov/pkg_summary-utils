@@ -1,6 +1,6 @@
 .\"	$NetBSD$
 .\"
-.\" Copyright (c) 2023 by Aleksey Cheusov (vle@gmx.net)
+.\" Copyright (c) 2023-2026 by Aleksey Cheusov (vle@gmx.net)
 .\" Absolutely no warranty.
 .\"
 .\" ------------------------------------------------------------------
@@ -14,7 +14,7 @@
 .fi
 ..
 .\" ------------------------------------------------------------------
-.TH RPMDB2SUMMARY 1 "Dec 13, 2023" "" ""
+.TH RPMDB2SUMMARY 1 "Nov 5, 2026" "" ""
 .SH NAME
 .B rpmdb2summary
 prints rpmdb(8) content in pkg_summary(5) format.
@@ -37,10 +37,14 @@ Print information about auto-installed packages.
 .TP
 .B "-u"
 Print information about user-installed packages.
+.TP
+.BI "-f " "format"
+Output summary in specified form.
 .SH EXAMPLES
 .VB
-   pkgdb2summary -A
-   pkgdb2summary gawk bmake
+   rpmdb2summary -A
+   rpmdb2summary gawk bmake
+   rpmdb2summary -f 'Name=%{nevr}\\n[Filename=%{filenames}\\n]' gawk bmake
 .VE
 .SH SEE ALSO
 .BR pkg_summary(5) ,
