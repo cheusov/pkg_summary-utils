@@ -38,15 +38,20 @@ Print information about auto-installed packages.
 .B "-u"
 Print information about user-installed packages.
 .TP
+.B "-r"
+Use field names from
+.BR "rpm -qi" .
+.TP
 .BI "-f " "format"
 Output summary in specified form.
 .SH EXAMPLES
 .VB
-   rpmdb2summary -A
+   rpmdb2summary -ru
    rpmdb2summary gawk bmake
    rpmdb2summary -f 'Name=%{nevr}\\n[Filename=%{filenames}\\n]' gawk bmake
 .VE
 .SH SEE ALSO
 .BR pkg_summary(5) ,
+.BR rpm(1) ,
 .SH AUTHOR
 Aleksey Cheusov <vle@gmx.net>

@@ -33,7 +33,7 @@ set -e
 . pipestatus
 
 ############################################################
-all="\
+summary_format="\
 PKGBASE=%{name}\n\
 PKGNAME=%{nevr}\n\
 PKGPATH=%{vendor}\n\
@@ -55,6 +55,35 @@ DESCRIPTION=%{description}\n\
 [PLIST=%{filenames}\n]\
 "
 
+rpm_format="\
+Name=%{name}\n\
+Version=%{version}\n\
+Release=%{release}\n\
+DistTag=%{disttag}\n\
+Architecture=%{arch}\n\
+Install_Date=%{installtime}\n\
+Group=%{group}\n\
+Size=%{size}\n\
+License=%{license}\n\
+Signature=%{filesignatures}\n\
+Source_RPM=%{sourcerpm}\n\
+Build_Date=%{BuildTime:date}\n\
+Build_Host=%{BuildHost}\n\
+Packager=%{packager}\n\
+Vendor=%{vendor}\n\
+Url=%{url}\n\
+Summary=%{summary}\n\
+Description=%{description}\n\
+Filenames=[%{filenames}\n]\
+"
+#DIST_TAG=%{DistTag}\n\
+#SRPM=%{SourceRPM}\n\
+#MACHINE_ARCH=%{arch}\n\
+#AUTOMATIC=%{autoinstalled}\n\
+#[PROVIDES=%{provides}\n]\
+#[REQUIRES=%{requires}\n]\
+#[PLIST=%{filenames}\n]\
+
 ############################################################
 usage (){
     cat 1>&2 <<EOF
@@ -68,16 +97,18 @@ OPTIONS:
   -a            print summary for auto-installed packages
   -u            print summary for user-installed packages
   -f <fmt>      format of summary in rpm --qf format
+  -r            use field names from rpm -qi
 EOF
 }
 
-while getopts aAf:hu f; do
+while getopts aAf:hru f; do
     case "$f" in
 	a)    auto_installed=1;;
 	A)    rpm_opts="$rpm_opts -a";;
 	h)    usage; exit 0;;
 	u)    user_installed=1;;
-	f)    all="$OPTARG";;
+	f)    summary_format="$OPTARG";;
+	r)    summary_format="$rpm_format";;
 	?)    printf "Run rpmdb2summary -h for details\n"; exit 2;;
     esac
 done
@@ -87,13 +118,13 @@ run_rpm() {
     if test -n "$auto_installed"; then
 	runpipe0 rpm -qa --qf '%{autoinstalled} %{nevr}\n' '|' \
 	    sed -n 's/^1 //p' '|' \
-	    xargs rpm -q --qf "$all\n" "$@"
+	    xargs rpm -q --qf "$summary_format\n" "$@"
     elif test -n "$user_installed"; then
 	runpipe0 rpm -qa --qf '%{autoinstalled} %{nevr}\n' '|' \
 	    sed -n 's/^0 //p' '|' \
-	    xargs rpm -q --qf "$all\n" "$@"
+	    xargs rpm -q --qf "$summary_format\n" "$@"
     elif test -n "$rpm_opts" -o $# -gt 0; then
-	rpm -q $rpm_opts --qf "$all\n" "$@"
+	rpm -q $rpm_opts --qf "$summary_format\n" "$@"
     fi
 }
 
@@ -111,11 +142,10 @@ NF == 0 {
     field = ""
     next
 }
-field == "DESCRIPTION" {
-    print "DESCRIPTION=" $0
+{
+    print field "=" $0
     next
 }
-{ assert("unexpected input `" $0 "`") }
 ' "$@"
 }
 
