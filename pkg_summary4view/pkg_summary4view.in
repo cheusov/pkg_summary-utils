@@ -34,6 +34,7 @@
 #use "abort.awk"
 #use "power_getopt.awk"
 #use "heapsort.awk"
+#use "trim.awk"
 
 ############################################################
 #.begin-str help
@@ -44,11 +45,9 @@
 #.end-str
 ############################################################
 
-function spaces (n,            ret){
+function repeat (c, n,            ret){
 	ret = ""
-	while (n-- > 0){
-		ret = ret " "
-	}
+	while (n-- > 0) ret = ret c
 	return ret
 }
 
@@ -63,100 +62,76 @@ function resort_D0 (arr, remap,                i){
 }
 
 BEGIN {
+	indent_size = 4
+	indent = repeat(" ", indent_size)
+
 	if (getarg("h")){
 		print_help()
 		exitnow(0)
 	}
 
-	special ["DESCRIPTION"] = 0
-	special ["PLIST"]       = 0
-	special ["PROVIDES"]    = 0
-	special ["REQUIRES"]    = 0
+	split_["TARGET_BUILD_DEPENDS"] = split_["_ALL_DEPENDS"] = split_["BUILD_DEPENDS"] = \
+		split_["DEPENDS"] = split_["TOOL_DEPENDS"] = split_["CONFLICTS"] = 1
 
-	depends_like ["TARGET_BUILD_DEPENDS"] = 0
-	depends_like ["_ALL_DEPENDS"] = 0
-	depends_like ["BUILD_DEPENDS"] = 0
-	depends_like ["DEPENDS"]       = 0
-	depends_like ["CONFLICTS"]     = 0
-
-	# single or multiple line
-	s_or_m ["ALLDISTFILES"]  = 0
-	s_or_m ["ALLSRCFILES"]   = 0
-
-	offset = 16
-}
-
-BEGIN {
-	for (i in s_or_m){
-		depends_like [i] = 0
-	}
-}
-
-NF == 0 {
+	prev_line = ""
 	prev_field = ""
-	print ""
-	next
+	prev_offset = 0
+
+	FS = "="
 }
 
-function get_alldistfiles (tok,         idx){
-	idx = index(tok, ":")
-	return substr(tok, 1, idx-1) " " spaces(45-idx) substr(tok, idx+1)
+function trim_clr (s, repl){
+	if (repl == "")
+		repl = " "
+
+	sub(/[ \t]+$/, "", s)
+	sub(/^[ \t]+/, "", s)
+	gsub(/[ \t]+/, repl, s)
+	return s
 }
 
-NF > 0 && prev_field == "" {
-	print "-----------------------------------------------------------"
+function print_prev(sep) {
+	if (prev_offset > 0){
+		print repeat(" ", prev_offset) prev_line
+	} else if (NR == 1) {
+	} else if (prev_field == "") {
+		print ""
+	} else if (prev_field in split_) {
+		tokens_str = trim_clr(prev_line)
+		tokens_cnt = split(tokens_str, tokens, / /)
+		heapsort(tokens, remap, 1, tokens_cnt)
+		out = indent trim_clr(prev_line, "\n" indent)
+		printf "%-15s\n", prev_field ":"
+		for (i=1; i <= tokens_cnt; ++i) {
+			print indent tokens[remap[i]]
+		}
+		delete tokens
+	} else if (!sep) {
+		printf "%-15s %s\n", prev_field ":", prev_line
+	} else {
+		printf "%-15s\n%s\n", prev_field ":", indent prev_line
+	}
 }
 
 {
-	#
-	field = $0
-	sub(/=.*$/, "", field)
-
-	#
-	sub(/^[^=]*=/, "")
-
-	if (NF == 0)
-		next
-
-	field_alldistfiles = (field == "ALLDISTFILES")
-
-	#
-	if (field in depends_like){
-		resort_D0()
-
-		if (field != prev_field) {
-			field1 = field ":"
-			printf "%s", field1
-		}else{
-			field1 = ""
-		}
-
-		printf "%s", spaces(offset - length(field1))
-
-		if (field_alldistfiles){
-			printf "%s\n", get_alldistfiles($1)
-		}else{
-			printf "%s\n", $1
-		}
-
-		for (i=2; i <= NF; ++i){
-			printf "%s", spaces(offset)
-			if (field_alldistfiles){
-				printf "%s\n", get_alldistfiles($i)
-			}else{
-				printf "%s\n", $i
-			}
-		}
-	}else if (field in special) {
-		if (field != prev_field) {
-			printf "%s:\n", field
-		}
-
-		printf "    %s\n", $0
-	}else{
-		printf "%s:%s%s\n", field, spaces(offset - length(field) - 1), $0
+	if ($1 != prev_field) {
+		print_prev()
+		prev_offset = 0
+	} else {
+		print_prev(1)
+		prev_offset = indent_size
 	}
 
-	#
-	prev_field = field
+	if (NF > 0 && prev_field == "") {
+		print "------------------------------------------------------------"
+	}
+
+	prev_line = $0
+	sub(/^[^=]*=/, "", prev_line)
+	prev_field = $1
+}
+
+END {
+	if (NR > 0)
+		print_prev()
 }
